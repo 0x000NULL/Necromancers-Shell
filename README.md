@@ -27,7 +27,7 @@ Necromancer's Shell is a command-line game that combines dark fantasy storytelli
 | **Linux x64** | ✅ Fully Supported | [Latest Release](https://github.com/0x000NULL/Necromancers-Shell/releases/latest) |
 | **macOS ARM64** | ✅ Fully Supported | [Latest Release](https://github.com/0x000NULL/Necromancers-Shell/releases/latest) |
 | **macOS Intel** | ✅ Fully Supported | [Latest Release](https://github.com/0x000NULL/Necromancers-Shell/releases/latest) |
-| **Windows x64** | 🚧 Planned | Coming in Phase 3 |
+| **Windows x64** | ✅ Fully Supported | [Latest Release](https://github.com/0x000NULL/Necromancers-Shell/releases/latest) |
 
 ## Quick Start
 
@@ -53,7 +53,15 @@ curl -L -O https://github.com/0x000NULL/Necromancers-Shell/releases/latest/downl
 tar -xzf necromancer_shell-macos-x64-v*.tar.gz
 cd necromancer_shell-macos-x64-v*/
 ./necromancer_shell
+
+# Windows (PowerShell)
+Invoke-WebRequest -Uri "https://github.com/0x000NULL/Necromancers-Shell/releases/latest/download/necromancer_shell-windows-x64-v*.zip" -OutFile "necromancer_shell-windows.zip"
+Expand-Archive necromancer_shell-windows.zip
+cd necromancer_shell-windows\necromancer_shell-windows-x64-v*\
+.\necromancer_shell.exe
 ```
+
+**Windows Users:** See [WINDOWS_BUILD.md](WINDOWS_BUILD.md) for detailed setup instructions.
 
 ### Building from Source
 
@@ -188,12 +196,12 @@ Once in the game, type `help` to see all available commands:
 
 **CI/CD Pipeline** ✅ Complete
 - Automated versioning with semantic versioning
-- Multi-platform builds (Linux, macOS ARM64, macOS Intel)
+- Multi-platform builds (Linux, macOS ARM64, macOS Intel, Windows x64)
 - GitHub Actions workflows for CI and releases
 - Automated GitHub releases with binaries
+- Windows PDCurses support with MSYS2/MinGW-w64
 
 **Phase 3: Enhanced Gameplay** 🚧 In Progress
-- Windows PDCurses support
 - Combat system
 - Spell casting
 - Advanced AI for minions
@@ -203,9 +211,9 @@ Once in the game, type `help` to see all available commands:
 **Current Statistics:**
 - **~10,000 lines** of production C code
 - **67+ unit tests** passing (100% pass rate)
-- **Zero memory leaks** (valgrind verified)
+- **Zero memory leaks** (valgrind verified on Linux/macOS)
 - **Zero compiler warnings** (strict flags: `-Wall -Wextra -Werror -pedantic`)
-- **3 platforms** supported (Linux, macOS ARM64, macOS Intel)
+- **4 platforms** supported (Linux, macOS ARM64, macOS Intel, Windows x64)
 - **9 playable game commands** + 4 system commands
 
 ## Contributing

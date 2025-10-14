@@ -30,6 +30,12 @@ jobs:
             platform: macOS x64
             artifact: necromancer_shell-macos-x64
 
+          # Windows x64 - PDCurses with MinGW
+          - os: windows-latest
+            platform: Windows x64
+            artifact: necromancer_shell-windows-x64
+            msystem: UCRT64
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -53,15 +59,29 @@ jobs:
         run: |
           brew install ncurses cppcheck
 
+      # ===== Windows Dependencies =====
+      - name: Setup MSYS2 (Windows)
+        if: runner.os == 'Windows'
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: ${{ matrix.msystem }}
+          update: true
+          install: >-
+            mingw-w64-ucrt-x86_64-gcc
+            mingw-w64-ucrt-x86_64-pdcurses
+            make
+
       # ===== Build =====
       - name: Build release
         working-directory: necromancers_shell
+        shell: ${{ runner.os == 'Windows' && 'msys2 {0}' || 'bash' }}
         env:
           CI: true
         run: make release
 
       - name: Build debug
         working-directory: necromancers_shell
+        shell: ${{ runner.os == 'Windows' && 'msys2 {0}' || 'bash' }}
         env:
           CI: true
         run: make debug
@@ -69,6 +89,7 @@ jobs:
       # ===== Tests =====
       - name: Run unit tests
         working-directory: necromancers_shell
+        shell: ${{ runner.os == 'Windows' && 'msys2 {0}' || 'bash' }}
         run: make test
 
       # ===== Static Analysis (Linux only) =====
@@ -78,7 +99,7 @@ jobs:
         run: make analyze
 
       # ===== Memory Check (Linux only) =====
-      - name: Check for memory leaks
+      - name: Check for memory leaks (Linux)
         if: runner.os == 'Linux'
         working-directory: necromancers_shell
         run: |
@@ -92,6 +113,19 @@ jobs:
               exit 1
             fi
           fi
+
+      - name: Memory leak detection note (Windows)
+        if: runner.os == 'Windows'
+        shell: msys2 {0}
+        run: |
+          echo "ℹ️  Valgrind not available on Windows"
+          echo "Memory leak detection relies on:"
+          echo "  - Debug build with extra checks"
+          echo "  - Linux/macOS CI valgrind verification"
+          echo "  - Manual testing with Dr. Memory (optional)"
+          echo ""
+          echo "For local memory leak testing on Windows, install Dr. Memory:"
+          echo "  https://drmemory.org/"
 
       # ===== Upload Artifacts =====
       - name: Upload build artifacts

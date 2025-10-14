@@ -22,7 +22,20 @@ else ifeq ($(UNAME_S),Linux)
 else
     # Windows: Use PDCurses
     PLATFORM := WINDOWS
-    LIBS := -lpdcurses -lm
+
+    # Check if we're in MSYS2/MinGW environment
+    ifdef MSYSTEM
+        # MSYS2/MinGW environment (GitHub Actions or local MSYS2)
+        # PDCurses should be installed via: pacman -S mingw-w64-ucrt-x86_64-pdcurses
+        LIBS := -lpdcurses -lm
+    else
+        # Native Windows build (standalone MinGW or MSVC)
+        # User must have PDCurses installed manually
+        PDCURSES_PATH ?= C:/pdcurses
+        INCLUDES += -I$(PDCURSES_PATH)/include
+        LIBS := -L$(PDCURSES_PATH)/lib -lpdcurses
+        # Note: Math library is built-in on Windows, -lm may not be needed
+    endif
 endif
 
 # Directories
@@ -72,8 +85,12 @@ TARGET_DEBUG := $(BUILD_DIR)/necromancer_shell_debug
 
 all: debug release
 
-debug: CFLAGS += -g -O0 -DDEBUG -fsanitize=address -fsanitize=undefined
-debug: LDFLAGS += -fsanitize=address -fsanitize=undefined
+debug: CFLAGS += -g -O0 -DDEBUG
+# Address sanitizers not well-supported on MinGW, skip for Windows
+ifneq ($(PLATFORM),WINDOWS)
+  debug: CFLAGS += -fsanitize=address -fsanitize=undefined
+  debug: LDFLAGS += -fsanitize=address -fsanitize=undefined
+endif
 debug: $(TARGET_DEBUG)
 
 # Release build (portable, no -march=native for CI compatibility)
@@ -167,6 +184,9 @@ clean:
 	rm -rf $(BUILD_DIR)
 	rm -f $(VERSION_HEADER)
 	rm -f valgrind-out.txt gmon.out profile.txt
+ifeq ($(PLATFORM),WINDOWS)
+	rm -f *.exe
+endif
 
 # Version display
 version:
@@ -194,6 +214,32 @@ help:
 	@echo "  make clean        - Remove all build artifacts"
 	@echo "  make version      - Display version information"
 	@echo "  make help         - Show this help"
+ifeq ($(PLATFORM),WINDOWS)
+	@echo "  make windows-setup - Show Windows build setup instructions"
+endif
+
+# Windows-specific setup instructions
+.PHONY: windows-setup
+windows-setup:
+	@echo "=========================================="
+	@echo "Windows Build Setup Instructions"
+	@echo "=========================================="
+	@echo ""
+	@echo "Method 1: MSYS2 (Recommended)"
+	@echo "  1. Download and install MSYS2 from: https://www.msys2.org/"
+	@echo "  2. Open 'MSYS2 UCRT64' terminal from Start Menu"
+	@echo "  3. Install build tools and PDCurses:"
+	@echo "     pacman -S mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-pdcurses make"
+	@echo "  4. Navigate to this directory and run: make release"
+	@echo ""
+	@echo "Method 2: Native MinGW (Advanced)"
+	@echo "  1. Install standalone MinGW-w64"
+	@echo "  2. Download and build PDCurses from: https://pdcurses.org/"
+	@echo "  3. Set PDCURSES_PATH environment variable to PDCurses installation"
+	@echo "  4. Run: make release"
+	@echo ""
+	@echo "For detailed instructions, see WINDOWS_BUILD.md"
+	@echo "=========================================="
 
 # Include dependency files
 DEPS := $(ALL_OBJ:.o=.d)
