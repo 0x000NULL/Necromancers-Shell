@@ -4,6 +4,7 @@
 
 #include "commands.h"
 #include "../../game/game_state.h"
+#include "../../game/game_globals.h"
 #include "../../game/resources/resources.h"
 #include "../../game/resources/corruption.h"
 #include "../../game/souls/soul_manager.h"
@@ -13,9 +14,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include <sys/time.h>
-
-/* External references to game systems */
-extern GameState* g_game_state;
 
 CommandResult cmd_status(ParsedCommand* cmd) {
     if (!cmd) {

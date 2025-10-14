@@ -8,6 +8,7 @@
 #define _GNU_SOURCE
 #include "commands.h"
 #include "../../game/game_state.h"
+#include "../../game/game_globals.h"
 #include "../../game/souls/soul_manager.h"
 #include "../../game/world/location.h"
 #include "../../game/resources/resources.h"
@@ -16,8 +17,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-
-extern GameState* g_game_state;
 
 /**
  * Determine soul type based on location type and randomness
