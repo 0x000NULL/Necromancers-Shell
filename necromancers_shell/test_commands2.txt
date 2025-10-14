@@ -1,0 +1,7 @@
+scan
+probe 2
+connect 2
+harvest --count 8
+souls
+scan
+quit
