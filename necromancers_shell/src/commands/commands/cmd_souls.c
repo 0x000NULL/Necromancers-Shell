@@ -8,12 +8,11 @@
 #define _GNU_SOURCE
 #include "commands.h"
 #include "../../game/game_state.h"
+#include "../../game/game_globals.h"
 #include "../../game/souls/soul_manager.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-extern GameState* g_game_state;
 
 /**
  * Parse soul type from string

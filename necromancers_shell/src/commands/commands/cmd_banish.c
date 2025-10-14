@@ -8,14 +8,13 @@
 #define _GNU_SOURCE
 #include "commands.h"
 #include "../../game/game_state.h"
+#include "../../game/game_globals.h"
 #include "../../game/minions/minion_manager.h"
 #include "../../game/minions/minion.h"
 #include "../../game/souls/soul_manager.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-extern GameState* g_game_state;
 
 CommandResult cmd_banish(ParsedCommand* cmd) {
     if (!g_game_state || !g_game_state->minions) {

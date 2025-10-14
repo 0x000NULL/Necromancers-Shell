@@ -50,7 +50,7 @@ CORE_SRC := $(wildcard $(SRC_DIR)/core/*.c)
 TERM_SRC := $(wildcard $(SRC_DIR)/terminal/*.c)
 UTIL_SRC := $(wildcard $(SRC_DIR)/utils/*.c)
 CMD_SRC := $(wildcard $(SRC_DIR)/commands/*.c) $(wildcard $(SRC_DIR)/commands/commands/*.c)
-GAME_SRC := $(wildcard $(SRC_DIR)/game/souls/*.c) $(wildcard $(SRC_DIR)/game/resources/*.c) $(wildcard $(SRC_DIR)/game/world/*.c) $(wildcard $(SRC_DIR)/game/minions/*.c) $(SRC_DIR)/game/game_state.c
+GAME_SRC := $(wildcard $(SRC_DIR)/game/souls/*.c) $(wildcard $(SRC_DIR)/game/resources/*.c) $(wildcard $(SRC_DIR)/game/world/*.c) $(wildcard $(SRC_DIR)/game/minions/*.c) $(SRC_DIR)/game/game_state.c $(SRC_DIR)/game/game_globals.c
 MAIN_SRC := $(SRC_DIR)/main.c
 
 ALL_SRC := $(CORE_SRC) $(TERM_SRC) $(UTIL_SRC) $(CMD_SRC) $(GAME_SRC) $(MAIN_SRC)

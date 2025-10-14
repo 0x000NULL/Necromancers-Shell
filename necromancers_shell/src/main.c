@@ -15,13 +15,13 @@
 #include "commands/commands/commands.h"
 #include "commands/registry.h"
 #include "game/game_state.h"
+#include "game/game_globals.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <signal.h>
 
 /* Global state */
-GameState* g_game_state = NULL;
 static volatile bool g_running = true;
 
 /**

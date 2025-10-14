@@ -8,14 +8,13 @@
 #define _GNU_SOURCE
 #include "commands.h"
 #include "../../game/game_state.h"
+#include "../../game/game_globals.h"
 #include "../../game/world/territory.h"
 #include "../../game/world/location.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-
-extern GameState* g_game_state;
 
 CommandResult cmd_connect(ParsedCommand* cmd) {
     if (!g_game_state || !g_game_state->territory) {
