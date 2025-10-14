@@ -39,6 +39,9 @@ make analyze
 # Format code with clang-format
 make format
 
+# Display version information
+make version
+
 # Clean all build artifacts
 make clean
 ```
@@ -188,6 +191,206 @@ command_system_register_command(&summon);
 - Keep functions under 100 lines
 - Comprehensive comments for non-obvious logic
 
+## CI/CD Pipeline
+
+**Status:** Fully operational with automated versioning, testing, and releases
+
+### Version Management
+
+**Files:**
+- `necromancers_shell/VERSION` - Single source of truth (plain text: "0.3.0")
+- `src/core/version_info.h` - Auto-generated at build time (gitignored)
+- `src/core/version.h` - Public API for version access
+- `src/core/version.c` - Implementation
+
+**Version API:**
+```c
+#include "core/version.h"
+
+const char* version_get_string(void);      // "0.3.0"
+int version_get_major(void);                // 0
+int version_get_minor(void);                // 3
+int version_get_patch(void);                // 0
+const char* version_get_build_date(void);   // "2025-10-14"
+const char* version_get_git_hash(void);     // "46516f4"
+void version_print_full(FILE* stream);      // Full version info
+```
+
+**Command-line:**
+```bash
+./build/necromancer_shell --version   # Display version
+./build/necromancer_shell --help      # Display help
+make version                          # Show version during build
+```
+
+### GitHub Actions Workflows
+
+**Location:** `.github/workflows/`
+
+#### CI Workflow (`ci.yml`)
+**Triggers:** All branches, PRs to master
+**Platforms:** Linux (ubuntu-latest), macOS ARM64 (macos-15), macOS Intel (macos-15-large)
+**Jobs:**
+1. Install platform-specific dependencies (ncurses)
+2. Build release and debug versions
+3. Run unit tests (67+ tests)
+4. Static analysis with cppcheck (Linux only)
+5. Memory leak detection with valgrind (Linux only)
+6. Upload build artifacts (7-day retention)
+
+**Environment variable:**
+- Set `CI=true` to build portable binaries (skips `-march=native`)
+
+#### Release Workflow (`release.yml`)
+**Triggers:** Push to master (skips if commit has `[skip release]`)
+**Permissions:** `contents: write`
+**Jobs:**
+
+1. **Version Bump:**
+   - Read current VERSION file
+   - Determine bump type from commit message:
+     - `[major]` or `BREAKING` → Major bump (1.0.0 → 2.0.0)
+     - `[minor]` or `feat:` → Minor bump (1.0.0 → 1.1.0)
+     - Default → Patch bump (1.0.0 → 1.0.1)
+   - Update VERSION file
+   - Create git tag (e.g., `v1.0.1`)
+   - Push changes back to repository
+
+2. **Multi-Platform Build:**
+   - Build on Linux, macOS ARM64, macOS Intel in parallel
+   - Run full test suite on each platform
+   - Package binaries as `.tar.gz` with README and VERSION
+
+3. **Create GitHub Release:**
+   - Download all platform artifacts
+   - Generate SHA256 checksums
+   - Create GitHub release with:
+     - Tag: `v1.0.1`
+     - Auto-generated release notes
+     - Attached artifacts for all platforms
+     - Checksums file
+
+### Cross-Platform Support
+
+**Platform Detection in Makefile:**
+```makefile
+UNAME_S := $(shell uname -s 2>/dev/null || echo Windows)
+
+ifeq ($(UNAME_S),Darwin)
+    # macOS: Use Homebrew ncurses
+    NCURSES_PREFIX := $(shell brew --prefix ncurses)
+    LIBS := -L$(NCURSES_PREFIX)/lib -lncurses -lm
+else ifeq ($(UNAME_S),Linux)
+    # Linux: Use system ncurses
+    LIBS := -lncurses -lm
+else
+    # Windows: Use PDCurses
+    LIBS := -lpdcurses -lm
+endif
+```
+
+**Platform Compatibility Layer:**
+- `src/terminal/platform_curses.h` - Abstracts ncurses/PDCurses
+- Automatically includes correct header:
+  - Linux/macOS: `#include <ncurses.h>`
+  - Windows: `#include <curses.h>` (PDCurses)
+- No platform-specific #ifdef blocks needed in main code
+
+**Current Platform Status:**
+- ✅ **Linux x64:** Fully supported, tested in CI
+- ✅ **macOS ARM64:** Fully supported (Apple Silicon)
+- ✅ **macOS Intel:** Fully supported (legacy until 2027)
+- ⚠️ **Windows x64:** Infrastructure ready, PDCurses support planned (Phase 3)
+
+### Portability Changes
+
+**Removed `-march=native` flag:**
+- Was: `release: CFLAGS += -O2 -DNDEBUG -march=native`
+- Now: `release: CFLAGS += -O2 -DNDEBUG` (adds `-march=native` only if `CI` is not set)
+- Reason: `-march=native` creates CPU-specific binaries that don't work on different processors
+- Impact: Negligible performance difference (~2-5%)
+
+### Release Artifacts
+
+**Naming Convention:**
+```
+necromancer_shell-{platform}-{arch}-v{version}.tar.gz
+```
+
+**Examples:**
+- `necromancer_shell-linux-x64-v0.4.0.tar.gz`
+- `necromancer_shell-macos-arm64-v0.4.0.tar.gz`
+- `necromancer_shell-macos-x64-v0.4.0.tar.gz`
+- `SHA256SUMS` - Checksums for all artifacts
+
+**Package Contents:**
+```
+necromancer_shell-linux-x64-v0.4.0/
+├── necromancer_shell    # Binary
+├── README.md            # Documentation
+└── VERSION              # Version file
+```
+
+### Commit Message Conventions
+
+Control version increments via commit messages:
+
+```bash
+# Patch bump (0.3.0 → 0.3.1) - Default
+git commit -m "fix: Fix bug in soul harvesting"
+git commit -m "docs: Update documentation"
+
+# Minor bump (0.3.0 → 0.4.0)
+git commit -m "feat: Add new minion type"
+git commit -m "Add feature [minor]"
+
+# Major bump (0.3.0 → 1.0.0)
+git commit -m "BREAKING: Redesign command system"
+git commit -m "Major refactor [major]"
+
+# Skip release (version bump only, no commit)
+git commit -m "chore: bump version to 0.4.0 [skip release]"
+```
+
+### Monitoring CI/CD
+
+**View workflows:**
+- Actions tab: https://github.com/0x000NULL/Necromancers-Shell/actions
+- Releases: https://github.com/0x000NULL/Necromancers-Shell/releases
+
+**Build times:**
+- CI workflow: ~2-3 minutes per platform
+- Release workflow: ~5-7 minutes total (parallel builds)
+
+**Caching:**
+- Homebrew packages on macOS (~30s savings)
+- No object file caching (build is fast enough without it)
+
+### Developer Workflow
+
+**Local development:**
+```bash
+# Build with local optimizations
+make release
+
+# Build for CI (portable)
+CI=true make release
+
+# Check version
+make version
+./build/necromancer_shell --version
+```
+
+**Creating releases:**
+1. Commit and push to master
+2. CI runs automatically on push
+3. If CI passes, release workflow triggers
+4. Version auto-incremented based on commit message
+5. Binaries built for all platforms
+6. GitHub release created automatically
+
+**No manual intervention needed!**
+
 ## Testing
 
 **Test files in tests/ directory:**
@@ -221,7 +424,8 @@ command_system_register_command(&summon);
 **Phase 0 (Complete):** Core infrastructure - memory, logging, terminal, events, state manager
 **Phase 1 (Complete):** Command system MVP - tokenizer, parser, executor, history, autocomplete
 **Phase 2 (Complete):** Core game systems - souls, resources, locations, minions, corruption
-**Phase 3+ (Planned):** Raw terminal mode, arrow key navigation, command aliases, piping, combat
+**CI/CD (Complete):** Automated versioning, multi-platform builds, GitHub Actions workflows
+**Phase 3+ (Planned):** Windows PDCurses support, raw terminal mode, arrow key navigation, command aliases, piping, combat
 
 ## External Dependencies
 
