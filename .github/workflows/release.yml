@@ -130,6 +130,11 @@ jobs:
             platform: macos-x64
             artifact: necromancer_shell-macos-x64
 
+          - os: windows-latest
+            platform: windows-x64
+            artifact: necromancer_shell-windows-x64
+            msystem: UCRT64
+
     steps:
       - name: Checkout code at new tag
         uses: actions/checkout@v4
@@ -147,32 +152,65 @@ jobs:
         if: runner.os == 'macOS'
         run: brew install ncurses
 
+      - name: Setup MSYS2 (Windows)
+        if: runner.os == 'Windows'
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: ${{ matrix.msystem }}
+          update: true
+          install: >-
+            mingw-w64-ucrt-x86_64-gcc
+            mingw-w64-ucrt-x86_64-pdcurses
+            make
+
       - name: Build release binary
         working-directory: necromancers_shell
+        shell: ${{ runner.os == 'Windows' && 'msys2 {0}' || 'bash' }}
         env:
           CI: true
         run: make release
 
       - name: Run tests
         working-directory: necromancers_shell
+        shell: ${{ runner.os == 'Windows' && 'msys2 {0}' || 'bash' }}
         run: make test
 
       - name: Package binary
+        shell: bash
         run: |
           mkdir -p dist
           BINARY_NAME="${{ matrix.artifact }}-v${{ needs.version-bump.outputs.new_version }}"
           mkdir -p "dist/$BINARY_NAME"
-          cp necromancers_shell/build/necromancer_shell* "dist/$BINARY_NAME/"
+
+          # Copy binary (handle .exe on Windows)
+          if [ "${{ runner.os }}" == "Windows" ]; then
+            cp necromancers_shell/build/necromancer_shell.exe "dist/$BINARY_NAME/" 2>/dev/null || \
+            cp necromancers_shell/build/necromancer_shell "dist/$BINARY_NAME/"
+          else
+            cp necromancers_shell/build/necromancer_shell* "dist/$BINARY_NAME/"
+          fi
+
+          # Copy documentation
           cp README.md "dist/$BINARY_NAME/" || echo "No README.md"
           cp necromancers_shell/VERSION "dist/$BINARY_NAME/"
+
+          # Package based on platform
           cd dist
-          tar -czf "$BINARY_NAME.tar.gz" "$BINARY_NAME"
+          if [ "${{ runner.os }}" == "Windows" ]; then
+            # Windows: Create .zip
+            7z a -tzip "$BINARY_NAME.zip" "$BINARY_NAME"
+          else
+            # Unix: Create .tar.gz
+            tar -czf "$BINARY_NAME.tar.gz" "$BINARY_NAME"
+          fi
 
       - name: Upload release artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact }}-v${{ needs.version-bump.outputs.new_version }}
-          path: dist/*.tar.gz
+          path: |
+            dist/*.tar.gz
+            dist/*.zip
           if-no-files-found: error
 
   create-release:
@@ -198,7 +236,7 @@ jobs:
       - name: Generate checksums
         run: |
           cd artifacts
-          sha256sum *.tar.gz > SHA256SUMS
+          sha256sum *.tar.gz *.zip 2>/dev/null > SHA256SUMS || sha256sum *.tar.gz > SHA256SUMS
           cat SHA256SUMS
 
       - name: Create GitHub Release
@@ -211,6 +249,7 @@ jobs:
           prerelease: false
           files: |
             artifacts/*.tar.gz
+            artifacts/*.zip
             artifacts/SHA256SUMS
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

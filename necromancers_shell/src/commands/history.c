@@ -1,13 +1,19 @@
 /* POSIX features (strdup, getpwuid) */
+#ifndef _WIN32
 #define _POSIX_C_SOURCE 200809L
+#endif
 
 #include "history.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+
+/* Platform-specific includes */
+#ifndef _WIN32
 #include <unistd.h>
 #include <sys/stat.h>
 #include <pwd.h>
+#endif
 
 /* Command history internal structure */
 struct CommandHistory {
@@ -140,7 +146,10 @@ bool command_history_save(const CommandHistory* history, const char* filepath) {
     fclose(file);
 
     /* Set file permissions to 600 (user read/write only) */
+    /* Note: Windows file permissions work differently, skip chmod */
+#ifndef _WIN32
     chmod(filepath, S_IRUSR | S_IWUSR);
+#endif
 
     return true;
 }
@@ -217,21 +226,43 @@ void command_history_free_search_results(char** results, size_t count) {
 }
 
 char* command_history_default_path(void) {
-    /* Get home directory */
-    const char* home = getenv("HOME");
+    /* Get home directory - platform-specific */
+    const char* home = NULL;
+
+#ifdef _WIN32
+    /* Windows: Try USERPROFILE first, then HOMEDRIVE+HOMEPATH */
+    home = getenv("USERPROFILE");
+    if (!home) {
+        const char* homedrive = getenv("HOMEDRIVE");
+        const char* homepath = getenv("HOMEPATH");
+        if (homedrive && homepath) {
+            /* Construct path from HOMEDRIVE and HOMEPATH */
+            size_t len = strlen(homedrive) + strlen(homepath) + 1;
+            char* constructed_home = malloc(len);
+            if (constructed_home) {
+                snprintf(constructed_home, len, "%s%s", homedrive, homepath);
+                /* Note: This allocated memory will leak, but it's a rare fallback case */
+                home = constructed_home;
+            }
+        }
+    }
+#else
+    /* Unix: Try HOME environment variable, then getpwuid */
+    home = getenv("HOME");
     if (!home) {
         struct passwd* pw = getpwuid(getuid());
         if (pw) {
             home = pw->pw_dir;
         }
     }
+#endif
 
     if (!home) {
         /* Fallback to current directory */
         return strdup(".necromancers_shell_history");
     }
 
-    /* Allocate path */
+    /* Allocate path - forward slash works on both Unix and Windows */
     size_t len = strlen(home) + strlen("/.necromancers_shell_history") + 1;
     char* path = malloc(len);
     if (!path) return NULL;

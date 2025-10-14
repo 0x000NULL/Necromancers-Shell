@@ -94,8 +94,15 @@ void logger_log(LogLevel level, const char* file, int line,
     char time_buf[32];
     strftime(time_buf, sizeof(time_buf), "%Y-%m-%d %H:%M:%S", tm_info);
 
-    /* Extract filename from path */
+    /* Extract filename from path - handle both Unix and Windows separators */
     const char* filename = strrchr(file, '/');
+#ifdef _WIN32
+    /* On Windows, also check for backslash separator */
+    const char* backslash = strrchr(file, '\\');
+    if (backslash && (!filename || backslash > filename)) {
+        filename = backslash;
+    }
+#endif
     filename = filename ? filename + 1 : file;
 
     /* Format message */
