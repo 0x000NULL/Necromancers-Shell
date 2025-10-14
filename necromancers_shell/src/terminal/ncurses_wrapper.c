@@ -1,6 +1,6 @@
 #include "terminal/ncurses_wrapper.h"
+#include "terminal/platform_curses.h"
 #include "utils/logger.h"
-#include <ncurses.h>
 #include <stdarg.h>
 #include <string.h>
 

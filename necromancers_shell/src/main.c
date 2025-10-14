@@ -6,6 +6,7 @@
 #include "core/memory.h"
 #include "core/timing.h"
 #include "core/events.h"
+#include "core/version.h"
 #include "terminal/ncurses_wrapper.h"
 #include "terminal/colors.h"
 #include "terminal/input_handler.h"
@@ -236,7 +237,7 @@ static void display_welcome(void) {
     printf("\n");
     printf("╔════════════════════════════════════════════════════════╗\n");
     printf("║                                                        ║\n");
-    printf("║           NECROMANCER'S SHELL - v0.2.0                ║\n");
+    printf("║           NECROMANCER'S SHELL - v%-20s ║\n", version_get_string());
     printf("║         Dark Fantasy Terminal RPG                     ║\n");
     printf("║                                                        ║\n");
     printf("╚════════════════════════════════════════════════════════╝\n");
@@ -249,8 +250,25 @@ static void display_welcome(void) {
 /**
  * Main entry point
  */
-int main(void) {
+int main(int argc, char* argv[]) {
     int exit_code = EXIT_SUCCESS;
+
+    /* Parse command-line arguments */
+    for (int i = 1; i < argc; i++) {
+        if (strcmp(argv[i], "--version") == 0 || strcmp(argv[i], "-v") == 0) {
+            version_print_full(stdout);
+            return EXIT_SUCCESS;
+        }
+        if (strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0) {
+            printf("Necromancer's Shell - Dark Fantasy Terminal RPG\n\n");
+            printf("Usage: %s [OPTIONS]\n\n", argv[0]);
+            printf("Options:\n");
+            printf("  --version, -v    Display version information\n");
+            printf("  --help, -h       Display this help message\n\n");
+            printf("Once running, type 'help' for available commands.\n");
+            return EXIT_SUCCESS;
+        }
+    }
 
     /* Setup signal handlers */
     signal(SIGINT, signal_handler);

@@ -1,0 +1,118 @@
+name: CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: [master]
+
+jobs:
+  build-and-test:
+    name: Build & Test (${{ matrix.platform }})
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Linux x64 - Primary target
+          - os: ubuntu-latest
+            platform: Linux x64
+            artifact: necromancer_shell-linux-x64
+
+          # macOS ARM64 - Apple Silicon (recommended)
+          - os: macos-15
+            platform: macOS ARM64
+            artifact: necromancer_shell-macos-arm64
+
+          # macOS Intel - Legacy support
+          - os: macos-15-large
+            platform: macOS x64
+            artifact: necromancer_shell-macos-x64
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # ===== Linux Dependencies =====
+      - name: Install dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libncurses5-dev \
+            libncursesw5-dev \
+            valgrind \
+            cppcheck
+
+      # ===== macOS Dependencies =====
+      - name: Install dependencies (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          brew install ncurses cppcheck
+
+      # ===== Build =====
+      - name: Build release
+        working-directory: necromancers_shell
+        env:
+          CI: true
+        run: make release
+
+      - name: Build debug
+        working-directory: necromancers_shell
+        env:
+          CI: true
+        run: make debug
+
+      # ===== Tests =====
+      - name: Run unit tests
+        working-directory: necromancers_shell
+        run: make test
+
+      # ===== Static Analysis (Linux only) =====
+      - name: Run static analysis
+        if: runner.os == 'Linux'
+        working-directory: necromancers_shell
+        run: make analyze
+
+      # ===== Memory Check (Linux only) =====
+      - name: Check for memory leaks
+        if: runner.os == 'Linux'
+        working-directory: necromancers_shell
+        run: |
+          make valgrind || true
+          if [ -f valgrind-out.txt ]; then
+            if grep -q "definitely lost: 0 bytes" valgrind-out.txt; then
+              echo "✓ No memory leaks detected"
+            else
+              echo "✗ Memory leaks detected!"
+              cat valgrind-out.txt
+              exit 1
+            fi
+          fi
+
+      # ===== Upload Artifacts =====
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: |
+            necromancers_shell/build/necromancer_shell*
+            !necromancers_shell/build/**/*.o
+            !necromancers_shell/build/**/*.d
+          if-no-files-found: error
+          retention-days: 7
+
+      # ===== Upload test results on failure =====
+      - name: Upload logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs-${{ matrix.platform }}
+          path: |
+            necromancers_shell/*.log
+            necromancers_shell/valgrind-out.txt
+          if-no-files-found: ignore
+          retention-days: 7

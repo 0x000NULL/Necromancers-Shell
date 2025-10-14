@@ -1,0 +1,216 @@
+name: Release
+
+on:
+  push:
+    branches: [master]
+    paths-ignore:
+      - '**.md'
+      - 'LICENSE'
+      - '.gitignore'
+      - 'necromancers_shell/VERSION'
+
+permissions:
+  contents: write
+
+jobs:
+  version-bump:
+    name: Bump Version
+    runs-on: ubuntu-latest
+    outputs:
+      new_version: ${{ steps.bump.outputs.new_version }}
+      should_release: ${{ steps.check.outputs.should_release }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check if version was just updated
+        id: check
+        run: |
+          LAST_COMMIT_MSG=$(git log -1 --pretty=%B)
+          if [[ "$LAST_COMMIT_MSG" == *"[skip release]"* ]] || [[ "$LAST_COMMIT_MSG" == *"chore: bump version"* ]]; then
+            echo "should_release=false" >> $GITHUB_OUTPUT
+            echo "Skipping release - version was just bumped"
+          else
+            echo "should_release=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Read current version
+        if: steps.check.outputs.should_release == 'true'
+        id: current
+        run: |
+          VERSION=$(cat necromancers_shell/VERSION)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+          echo "major=$MAJOR" >> $GITHUB_OUTPUT
+          echo "minor=$MINOR" >> $GITHUB_OUTPUT
+          echo "patch=$PATCH" >> $GITHUB_OUTPUT
+
+      - name: Determine version bump type
+        if: steps.check.outputs.should_release == 'true'
+        id: bump_type
+        run: |
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+          if [[ "$COMMIT_MSG" =~ \[major\]|BREAKING ]]; then
+            echo "type=major" >> $GITHUB_OUTPUT
+            echo "Detected MAJOR version bump"
+          elif [[ "$COMMIT_MSG" =~ \[minor\]|^feat: ]]; then
+            echo "type=minor" >> $GITHUB_OUTPUT
+            echo "Detected MINOR version bump"
+          else
+            echo "type=patch" >> $GITHUB_OUTPUT
+            echo "Detected PATCH version bump"
+          fi
+
+      - name: Calculate new version
+        if: steps.check.outputs.should_release == 'true'
+        id: bump
+        run: |
+          MAJOR=${{ steps.current.outputs.major }}
+          MINOR=${{ steps.current.outputs.minor }}
+          PATCH=${{ steps.current.outputs.patch }}
+
+          case "${{ steps.bump_type.outputs.type }}" in
+            major)
+              MAJOR=$((MAJOR + 1))
+              MINOR=0
+              PATCH=0
+              ;;
+            minor)
+              MINOR=$((MINOR + 1))
+              PATCH=0
+              ;;
+            patch)
+              PATCH=$((PATCH + 1))
+              ;;
+          esac
+
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+          echo "$NEW_VERSION" > necromancers_shell/VERSION
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "New version: $NEW_VERSION"
+
+      - name: Commit version bump
+        if: steps.check.outputs.should_release == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add necromancers_shell/VERSION
+          git commit -m "chore: bump version to ${{ steps.bump.outputs.new_version }} [skip release]"
+          git tag "v${{ steps.bump.outputs.new_version }}"
+
+      - name: Push changes and tag
+        if: steps.check.outputs.should_release == 'true'
+        run: |
+          git push origin master
+          git push origin "v${{ steps.bump.outputs.new_version }}"
+
+  build-release:
+    name: Build Release (${{ matrix.platform }})
+    needs: version-bump
+    if: needs.version-bump.outputs.should_release == 'true'
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            platform: linux-x64
+            artifact: necromancer_shell-linux-x64
+
+          - os: macos-15
+            platform: macos-arm64
+            artifact: necromancer_shell-macos-arm64
+
+          - os: macos-15-large
+            platform: macos-x64
+            artifact: necromancer_shell-macos-x64
+
+    steps:
+      - name: Checkout code at new tag
+        uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.version-bump.outputs.new_version }}
+          fetch-depth: 0
+
+      - name: Install dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libncurses5-dev libncursesw5-dev
+
+      - name: Install dependencies (macOS)
+        if: runner.os == 'macOS'
+        run: brew install ncurses
+
+      - name: Build release binary
+        working-directory: necromancers_shell
+        env:
+          CI: true
+        run: make release
+
+      - name: Run tests
+        working-directory: necromancers_shell
+        run: make test
+
+      - name: Package binary
+        run: |
+          mkdir -p dist
+          BINARY_NAME="${{ matrix.artifact }}-v${{ needs.version-bump.outputs.new_version }}"
+          mkdir -p "dist/$BINARY_NAME"
+          cp necromancers_shell/build/necromancer_shell* "dist/$BINARY_NAME/"
+          cp README.md "dist/$BINARY_NAME/" || echo "No README.md"
+          cp necromancers_shell/VERSION "dist/$BINARY_NAME/"
+          cd dist
+          tar -czf "$BINARY_NAME.tar.gz" "$BINARY_NAME"
+
+      - name: Upload release artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}-v${{ needs.version-bump.outputs.new_version }}
+          path: dist/*.tar.gz
+          if-no-files-found: error
+
+  create-release:
+    name: Create GitHub Release
+    needs: [version-bump, build-release]
+    if: needs.version-bump.outputs.should_release == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.version-bump.outputs.new_version }}
+          fetch-depth: 0
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          pattern: necromancer_shell-*-v${{ needs.version-bump.outputs.new_version }}
+          merge-multiple: true
+
+      - name: Generate checksums
+        run: |
+          cd artifacts
+          sha256sum *.tar.gz > SHA256SUMS
+          cat SHA256SUMS
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ needs.version-bump.outputs.new_version }}
+          name: Release v${{ needs.version-bump.outputs.new_version }}
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+          files: |
+            artifacts/*.tar.gz
+            artifacts/SHA256SUMS
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
