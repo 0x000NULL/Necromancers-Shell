@@ -35,6 +35,11 @@ jobs:
             platform: Windows x64
             artifact: necromancer_shell-windows-x64
             msystem: UCRT64
+            shell_type: msys2 {0}
+
+    defaults:
+      run:
+        shell: ${{ matrix.shell_type || 'bash' }}
 
     steps:
       - name: Checkout code
@@ -74,14 +79,12 @@ jobs:
       # ===== Build =====
       - name: Build release
         working-directory: necromancers_shell
-        shell: ${{ runner.os == 'Windows' && 'msys2 {0}' || 'bash' }}
         env:
           CI: true
         run: make release
 
       - name: Build debug
         working-directory: necromancers_shell
-        shell: ${{ runner.os == 'Windows' && 'msys2 {0}' || 'bash' }}
         env:
           CI: true
         run: make debug
@@ -89,7 +92,6 @@ jobs:
       # ===== Tests =====
       - name: Run unit tests
         working-directory: necromancers_shell
-        shell: ${{ runner.os == 'Windows' && 'msys2 {0}' || 'bash' }}
         run: make test
 
       # ===== Static Analysis (Linux only) =====
@@ -116,7 +118,6 @@ jobs:
 
       - name: Memory leak detection note (Windows)
         if: runner.os == 'Windows'
-        shell: msys2 {0}
         run: |
           echo "ℹ️  Valgrind not available on Windows"
           echo "Memory leak detection relies on:"
