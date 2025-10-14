@@ -1,7 +1,7 @@
 #include "terminal/colors.h"
 #include "terminal/ncurses_wrapper.h"
+#include "terminal/platform_curses.h"
 #include "utils/logger.h"
-#include <ncurses.h>
 
 /* Game color pair mappings */
 static int g_game_pairs[COLOR_PAIR_COUNT];

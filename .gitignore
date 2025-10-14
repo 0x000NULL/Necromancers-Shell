@@ -10,3 +10,7 @@ build/
 valgrind-out.txt
 gmon.out
 profile.txt
+
+# Generated version headers
+src/core/version_info.h
+necromancers_shell/src/core/version_info.h
