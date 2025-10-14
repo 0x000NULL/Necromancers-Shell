@@ -1,0 +1,12 @@
+build/
+*.o
+*.out
+*.exe
+*.log
+*.swp
+*~
+.vscode/
+.DS_Store
+valgrind-out.txt
+gmon.out
+profile.txt
