@@ -64,4 +64,80 @@ CommandResult cmd_log(ParsedCommand* cmd);
  */
 int register_builtin_commands(struct CommandRegistry* registry);
 
+/**
+ * Game Commands (Phase 2)
+ */
+
+/**
+ * Souls Command
+ * Usage: souls [--type <type>] [--quality-min <n>] [--quality-max <n>] [--bound] [--free] [--sort <criteria>]
+ *
+ * Display soul inventory with filtering and sorting.
+ */
+CommandResult cmd_souls(ParsedCommand* cmd);
+
+/**
+ * Harvest Command
+ * Usage: harvest [--count <n>]
+ *
+ * Harvest souls from corpses at the current location.
+ */
+CommandResult cmd_harvest(ParsedCommand* cmd);
+
+/**
+ * Scan Command
+ * Usage: scan
+ *
+ * Show connected locations from current location.
+ */
+CommandResult cmd_scan(ParsedCommand* cmd);
+
+/**
+ * Probe Command
+ * Usage: probe <location>
+ *
+ * Get detailed information about a location.
+ */
+CommandResult cmd_probe(ParsedCommand* cmd);
+
+/**
+ * Connect Command
+ * Usage: connect <location>
+ *
+ * Travel to a connected location.
+ */
+CommandResult cmd_connect(ParsedCommand* cmd);
+
+/**
+ * Raise Command
+ * Usage: raise <type> [name] [--soul <id>]
+ *
+ * Raise an undead minion from corpses.
+ */
+CommandResult cmd_raise(ParsedCommand* cmd);
+
+/**
+ * Bind Command
+ * Usage: bind <minion_id> <soul_id>
+ *
+ * Bind a soul to a minion for stat bonuses.
+ */
+CommandResult cmd_bind(ParsedCommand* cmd);
+
+/**
+ * Banish Command
+ * Usage: banish <minion_id>
+ *
+ * Banish (destroy) a minion and return its soul.
+ */
+CommandResult cmd_banish(ParsedCommand* cmd);
+
+/**
+ * Minions Command
+ * Usage: minions
+ *
+ * Display all minions in the army.
+ */
+CommandResult cmd_minions(ParsedCommand* cmd);
+
 #endif /* COMMANDS_H */

@@ -1,0 +1,13 @@
+status
+scan
+souls
+harvest --count 5
+souls
+souls --type common
+souls --sort quality
+probe 1
+connect 1
+status
+harvest
+souls
+quit
