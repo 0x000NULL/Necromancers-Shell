@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <inttypes.h>
 
 /**
  * Parse soul type from string
@@ -185,7 +186,7 @@ CommandResult cmd_souls(ParsedCommand* cmd) {
         for (size_t i = 0; i < count; i++) {
             total_energy += results[i]->energy;
         }
-        fprintf(stream, "Combined Energy: %lu\n", total_energy);
+        fprintf(stream, "Combined Energy: %" PRIu64 "\n", total_energy);
     }
 
     fclose(stream);
