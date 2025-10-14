@@ -134,11 +134,6 @@ jobs:
             platform: windows-x64
             artifact: necromancer_shell-windows-x64
             msystem: UCRT64
-            shell_type: msys2 {0}
-
-    defaults:
-      run:
-        shell: ${{ matrix.shell_type || 'bash' }}
 
     steps:
       - name: Checkout code at new tag
