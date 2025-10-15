@@ -1,0 +1,148 @@
+# Necromancer's Shell - Memory Fragment Definitions
+# Format: [MEMORY:id] followed by properties
+# Memory fragments reveal the player's forgotten past
+
+# ============================================================================
+# ORIGIN MEMORIES - Early Life and Transformation
+# ============================================================================
+
+[MEMORY:awakening_darkness]
+title = The Awakening
+category = past_life
+content = You remember the moment everything changed. The cold slab beneath you, the ritual circle glowing with eldritch light, and Seraphine's face above you - neither kind nor cruel, but determined. "You chose this path," she whispered. "Now walk it."
+chronological_order = 0
+key_memory = true
+hidden = false
+discovery_location = graveyard_blackwood
+discovery_method = automatic
+related_npcs = seraphine
+related_locations = graveyard_blackwood
+
+[MEMORY:before_death]
+title = The Life Before
+category = past_life
+content = Fragments of a different existence flicker through your mind. A warm hearth, laughter, the smell of bread baking. You were someone else once - someone with a name you can no longer recall, a face that fades when you try to picture it. That person died so you could become this.
+chronological_order = -1
+key_memory = true
+hidden = false
+related_fragments = awakening_darkness
+
+[MEMORY:first_ritual]
+title = The First Ritual
+category = past_life
+content = Your hands trembled as you drew the necromantic circle. Seraphine watched from the shadows, her silver eyes reflecting the moonlight. "Speak the words," she commanded. And you did. The corpse twitched, then rose. You felt its death energy flow through you like ice water through your veins. You were no longer who you were.
+chronological_order = 1
+key_memory = false
+hidden = false
+related_npcs = seraphine
+related_fragments = awakening_darkness,before_death
+
+# ============================================================================
+# RELATIONSHIP MEMORIES - NPCs and Connections
+# ============================================================================
+
+[MEMORY:seraphine_meeting]
+title = The First Meeting
+category = relationship
+content = She found you at your lowest - grieving, desperate, willing to do anything to undo what had been done. "I can teach you to command death itself," Seraphine said. "But the price is everything you were. Are you willing to pay it?" Without hesitation, you answered yes.
+chronological_order = -2
+key_memory = true
+hidden = false
+related_npcs = seraphine
+related_fragments = before_death
+
+[MEMORY:magnus_betrayal]
+title = Magnus the Betrayer
+category = betrayal
+content = You remember Magnus clearly - your former friend, your companion in the arcane arts. He was the one who reported you to the Sanctum Hunters. "I'm sorry," he said as they dragged you away. "But what you're doing is wrong." You never forgave him. You never will.
+chronological_order = 5
+key_memory = false
+hidden = false
+related_npcs = magnus_hunter
+
+# ============================================================================
+# POWER MEMORIES - Growth and Ambition
+# ============================================================================
+
+[MEMORY:first_legion]
+title = The First Legion
+category = power
+content = Ten undead warriors stood before you, awaiting your command. You had raised them all in a single night, drawing on the Death Network's power. Seraphine smiled her rare smile. "You're learning faster than I expected," she said. "Soon, you won't need me at all."
+chronological_order = 10
+key_memory = false
+hidden = true
+related_npcs = seraphine
+related_fragments = first_ritual
+
+[MEMORY:forbidden_knowledge]
+title = The Forbidden Tome
+category = power
+content = Deep in the Obsidian Library, you found it - the Codex of Eternal Dominion. Its pages whispered promises of power beyond death, of ruling not just the dead but death itself. Seraphine warned you never to open it. But the temptation grows stronger each day.
+chronological_order = 15
+key_memory = true
+hidden = true
+related_locations = library_obsidian
+
+# ============================================================================
+# LOSS MEMORIES - Sacrifice and Regret
+# ============================================================================
+
+[MEMORY:lost_loved_one]
+title = The Face You Forgot
+category = loss
+content = There was someone. You know there was. Someone who mattered more than anything. But their face is gone, their name erased. All that remains is an aching emptiness where love once lived. This is the price of necromancy - not your life, but your heart.
+chronological_order = -3
+key_memory = true
+hidden = false
+
+[MEMORY:first_kill]
+title = The First Blood
+category = loss
+content = His name was Thomas. A bandit who attacked you on the road. You didn't mean to kill him - the death magic simply erupted from your hands in panic. He crumpled, lifeless. Then he rose at your command. You realized then that death no longer had meaning for you. And neither did life.
+chronological_order = 3
+key_memory = false
+hidden = false
+
+# ============================================================================
+# CORRUPTION MEMORIES - Dark Path and Choices
+# ============================================================================
+
+[MEMORY:soul_harvest_innocent]
+title = The Innocent's Soul
+category = corruption
+content = The child couldn't have been more than eight years old. Lost in the woods, crying for her mother. You could have saved her, led her home. Instead, you saw only a pure soul, uncorrupted and powerful. The harvest was effortless. You tell yourself it was necessary. You're not sure you believe it anymore.
+chronological_order = 20
+key_memory = false
+hidden = true
+
+[MEMORY:embracing_darkness]
+title = Embracing the Darkness
+category = corruption
+content = You looked at yourself in the mirror - pale skin, dark-ringed eyes, fingers stained with grave dirt and worse. The person staring back was a monster. But as you watched, you smiled. Because monsters don't have to apologize. Monsters don't have to feel guilt. Monsters are free.
+chronological_order = 25
+key_memory = false
+hidden = true
+related_fragments = lost_loved_one,soul_harvest_innocent
+
+# ============================================================================
+# REVELATION MEMORIES - Truth and Understanding
+# ============================================================================
+
+[MEMORY:death_network_truth]
+title = The Death Network's Secret
+category = revelation
+content = Seraphine finally revealed the truth. The Death Network isn't just a tool - it's alive. A vast consciousness woven from every death that ever was. And it's been watching you. Waiting. You're not controlling death. You're negotiating with it. And death always demands payment.
+chronological_order = 30
+key_memory = true
+hidden = true
+related_npcs = seraphine
+
+[MEMORY:seraphine_true_name]
+title = Seraphine's True Identity
+category = revelation
+content = You discovered it by accident, in an ancient text. Seraphine isn't just a necromancer. She's the Seraphine - the First Necromancer, who discovered the Death Network millennia ago. She's not teaching you. She's creating a successor. The question is: why?
+chronological_order = 35
+key_memory = true
+hidden = true
+related_npcs = seraphine
+related_fragments = seraphine_meeting,death_network_truth
