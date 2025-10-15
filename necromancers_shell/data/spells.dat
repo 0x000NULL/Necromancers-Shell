@@ -1,0 +1,232 @@
+# Necromancer's Shell - Spell Definitions
+#
+# This file defines all necromantic spells available to the player.
+#
+# Each spell has:
+# - name: Display name
+# - description: What the spell does
+# - mana_cost: Mana required to cast
+# - soul_cost: Soul energy cost (0 if mana only)
+# - cooldown: Turns before spell can be cast again
+# - target_type: self, single, area, location
+# - unlock_level: Player level required (0 = available from start)
+# - school: necromancy, shadow, death, blood, bone
+
+# ==============================================================================
+# TIER 1: Basic Necromancy (Level 0-2)
+# ==============================================================================
+
+[SPELL:raise_dead]
+name = Raise Dead
+description = Animate a corpse as a zombie minion. The most fundamental necromantic spell, taught to all apprentices.
+mana_cost = 20
+soul_cost = 50
+cooldown = 0
+target_type = location
+unlock_level = 0
+school = necromancy
+effect_type = summon
+effect_value = 1
+
+[SPELL:dark_bolt]
+name = Dark Bolt
+description = Launch a bolt of shadow energy at a single target. Basic offensive magic that drains life force.
+mana_cost = 15
+soul_cost = 0
+cooldown = 0
+target_type = single
+unlock_level = 0
+school = shadow
+effect_type = damage
+effect_value = 25
+
+[SPELL:drain_life]
+name = Drain Life
+description = Siphon health from a living target to heal yourself. The essence of vampiric magic.
+mana_cost = 25
+soul_cost = 0
+cooldown = 1
+target_type = single
+unlock_level = 1
+school = blood
+effect_type = drain
+effect_value = 30
+
+# ==============================================================================
+# TIER 2: Intermediate Necromancy (Level 3-5)
+# ==============================================================================
+
+[SPELL:bone_spear]
+name = Bone Spear
+description = Conjure a spear of sharpened bone to pierce enemies. Deals heavy damage but costs more mana.
+mana_cost = 40
+soul_cost = 0
+cooldown = 2
+target_type = single
+unlock_level = 3
+school = bone
+effect_type = damage
+effect_value = 60
+
+[SPELL:corpse_explosion]
+name = Corpse Explosion
+description = Detonate a corpse in a violent explosion, damaging all nearby enemies. Tactical area damage.
+mana_cost = 35
+soul_cost = 25
+cooldown = 3
+target_type = area
+unlock_level = 3
+school = death
+effect_type = area_damage
+effect_value = 50
+
+[SPELL:soul_harvest]
+name = Soul Harvest
+description = Rip souls from recently deceased targets, converting their essence into soul energy.
+mana_cost = 30
+soul_cost = 0
+cooldown = 2
+target_type = area
+unlock_level = 4
+school = necromancy
+effect_type = harvest
+effect_value = 3
+
+[SPELL:dark_pact]
+name = Dark Pact
+description = Sacrifice health to restore mana. A dangerous but powerful exchange for desperate situations.
+mana_cost = 0
+soul_cost = 0
+cooldown = 5
+target_type = self
+unlock_level = 5
+school = blood
+effect_type = conversion
+effect_value = 50
+
+# ==============================================================================
+# TIER 3: Advanced Necromancy (Level 6-9)
+# ==============================================================================
+
+[SPELL:animate_skeleton]
+name = Animate Skeleton
+description = Raise a skeleton warrior from bones. Faster and more agile than zombies.
+mana_cost = 30
+soul_cost = 75
+cooldown = 0
+target_type = location
+unlock_level = 6
+school = bone
+effect_type = summon
+effect_value = 1
+
+[SPELL:death_coil]
+name = Death Coil
+description = Unleash a coil of death magic that damages enemies or heals undead allies.
+mana_cost = 50
+soul_cost = 0
+cooldown = 3
+target_type = single
+unlock_level = 7
+school = death
+effect_type = versatile
+effect_value = 75
+
+[SPELL:desecrate]
+name = Desecrate
+description = Corrupt an area with dark energy, boosting undead minion stats while weakening living enemies.
+mana_cost = 60
+soul_cost = 50
+cooldown = 5
+target_type = area
+unlock_level = 8
+school = shadow
+effect_type = buff_debuff
+effect_value = 20
+
+# ==============================================================================
+# TIER 4: Master Necromancy (Level 10+)
+# ==============================================================================
+
+[SPELL:summon_wraith]
+name = Summon Wraith
+description = Call forth an ethereal wraith from the shadow realm. Powerful magic users bound to your will.
+mana_cost = 50
+soul_cost = 200
+cooldown = 0
+target_type = location
+unlock_level = 10
+school = shadow
+effect_type = summon
+effect_value = 1
+
+[SPELL:plague_strike]
+name = Plague Strike
+description = Infect a target with a necromantic plague that spreads to nearby enemies, dealing damage over time.
+mana_cost = 70
+soul_cost = 100
+cooldown = 8
+target_type = single
+unlock_level = 11
+school = death
+effect_type = dot_spread
+effect_value = 40
+
+[SPELL:blood_ritual]
+name = Blood Ritual
+description = Sacrifice a minion to gain a massive burst of soul energy and temporary power boost.
+mana_cost = 40
+soul_cost = 0
+cooldown = 10
+target_type = single
+unlock_level = 12
+school = blood
+effect_type = sacrifice
+effect_value = 200
+
+[SPELL:raise_wight]
+name = Raise Wight
+description = Resurrect a fallen warrior as an elite wight. Requires a warrior soul and significant power.
+mana_cost = 80
+soul_cost = 350
+cooldown = 0
+target_type = location
+unlock_level = 13
+school = necromancy
+effect_type = summon
+effect_value = 1
+
+[SPELL:army_of_the_dead]
+name = Army of the Dead
+description = Temporarily raise multiple corpses as skeletal soldiers. A devastating display of necromantic mastery.
+mana_cost = 100
+soul_cost = 200
+cooldown = 15
+target_type = area
+unlock_level = 15
+school = necromancy
+effect_type = summon
+effect_value = 5
+
+# ==============================================================================
+# NOTES FOR GAME BALANCE
+# ==============================================================================
+#
+# Spell Schools:
+#   - Necromancy: Raising undead, soul manipulation
+#   - Shadow: Dark energy, curses, ethereal magic
+#   - Death: Direct death magic, decay, disease
+#   - Blood: Life force manipulation, vampiric effects
+#   - Bone: Physical bone magic, conjuration
+#
+# Cost Progression:
+#   - Tier 1: 15-25 mana, 0-50 SE
+#   - Tier 2: 30-40 mana, 0-25 SE
+#   - Tier 3: 30-60 mana, 0-75 SE
+#   - Tier 4: 40-100 mana, 0-350 SE
+#
+# Cooldown Design:
+#   - 0 turns: Spammable (summons, basic attacks)
+#   - 1-3 turns: Regular combat spells
+#   - 5-10 turns: Powerful utility/situational
+#   - 15+ turns: Ultimate abilities

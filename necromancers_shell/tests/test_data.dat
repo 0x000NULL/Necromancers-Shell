@@ -1,0 +1,61 @@
+# Test data file for data_loader unit tests
+# This file tests all supported data types and features
+
+[TEST:string_values]
+name = Test Location
+description = A test location with various properties
+empty_string =
+
+[TEST:numeric_values]
+integer_positive = 42
+integer_negative = -100
+integer_zero = 0
+float_positive = 3.14159
+float_negative = -2.71828
+float_zero = 0.0
+
+[TEST:boolean_values]
+bool_true_1 = true
+bool_true_2 = TRUE
+bool_true_3 = yes
+bool_true_4 = YES
+bool_true_5 = 1
+bool_false_1 = false
+bool_false_2 = FALSE
+bool_false_3 = no
+bool_false_4 = NO
+bool_false_5 = 0
+
+[TEST:array_values]
+single_element = foo
+two_elements = foo,bar
+three_elements = foo,bar,baz
+with_spaces = foo, bar , baz
+empty_elements = ,,
+
+[TEST:mixed_types]
+name = Mixed Test
+count = 10
+ratio = 0.75
+enabled = true
+tags = alpha,beta,gamma
+
+[TEST:edge_cases]
+very_long_string = This is a very long string that tests the buffer limits of the parser. It should be able to handle strings up to 255 characters without truncation or errors. We need to make sure this works correctly in all scenarios.
+unicode_test = Test™
+special_chars = !@#$%^&*()_+-=[]{}|;':",./<>?
+
+# Comment line that should be ignored
+; Another comment style
+
+[TEST:whitespace_handling]
+leading_spaces =    value with leading spaces
+trailing_spaces = value with trailing spaces
+both = value with both
+no_spaces=nospace
+
+[TEST:duplicate_section_type]
+first = value1
+
+[TEST:duplicate_section_type]
+second = value2

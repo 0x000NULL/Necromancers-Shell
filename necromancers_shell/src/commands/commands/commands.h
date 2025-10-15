@@ -140,4 +140,48 @@ CommandResult cmd_banish(ParsedCommand* cmd);
  */
 CommandResult cmd_minions(ParsedCommand* cmd);
 
+/**
+ * Map Command
+ * Usage: map [--width <n>] [--height <n>] [--no-legend] [--show-all]
+ *
+ * Display ASCII world map with current location.
+ */
+CommandResult cmd_map(ParsedCommand* cmd);
+
+/**
+ * Route Command
+ * Usage: route <location_name|location_id> [--show-map]
+ *
+ * Plot pathfinding route to destination.
+ */
+CommandResult cmd_route(ParsedCommand* cmd);
+
+/**
+ * Game Commands (Phase 3 - Progression)
+ */
+
+/**
+ * Research Command
+ * Usage: research [info|start|current|cancel|completed] [<project_id>]
+ *
+ * Manage research projects. View available projects, start research, check progress.
+ */
+CommandResult cmd_research(ParsedCommand* cmd);
+
+/**
+ * Upgrade Command
+ * Usage: upgrade [info|unlock|branch|unlocked|reset] [<skill_id>|<branch_name>]
+ *
+ * Manage skill tree. View and unlock skills, browse branches.
+ */
+CommandResult cmd_upgrade(ParsedCommand* cmd);
+
+/**
+ * Skills Command
+ * Usage: skills [bonuses|abilities|branch <name>]
+ *
+ * View active skills and bonuses. Display stat bonuses and unlocked abilities.
+ */
+CommandResult cmd_skills(ParsedCommand* cmd);
+
 #endif /* COMMANDS_H */

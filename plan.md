@@ -196,7 +196,7 @@ necromancers_shell/
 
 ---
 
-### Phase 1: Command System MVP (Weeks 4-6)
+### Phase 1: Command System MVP (Weeks 4-6) [Done]
 
 **Goal**: Build a functional command parser and execution system
 
@@ -229,7 +229,7 @@ necromancers_shell/
 
 ---
 
-### Phase 2: Core Game Systems (Weeks 7-10)
+### Phase 2: Core Game Systems (Weeks 7-10) [Done]
 
 **Goal**: Implement fundamental game mechanics
 
@@ -264,7 +264,7 @@ necromancers_shell/
 
 ---
 
-### Phase 3: World Building (Weeks 11-14)
+### Phase 3: World Building (Weeks 11-14) 
 
 **Goal**: Create the game world and progression systems
 
