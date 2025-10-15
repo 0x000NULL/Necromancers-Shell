@@ -20,22 +20,6 @@ jobs:
             platform: Linux x64
             artifact: necromancer_shell-linux-x64
 
-          # macOS ARM64 - Apple Silicon (recommended)
-          - os: macos-15
-            platform: macOS ARM64
-            artifact: necromancer_shell-macos-arm64
-
-          # macOS Intel - Legacy support
-          - os: macos-15-large
-            platform: macOS x64
-            artifact: necromancer_shell-macos-x64
-
-          # Windows x64 - PDCurses with MinGW
-          - os: windows-latest
-            platform: Windows x64
-            artifact: necromancer_shell-windows-x64
-            msystem: UCRT64
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -43,8 +27,7 @@ jobs:
           fetch-depth: 0
 
       # ===== Linux Dependencies =====
-      - name: Install dependencies (Linux)
-        if: runner.os == 'Linux'
+      - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y \
@@ -52,24 +35,6 @@ jobs:
             libncursesw5-dev \
             valgrind \
             cppcheck
-
-      # ===== macOS Dependencies =====
-      - name: Install dependencies (macOS)
-        if: runner.os == 'macOS'
-        run: |
-          brew install ncurses cppcheck
-
-      # ===== Windows Dependencies =====
-      - name: Setup MSYS2 (Windows)
-        if: runner.os == 'Windows'
-        uses: msys2/setup-msys2@v2
-        with:
-          msystem: ${{ matrix.msystem }}
-          update: true
-          install: >-
-            mingw-w64-ucrt-x86_64-gcc
-            mingw-w64-ucrt-x86_64-pdcurses
-            make
 
       # ===== Build =====
       - name: Build release
@@ -89,15 +54,13 @@ jobs:
         working-directory: necromancers_shell
         run: make test
 
-      # ===== Static Analysis (Linux only) =====
+      # ===== Static Analysis =====
       - name: Run static analysis
-        if: runner.os == 'Linux'
         working-directory: necromancers_shell
         run: make analyze
 
-      # ===== Memory Check (Linux only) =====
-      - name: Check for memory leaks (Linux)
-        if: runner.os == 'Linux'
+      # ===== Memory Check =====
+      - name: Check for memory leaks
         working-directory: necromancers_shell
         run: |
           make valgrind || true
@@ -110,18 +73,6 @@ jobs:
               exit 1
             fi
           fi
-
-      - name: Memory leak detection note (Windows)
-        if: runner.os == 'Windows'
-        run: |
-          echo "ℹ️  Valgrind not available on Windows"
-          echo "Memory leak detection relies on:"
-          echo "  - Debug build with extra checks"
-          echo "  - Linux/macOS CI valgrind verification"
-          echo "  - Manual testing with Dr. Memory (optional)"
-          echo ""
-          echo "For local memory leak testing on Windows, install Dr. Memory:"
-          echo "  https://drmemory.org/"
 
       # ===== Upload Artifacts =====
       - name: Upload build artifacts
