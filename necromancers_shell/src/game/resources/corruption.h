@@ -19,18 +19,25 @@
 #define MAX_CORRUPTION_EVENTS 50
 
 /**
- * @brief Corruption level thresholds
+ * @brief Corruption tier system (10 detailed tiers)
  *
- * Corruption is tracked as a value from 0-100.
- * Different thresholds unlock different mechanics and story branches.
+ * Corruption is tracked as a value from 0-100 with 10 distinct tiers.
+ * Tier 7 (70%) is the irreversible threshold - soul becomes unrouteable.
+ * Path restrictions apply based on corruption level.
  */
 typedef enum {
-    CORRUPTION_PURE = 0,         /**< 0-19% - Pure, untainted by dark magic */
-    CORRUPTION_TAINTED = 20,     /**< 20-39% - Tainted, beginning to stray */
-    CORRUPTION_COMPROMISED = 40, /**< 40-59% - Compromised, morality weakening */
-    CORRUPTION_CORRUPTED = 60,   /**< 60-79% - Corrupted, embracing darkness */
-    CORRUPTION_DAMNED = 80       /**< 80-100% - Damned, consumed by evil */
-} CorruptionLevel;
+    CORRUPTION_TIER_0 = 0,   /**< 0-10%:   Pristine - Still thinks of corpses as people */
+    CORRUPTION_TIER_1 = 11,  /**< 11-20%:  Tainted - Guilt fading, rationalization begins */
+    CORRUPTION_TIER_2 = 21,  /**< 21-30%:  Corrupted - Resource mentality emerging */
+    CORRUPTION_TIER_3 = 31,  /**< 31-40%:  Tainted - Humanity cracking */
+    CORRUPTION_TIER_4 = 41,  /**< 41-50%:  Vile - Barely human */
+    CORRUPTION_TIER_5 = 51,  /**< 51-60%:  Vile - Can still feel some emotions */
+    CORRUPTION_TIER_6 = 61,  /**< 61-69%:  Abyssal - 9 points from point of no return */
+    CORRUPTION_TIER_7 = 70,  /**< 70%:     IRREVERSIBLE - Soul becomes unrouteable */
+    CORRUPTION_TIER_8 = 71,  /**< 71-89%:  Damned - Locked into Lich/Reaper paths only */
+    CORRUPTION_TIER_9 = 90,  /**< 90-99%:  Void-Touched - Near total loss */
+    CORRUPTION_TIER_10 = 100 /**< 100%:    Lich Lord - Transformation complete */
+} CorruptionTier;
 
 /**
  * @brief Corruption event record
@@ -93,22 +100,22 @@ bool corruption_add(CorruptionState* state, uint8_t amount, const char* descript
 bool corruption_reduce(CorruptionState* state, uint8_t amount, const char* description, uint32_t day);
 
 /**
- * @brief Get current corruption level category
+ * @brief Get current corruption tier (0-10)
  *
- * Returns the level threshold corresponding to current corruption.
+ * Returns the tier corresponding to current corruption percentage.
  *
  * @param state Pointer to corruption state
- * @return Current corruption level
+ * @return Current corruption tier
  */
-CorruptionLevel corruption_get_level(const CorruptionState* state);
+CorruptionTier corruption_get_tier(const CorruptionState* state);
 
 /**
- * @brief Get name of a corruption level
+ * @brief Get name of a corruption tier
  *
- * @param level Corruption level
- * @return String name (e.g., "Pure", "Damned")
+ * @param tier Corruption tier
+ * @return String name (e.g., "Pristine", "Lich Lord")
  */
-const char* corruption_level_name(CorruptionLevel level);
+const char* corruption_tier_name(CorruptionTier tier);
 
 /**
  * @brief Get description of current corruption state
@@ -135,20 +142,61 @@ const char* corruption_get_description(const CorruptionState* state);
 float corruption_calculate_penalty(const CorruptionState* state);
 
 /**
- * @brief Check if corruption is at damned level
+ * @brief Check if corruption has crossed irreversible threshold (>= 70%)
+ *
+ * Once corruption reaches 70%, soul becomes unrouteable and redemption
+ * paths (Revenant, Wraith, Archon) are permanently locked.
  *
  * @param state Pointer to corruption state
- * @return true if corruption >= 80, false otherwise
+ * @return true if corruption >= 70%, false otherwise
+ */
+bool corruption_is_irreversible(const CorruptionState* state);
+
+/**
+ * @brief Check if corruption is at Lich Lord level (>= 90%)
+ *
+ * @param state Pointer to corruption state
+ * @return true if corruption >= 90, false otherwise
  */
 bool corruption_is_damned(const CorruptionState* state);
 
 /**
- * @brief Check if corruption is pure
+ * @brief Check if corruption is pristine (< 11%)
  *
  * @param state Pointer to corruption state
- * @return true if corruption < 20, false otherwise
+ * @return true if corruption < 11, false otherwise
  */
 bool corruption_is_pure(const CorruptionState* state);
+
+/**
+ * @brief Check if Revenant path is available (< 30%)
+ *
+ * Revenant path requires low corruption for resurrection to mortal life.
+ *
+ * @param state Pointer to corruption state
+ * @return true if Revenant path is available, false otherwise
+ */
+bool corruption_revenant_available(const CorruptionState* state);
+
+/**
+ * @brief Check if Wraith path is available (< 40%)
+ *
+ * Wraith path requires relatively low corruption for fragmentation.
+ *
+ * @param state Pointer to corruption state
+ * @return true if Wraith path is available, false otherwise
+ */
+bool corruption_wraith_available(const CorruptionState* state);
+
+/**
+ * @brief Check if Archon path is available (30-60%)
+ *
+ * Archon path requires balanced corruption - not too pure, not too corrupted.
+ *
+ * @param state Pointer to corruption state
+ * @return true if Archon path is available, false otherwise
+ */
+bool corruption_archon_available(const CorruptionState* state);
 
 /**
  * @brief Get most recent corruption event

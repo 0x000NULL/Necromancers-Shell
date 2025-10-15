@@ -48,9 +48,11 @@ CommandResult cmd_status(ParsedCommand* cmd) {
                 g_game_state->resources.mana_max);
 
         char time_buf[64];
+        char extended_time_buf[128];
         resources_format_time(&g_game_state->resources, time_buf, sizeof(time_buf));
-        fprintf(stream, "Time: %s (Day %u)\n",
-                time_buf, g_game_state->resources.day_count);
+        resources_format_extended_time(&g_game_state->resources, extended_time_buf, sizeof(extended_time_buf));
+        fprintf(stream, "Time: %s\n", extended_time_buf);
+        fprintf(stream, "Total Days: %u\n", g_game_state->resources.day_count);
     } else {
         fprintf(stream, "Soul Energy: N/A\n");
         fprintf(stream, "Mana: N/A\n");
@@ -59,11 +61,35 @@ CommandResult cmd_status(ParsedCommand* cmd) {
 
     fprintf(stream, "\n=== Corruption ===\n");
     if (g_game_state) {
-        fprintf(stream, "Level: %u%% (%s)\n",
+        fprintf(stream, "Tier: %u%% (%s)\n",
                 g_game_state->corruption.corruption,
-                corruption_level_name(corruption_get_level(&g_game_state->corruption)));
+                corruption_tier_name(corruption_get_tier(&g_game_state->corruption)));
+        fprintf(stream, "%s\n", corruption_get_description(&g_game_state->corruption));
+
+        /* Show path availability warnings */
+        if (corruption_is_irreversible(&g_game_state->corruption)) {
+            fprintf(stream, "WARNING: Passed irreversible threshold! Redemption paths locked.\n");
+        }
     } else {
         fprintf(stream, "Level: N/A\n");
+    }
+
+    fprintf(stream, "\n=== Consciousness ===\n");
+    if (g_game_state) {
+        fprintf(stream, "Stability: %.1f%%\n", g_game_state->consciousness.stability);
+        fprintf(stream, "Decay Rate: %.2f%% per month\n", g_game_state->consciousness.decay_rate);
+        fprintf(stream, "%s\n", consciousness_get_description(&g_game_state->consciousness));
+
+        uint32_t months_left = consciousness_months_until_critical(&g_game_state->consciousness);
+        if (months_left < 9999) {
+            fprintf(stream, "Months until critical: %u\n", months_left);
+        }
+
+        if (consciousness_is_critical(&g_game_state->consciousness)) {
+            fprintf(stream, "CRITICAL: Consciousness below 10%%! Existence unstable!\n");
+        }
+    } else {
+        fprintf(stream, "Stability: N/A\n");
     }
 
     fprintf(stream, "\n=== Location ===\n");

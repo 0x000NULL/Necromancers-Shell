@@ -1,22 +1,34 @@
 #include "corruption.h"
 #include <string.h>
 
-/* Corruption level name strings */
-static const char* CORRUPTION_LEVEL_NAMES[] = {
-    "Pure",
-    "Tainted",
-    "Compromised",
-    "Corrupted",
-    "Damned"
+/* Corruption tier name strings (11 tiers: 0-10) */
+static const char* CORRUPTION_TIER_NAMES[] = {
+    "Pristine",       /* Tier 0: 0-10% */
+    "Tainted",        /* Tier 1: 11-20% */
+    "Corrupted",      /* Tier 2: 21-30% */
+    "Tainted",        /* Tier 3: 31-40% */
+    "Vile",           /* Tier 4: 41-50% */
+    "Vile",           /* Tier 5: 51-60% */
+    "Abyssal",        /* Tier 6: 61-69% */
+    "IRREVERSIBLE",   /* Tier 7: 70% */
+    "Damned",         /* Tier 8: 71-89% */
+    "Void-Touched",   /* Tier 9: 90-99% */
+    "Lich Lord"       /* Tier 10: 100% */
 };
 
-/* Corruption level descriptions */
-static const char* CORRUPTION_DESCRIPTIONS[] = {
-    "Your soul remains untainted by the darkness",
-    "The shadows begin to whisper in your mind",
-    "Your morality wavers in the face of power",
-    "Darkness seeps into your very essence",
-    "You are lost to the abyss, beyond redemption"
+/* Corruption tier descriptions (psychological effects per tier) */
+static const char* CORRUPTION_TIER_DESCRIPTIONS[] = {
+    "You still think of corpses as people who lived and died",                    /* 0-10% */
+    "The guilt is fading. You rationalize your actions more easily",              /* 11-20% */
+    "You're starting to see souls as resources, means to an end",                 /* 21-30% */
+    "Your humanity is cracking. The suffering of others feels distant",           /* 31-40% */
+    "You are barely human. Empathy is a fading memory",                           /* 41-50% */
+    "Darkness fills your essence, though you can still feel some emotions",       /* 51-60% */
+    "You stand 9 points from the point of no return. The abyss calls",           /* 61-69% */
+    "THRESHOLD CROSSED: Your soul is unrouteable. Redemption is impossible",      /* 70% */
+    "You are damned. Only the paths of Lich and Reaper remain",                  /* 71-89% */
+    "Near total loss. You are more void than person",                             /* 90-99% */
+    "Transformation complete. You are no longer what you were"                    /* 100% */
 };
 
 void corruption_init(CorruptionState* state) {
@@ -95,39 +107,52 @@ bool corruption_reduce(CorruptionState* state, uint8_t amount, const char* descr
     return true;
 }
 
-CorruptionLevel corruption_get_level(const CorruptionState* state) {
+CorruptionTier corruption_get_tier(const CorruptionState* state) {
     if (!state) {
-        return CORRUPTION_PURE;
+        return CORRUPTION_TIER_0;
     }
 
-    if (state->corruption >= CORRUPTION_DAMNED) {
-        return CORRUPTION_DAMNED;
-    } else if (state->corruption >= CORRUPTION_CORRUPTED) {
-        return CORRUPTION_CORRUPTED;
-    } else if (state->corruption >= CORRUPTION_COMPROMISED) {
-        return CORRUPTION_COMPROMISED;
-    } else if (state->corruption >= CORRUPTION_TAINTED) {
-        return CORRUPTION_TAINTED;
+    uint8_t c = state->corruption;
+
+    if (c == 100) {
+        return CORRUPTION_TIER_10;
+    } else if (c >= 90) {
+        return CORRUPTION_TIER_9;
+    } else if (c >= 71) {
+        return CORRUPTION_TIER_8;
+    } else if (c == 70) {
+        return CORRUPTION_TIER_7;
+    } else if (c >= 61) {
+        return CORRUPTION_TIER_6;
+    } else if (c >= 51) {
+        return CORRUPTION_TIER_5;
+    } else if (c >= 41) {
+        return CORRUPTION_TIER_4;
+    } else if (c >= 31) {
+        return CORRUPTION_TIER_3;
+    } else if (c >= 21) {
+        return CORRUPTION_TIER_2;
+    } else if (c >= 11) {
+        return CORRUPTION_TIER_1;
     } else {
-        return CORRUPTION_PURE;
+        return CORRUPTION_TIER_0;
     }
 }
 
-const char* corruption_level_name(CorruptionLevel level) {
-    switch (level) {
-        case CORRUPTION_PURE:
-            return CORRUPTION_LEVEL_NAMES[0];
-        case CORRUPTION_TAINTED:
-            return CORRUPTION_LEVEL_NAMES[1];
-        case CORRUPTION_COMPROMISED:
-            return CORRUPTION_LEVEL_NAMES[2];
-        case CORRUPTION_CORRUPTED:
-            return CORRUPTION_LEVEL_NAMES[3];
-        case CORRUPTION_DAMNED:
-            return CORRUPTION_LEVEL_NAMES[4];
-        default:
-            return "Unknown";
-    }
+const char* corruption_tier_name(CorruptionTier tier) {
+    /* Map tier enum value to index (0-10) */
+    if (tier == 0) return CORRUPTION_TIER_NAMES[0];
+    else if (tier == 11) return CORRUPTION_TIER_NAMES[1];
+    else if (tier == 21) return CORRUPTION_TIER_NAMES[2];
+    else if (tier == 31) return CORRUPTION_TIER_NAMES[3];
+    else if (tier == 41) return CORRUPTION_TIER_NAMES[4];
+    else if (tier == 51) return CORRUPTION_TIER_NAMES[5];
+    else if (tier == 61) return CORRUPTION_TIER_NAMES[6];
+    else if (tier == 70) return CORRUPTION_TIER_NAMES[7];
+    else if (tier == 71) return CORRUPTION_TIER_NAMES[8];
+    else if (tier == 90) return CORRUPTION_TIER_NAMES[9];
+    else if (tier == 100) return CORRUPTION_TIER_NAMES[10];
+    else return "Unknown";
 }
 
 const char* corruption_get_description(const CorruptionState* state) {
@@ -135,22 +160,21 @@ const char* corruption_get_description(const CorruptionState* state) {
         return "Unknown corruption state";
     }
 
-    CorruptionLevel level = corruption_get_level(state);
+    CorruptionTier tier = corruption_get_tier(state);
 
-    switch (level) {
-        case CORRUPTION_PURE:
-            return CORRUPTION_DESCRIPTIONS[0];
-        case CORRUPTION_TAINTED:
-            return CORRUPTION_DESCRIPTIONS[1];
-        case CORRUPTION_COMPROMISED:
-            return CORRUPTION_DESCRIPTIONS[2];
-        case CORRUPTION_CORRUPTED:
-            return CORRUPTION_DESCRIPTIONS[3];
-        case CORRUPTION_DAMNED:
-            return CORRUPTION_DESCRIPTIONS[4];
-        default:
-            return "Unknown corruption state";
-    }
+    /* Map tier enum to description index */
+    if (tier == 0) return CORRUPTION_TIER_DESCRIPTIONS[0];
+    else if (tier == 11) return CORRUPTION_TIER_DESCRIPTIONS[1];
+    else if (tier == 21) return CORRUPTION_TIER_DESCRIPTIONS[2];
+    else if (tier == 31) return CORRUPTION_TIER_DESCRIPTIONS[3];
+    else if (tier == 41) return CORRUPTION_TIER_DESCRIPTIONS[4];
+    else if (tier == 51) return CORRUPTION_TIER_DESCRIPTIONS[5];
+    else if (tier == 61) return CORRUPTION_TIER_DESCRIPTIONS[6];
+    else if (tier == 70) return CORRUPTION_TIER_DESCRIPTIONS[7];
+    else if (tier == 71) return CORRUPTION_TIER_DESCRIPTIONS[8];
+    else if (tier == 90) return CORRUPTION_TIER_DESCRIPTIONS[9];
+    else if (tier == 100) return CORRUPTION_TIER_DESCRIPTIONS[10];
+    else return "Unknown corruption state";
 }
 
 float corruption_calculate_penalty(const CorruptionState* state) {
@@ -162,12 +186,20 @@ float corruption_calculate_penalty(const CorruptionState* state) {
     return state->corruption / 200.0f;
 }
 
+bool corruption_is_irreversible(const CorruptionState* state) {
+    if (!state) {
+        return false;
+    }
+
+    return state->corruption >= 70;
+}
+
 bool corruption_is_damned(const CorruptionState* state) {
     if (!state) {
         return false;
     }
 
-    return state->corruption >= CORRUPTION_DAMNED;
+    return state->corruption >= 90;
 }
 
 bool corruption_is_pure(const CorruptionState* state) {
@@ -175,7 +207,31 @@ bool corruption_is_pure(const CorruptionState* state) {
         return true;
     }
 
-    return state->corruption < CORRUPTION_TAINTED;
+    return state->corruption < 11;
+}
+
+bool corruption_revenant_available(const CorruptionState* state) {
+    if (!state) {
+        return false;
+    }
+
+    return state->corruption < 30;
+}
+
+bool corruption_wraith_available(const CorruptionState* state) {
+    if (!state) {
+        return false;
+    }
+
+    return state->corruption < 40;
+}
+
+bool corruption_archon_available(const CorruptionState* state) {
+    if (!state) {
+        return false;
+    }
+
+    return state->corruption >= 30 && state->corruption <= 60;
 }
 
 const CorruptionEvent* corruption_get_latest_event(const CorruptionState* state) {

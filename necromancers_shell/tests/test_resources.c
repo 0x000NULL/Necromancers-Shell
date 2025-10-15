@@ -295,52 +295,50 @@ void test_corruption_levels(void) {
     CorruptionState state;
     corruption_init(&state);
 
-    /* Test PURE level */
+    /* Test TIER_0 (Pristine) */
     state.corruption = 0;
-    TEST_ASSERT(corruption_get_level(&state) == CORRUPTION_PURE, "Should be PURE at 0");
+    TEST_ASSERT(corruption_get_tier(&state) == CORRUPTION_TIER_0, "Should be TIER_0 at 0");
     TEST_ASSERT(corruption_is_pure(&state) == true, "Should be pure");
     TEST_ASSERT(corruption_is_damned(&state) == false, "Should not be damned");
 
-    state.corruption = 19;
-    TEST_ASSERT(corruption_get_level(&state) == CORRUPTION_PURE, "Should be PURE at 19");
+    state.corruption = 10;
+    TEST_ASSERT(corruption_get_tier(&state) == CORRUPTION_TIER_0, "Should be TIER_0 at 10");
 
-    /* Test TAINTED level */
-    state.corruption = 20;
-    TEST_ASSERT(corruption_get_level(&state) == CORRUPTION_TAINTED, "Should be TAINTED at 20");
+    /* Test TIER_1 (Tainted) */
+    state.corruption = 15;
+    TEST_ASSERT(corruption_get_tier(&state) == CORRUPTION_TIER_1, "Should be TIER_1 at 15");
     TEST_ASSERT(corruption_is_pure(&state) == false, "Should not be pure");
 
-    /* Test COMPROMISED level */
-    state.corruption = 40;
-    TEST_ASSERT(corruption_get_level(&state) == CORRUPTION_COMPROMISED, "Should be COMPROMISED at 40");
+    /* Test TIER_7 (Irreversible threshold) */
+    state.corruption = 70;
+    TEST_ASSERT(corruption_get_tier(&state) == CORRUPTION_TIER_7, "Should be TIER_7 at 70");
+    TEST_ASSERT(corruption_is_irreversible(&state) == true, "Should be irreversible");
 
-    /* Test CORRUPTED level */
-    state.corruption = 60;
-    TEST_ASSERT(corruption_get_level(&state) == CORRUPTION_CORRUPTED, "Should be CORRUPTED at 60");
-
-    /* Test DAMNED level */
-    state.corruption = 80;
-    TEST_ASSERT(corruption_get_level(&state) == CORRUPTION_DAMNED, "Should be DAMNED at 80");
+    /* Test TIER_9 (Void-Touched) */
+    state.corruption = 90;
+    TEST_ASSERT(corruption_get_tier(&state) == CORRUPTION_TIER_9, "Should be TIER_9 at 90");
     TEST_ASSERT(corruption_is_damned(&state) == true, "Should be damned");
 
+    /* Test TIER_10 (Lich Lord) */
     state.corruption = 100;
-    TEST_ASSERT(corruption_get_level(&state) == CORRUPTION_DAMNED, "Should be DAMNED at 100");
+    TEST_ASSERT(corruption_get_tier(&state) == CORRUPTION_TIER_10, "Should be TIER_10 at 100");
 
     TEST_PASS();
 }
 
 void test_corruption_level_names(void) {
-    TEST_START("corruption_level_names");
+    TEST_START("corruption_tier_names");
 
-    TEST_ASSERT(strcmp(corruption_level_name(CORRUPTION_PURE), "Pure") == 0,
-                "PURE name should be 'Pure'");
-    TEST_ASSERT(strcmp(corruption_level_name(CORRUPTION_TAINTED), "Tainted") == 0,
-                "TAINTED name should be 'Tainted'");
-    TEST_ASSERT(strcmp(corruption_level_name(CORRUPTION_COMPROMISED), "Compromised") == 0,
-                "COMPROMISED name should be 'Compromised'");
-    TEST_ASSERT(strcmp(corruption_level_name(CORRUPTION_CORRUPTED), "Corrupted") == 0,
-                "CORRUPTED name should be 'Corrupted'");
-    TEST_ASSERT(strcmp(corruption_level_name(CORRUPTION_DAMNED), "Damned") == 0,
-                "DAMNED name should be 'Damned'");
+    TEST_ASSERT(strcmp(corruption_tier_name(CORRUPTION_TIER_0), "Pristine") == 0,
+                "TIER_0 name should be 'Pristine'");
+    TEST_ASSERT(strcmp(corruption_tier_name(CORRUPTION_TIER_1), "Tainted") == 0,
+                "TIER_1 name should be 'Tainted'");
+    TEST_ASSERT(strcmp(corruption_tier_name(CORRUPTION_TIER_7), "IRREVERSIBLE") == 0,
+                "TIER_7 name should be 'IRREVERSIBLE'");
+    TEST_ASSERT(strcmp(corruption_tier_name(CORRUPTION_TIER_8), "Damned") == 0,
+                "TIER_8 name should be 'Damned'");
+    TEST_ASSERT(strcmp(corruption_tier_name(CORRUPTION_TIER_10), "Lich Lord") == 0,
+                "TIER_10 name should be 'Lich Lord'");
 
     TEST_PASS();
 }
