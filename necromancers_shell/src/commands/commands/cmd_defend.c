@@ -71,8 +71,10 @@ CommandResult cmd_defend(ParsedCommand* cmd) {
     combat_log_message(combat, "%s takes a defensive stance! (+50%% defense)", active->name);
 
     /* Build result message */
-    char msg[256];
-    snprintf(msg, sizeof(msg),
+    char msg[512];
+    size_t offset = 0;
+
+    offset += snprintf(msg + offset, sizeof(msg) - offset,
         "%s defends!\nDefense increased: %u → %u (+50%%)",
         active->name, normal_defense, defending_defense);
 
@@ -97,10 +99,10 @@ CommandResult cmd_defend(ParsedCommand* cmd) {
         /* Check for victory/defeat */
         if (combat_check_victory(combat)) {
             combat_end(combat, COMBAT_OUTCOME_VICTORY);
-            strncat(msg, "\n\nVICTORY! All enemies defeated!", sizeof(msg) - strlen(msg) - 1);
+            offset += snprintf(msg + offset, sizeof(msg) - offset, "\n\nVICTORY! All enemies defeated!");
         } else if (combat_check_defeat(combat)) {
             combat_end(combat, COMBAT_OUTCOME_DEFEAT);
-            strncat(msg, "\n\nDEFEAT! All your forces have fallen!", sizeof(msg) - strlen(msg) - 1);
+            offset += snprintf(msg + offset, sizeof(msg) - offset, "\n\nDEFEAT! All your forces have fallen!");
         } else {
             /* Start new turn */
             combat->turn_number++;
@@ -113,9 +115,7 @@ CommandResult cmd_defend(ParsedCommand* cmd) {
 
             combat_log_message(combat, "\n--- Turn %u - Player Turn ---", combat->turn_number);
 
-            char turn_msg[64];
-            snprintf(turn_msg, sizeof(turn_msg), "\n\nTurn %u begins!", combat->turn_number);
-            strncat(msg, turn_msg, sizeof(msg) - strlen(msg) - 1);
+            offset += snprintf(msg + offset, sizeof(msg) - offset, "\n\nTurn %u begins!", combat->turn_number);
         }
     }
 

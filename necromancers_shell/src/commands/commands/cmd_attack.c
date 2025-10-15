@@ -100,27 +100,25 @@ CommandResult cmd_attack(ParsedCommand* cmd) {
     active->has_acted_this_turn = true;
 
     /* Build result message */
-    char msg[512];
+    char msg[1024];
+    size_t offset = 0;
+
     if (result.is_critical) {
-        snprintf(msg, sizeof(msg),
+        offset += snprintf(msg + offset, sizeof(msg) - offset,
             "CRITICAL HIT! %s deals %u damage to %s!",
             active->name, result.damage_dealt, target->name);
     } else {
-        snprintf(msg, sizeof(msg),
+        offset += snprintf(msg + offset, sizeof(msg) - offset,
             "%s deals %u damage to %s (%u base - %u mitigated)",
             active->name, result.damage_dealt, target->name,
             result.base_damage, result.mitigated_damage);
     }
 
     if (!target_alive) {
-        char death_msg[256];
-        snprintf(death_msg, sizeof(death_msg), "\n%s has been slain!", target->name);
-        strncat(msg, death_msg, sizeof(msg) - strlen(msg) - 1);
+        offset += snprintf(msg + offset, sizeof(msg) - offset, "\n%s has been slain!", target->name);
     } else {
-        char hp_msg[256];
-        snprintf(hp_msg, sizeof(hp_msg), "\n%s: %u/%u HP",
+        offset += snprintf(msg + offset, sizeof(msg) - offset, "\n%s: %u/%u HP",
             target->name, target->health, target->health_max);
-        strncat(msg, hp_msg, sizeof(msg) - strlen(msg) - 1);
     }
 
     /* Check if all player forces have acted */
@@ -144,10 +142,10 @@ CommandResult cmd_attack(ParsedCommand* cmd) {
         /* Check for victory/defeat */
         if (combat_check_victory(combat)) {
             combat_end(combat, COMBAT_OUTCOME_VICTORY);
-            strncat(msg, "\n\nVICTORY! All enemies defeated!", sizeof(msg) - strlen(msg) - 1);
+            offset += snprintf(msg + offset, sizeof(msg) - offset, "\n\nVICTORY! All enemies defeated!");
         } else if (combat_check_defeat(combat)) {
             combat_end(combat, COMBAT_OUTCOME_DEFEAT);
-            strncat(msg, "\n\nDEFEAT! All your forces have fallen!", sizeof(msg) - strlen(msg) - 1);
+            offset += snprintf(msg + offset, sizeof(msg) - offset, "\n\nDEFEAT! All your forces have fallen!");
         } else {
             /* Start new turn */
             combat->turn_number++;
@@ -160,9 +158,7 @@ CommandResult cmd_attack(ParsedCommand* cmd) {
 
             combat_log_message(combat, "\n--- Turn %u - Player Turn ---", combat->turn_number);
 
-            char turn_msg[64];
-            snprintf(turn_msg, sizeof(turn_msg), "\n\nTurn %u begins!", combat->turn_number);
-            strncat(msg, turn_msg, sizeof(msg) - strlen(msg) - 1);
+            offset += snprintf(msg + offset, sizeof(msg) - offset, "\n\nTurn %u begins!", combat->turn_number);
         }
     }
 
