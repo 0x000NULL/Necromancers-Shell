@@ -17,6 +17,11 @@
 #include "world/death_network.h"
 #include "resources/resources.h"
 #include "resources/corruption.h"
+#include "narrative/memory/memory_manager.h"
+#include "narrative/npcs/npc_manager.h"
+#include "narrative/relationships/relationship_manager.h"
+#include "narrative/quests/quest_manager.h"
+#include "narrative/dialogue/dialogue_manager.h"
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -38,6 +43,11 @@ typedef struct {
     CombatState* combat;            /**< Active combat state (NULL if not in combat) */
     Resources resources;            /**< Resources (energy, mana, time) */
     CorruptionState corruption;     /**< Corruption tracking */
+    MemoryManager* memories;        /**< Memory fragment collection */
+    NPCManager* npcs;               /**< NPC collection manager */
+    RelationshipManager* relationships; /**< Player-NPC relationships */
+    QuestManager* quests;           /**< Quest collection manager */
+    DialogueManager* dialogues;     /**< Dialogue collection manager */
     uint32_t current_location_id;   /**< ID of current location */
     uint32_t player_level;          /**< Player level */
     uint64_t player_experience;     /**< Player XP */

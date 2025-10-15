@@ -185,6 +185,18 @@ CommandResult cmd_upgrade(ParsedCommand* cmd);
 CommandResult cmd_skills(ParsedCommand* cmd);
 
 /**
+ * Game Commands (Phase 5 - Narrative)
+ */
+
+/**
+ * Memory Command
+ * Usage: memory [view <id>|stats]
+ *
+ * View discovered memory fragments. Shows your past memories and lore.
+ */
+CommandResult cmd_memory(ParsedCommand* cmd);
+
+/**
  * Game Commands (Phase 4 - Combat)
  */
 

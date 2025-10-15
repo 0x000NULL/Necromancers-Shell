@@ -346,6 +346,26 @@ static void register_game_commands(void) {
         if (command_registry_register(g_command_registry, &info)) registered++;
     }
 
+    /* Memory command */
+    {
+        CommandInfo info = {
+            .name = "memory",
+            .description = "View discovered memory fragments",
+            .usage = "memory [view <id>|stats]",
+            .help_text = "Explore your past through discovered memory fragments.\n"
+                        "  memory           - List all discovered fragments\n"
+                        "  memory view <id> - View full details of a fragment\n"
+                        "  memory stats     - Show discovery statistics",
+            .function = cmd_memory,
+            .flags = NULL,
+            .flag_count = 0,
+            .min_args = 0,
+            .max_args = 2,
+            .hidden = false
+        };
+        if (command_registry_register(g_command_registry, &info)) registered++;
+    }
+
     LOG_INFO("Registered %d game commands", registered);
 }
 

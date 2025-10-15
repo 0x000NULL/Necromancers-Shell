@@ -195,6 +195,7 @@ GameState* game_state_create(void) {
     state->minions = minion_manager_create(50);
     if (!state->minions) {
         LOG_ERROR("Failed to create minion manager");
+        death_network_destroy(state->death_network);
         territory_status_destroy(state->territory_status);
         world_map_destroy(state->world_map);
         location_graph_destroy(state->location_graph);
@@ -203,6 +204,89 @@ GameState* game_state_create(void) {
         free(state);
         return NULL;
     }
+
+    /* Initialize narrative systems */
+    state->memories = memory_manager_create();
+    if (!state->memories) {
+        LOG_ERROR("Failed to create memory manager");
+        minion_manager_destroy(state->minions);
+        death_network_destroy(state->death_network);
+        territory_status_destroy(state->territory_status);
+        world_map_destroy(state->world_map);
+        location_graph_destroy(state->location_graph);
+        territory_manager_destroy(state->territory);
+        soul_manager_destroy(state->souls);
+        free(state);
+        return NULL;
+    }
+
+    state->npcs = npc_manager_create();
+    if (!state->npcs) {
+        LOG_ERROR("Failed to create NPC manager");
+        memory_manager_destroy(state->memories);
+        minion_manager_destroy(state->minions);
+        death_network_destroy(state->death_network);
+        territory_status_destroy(state->territory_status);
+        world_map_destroy(state->world_map);
+        location_graph_destroy(state->location_graph);
+        territory_manager_destroy(state->territory);
+        soul_manager_destroy(state->souls);
+        free(state);
+        return NULL;
+    }
+
+    state->relationships = relationship_manager_create();
+    if (!state->relationships) {
+        LOG_ERROR("Failed to create relationship manager");
+        npc_manager_destroy(state->npcs);
+        memory_manager_destroy(state->memories);
+        minion_manager_destroy(state->minions);
+        death_network_destroy(state->death_network);
+        territory_status_destroy(state->territory_status);
+        world_map_destroy(state->world_map);
+        location_graph_destroy(state->location_graph);
+        territory_manager_destroy(state->territory);
+        soul_manager_destroy(state->souls);
+        free(state);
+        return NULL;
+    }
+
+    state->quests = quest_manager_create();
+    if (!state->quests) {
+        LOG_ERROR("Failed to create quest manager");
+        relationship_manager_destroy(state->relationships);
+        npc_manager_destroy(state->npcs);
+        memory_manager_destroy(state->memories);
+        minion_manager_destroy(state->minions);
+        death_network_destroy(state->death_network);
+        territory_status_destroy(state->territory_status);
+        world_map_destroy(state->world_map);
+        location_graph_destroy(state->location_graph);
+        territory_manager_destroy(state->territory);
+        soul_manager_destroy(state->souls);
+        free(state);
+        return NULL;
+    }
+
+    state->dialogues = dialogue_manager_create();
+    if (!state->dialogues) {
+        LOG_ERROR("Failed to create dialogue manager");
+        quest_manager_destroy(state->quests);
+        relationship_manager_destroy(state->relationships);
+        npc_manager_destroy(state->npcs);
+        memory_manager_destroy(state->memories);
+        minion_manager_destroy(state->minions);
+        death_network_destroy(state->death_network);
+        territory_status_destroy(state->territory_status);
+        world_map_destroy(state->world_map);
+        location_graph_destroy(state->location_graph);
+        territory_manager_destroy(state->territory);
+        soul_manager_destroy(state->souls);
+        free(state);
+        return NULL;
+    }
+
+    LOG_INFO("Narrative systems initialized successfully");
 
     /* Initialize resources */
     resources_init(&state->resources);
@@ -242,6 +326,14 @@ void game_state_destroy(GameState* state) {
         combat_state_destroy(state->combat);
     }
 
+    /* Destroy narrative systems */
+    dialogue_manager_destroy(state->dialogues);
+    quest_manager_destroy(state->quests);
+    relationship_manager_destroy(state->relationships);
+    npc_manager_destroy(state->npcs);
+    memory_manager_destroy(state->memories);
+
+    /* Destroy core systems */
     soul_manager_destroy(state->souls);
     minion_manager_destroy(state->minions);
     death_network_destroy(state->death_network);
