@@ -294,6 +294,9 @@ GameState* game_state_create(void) {
     /* Initialize corruption */
     corruption_init(&state->corruption);
 
+    /* Initialize consciousness */
+    consciousness_init(&state->consciousness);
+
     /* Initialize combat (NULL - not in combat) */
     state->combat = NULL;
 
@@ -410,8 +413,20 @@ void game_state_advance_time(GameState* state, uint32_t hours) {
         return;
     }
 
+    /* Record previous month for consciousness decay tracking */
+    uint32_t previous_month = resources_get_months_elapsed(&state->resources);
+
     /* Advance time */
     resources_advance_time(&state->resources, hours);
+
+    /* Check if we crossed a month boundary */
+    uint32_t current_month = resources_get_months_elapsed(&state->resources);
+    if (current_month > previous_month) {
+        /* Apply consciousness decay for the new month */
+        consciousness_apply_decay(&state->consciousness, current_month);
+        LOG_DEBUG("Month boundary crossed (%u -> %u), consciousness decayed to %.1f%%",
+                 previous_month, current_month, state->consciousness.stability);
+    }
 
     /* Regenerate mana (10 per hour) */
     uint32_t mana_regen = hours * 10;

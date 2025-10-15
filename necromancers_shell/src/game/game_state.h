@@ -17,6 +17,7 @@
 #include "world/death_network.h"
 #include "resources/resources.h"
 #include "resources/corruption.h"
+#include "resources/consciousness.h"
 #include "narrative/memory/memory_manager.h"
 #include "narrative/npcs/npc_manager.h"
 #include "narrative/relationships/relationship_manager.h"
@@ -43,6 +44,7 @@ typedef struct {
     CombatState* combat;            /**< Active combat state (NULL if not in combat) */
     Resources resources;            /**< Resources (energy, mana, time) */
     CorruptionState corruption;     /**< Corruption tracking */
+    ConsciousnessState consciousness; /**< Consciousness decay tracking */
     MemoryManager* memories;        /**< Memory fragment collection */
     NPCManager* npcs;               /**< NPC collection manager */
     RelationshipManager* relationships; /**< Player-NPC relationships */

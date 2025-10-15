@@ -11,6 +11,9 @@ void resources_init(Resources* resources) {
     resources->mana_max = 100;
     resources->day_count = 0;
     resources->time_hours = 0;
+    resources->day_of_month = 1;
+    resources->month = 0;
+    resources->year = 0;
 }
 
 bool resources_add_soul_energy(Resources* resources, uint32_t amount) {
@@ -108,6 +111,19 @@ void resources_advance_time(Resources* resources, uint32_t hours) {
     while (resources->time_hours >= 24) {
         resources->time_hours -= 24;
         resources->day_count++;
+
+        /* Update day of month */
+        resources->day_of_month++;
+        if (resources->day_of_month > 30) {
+            resources->day_of_month = 1;
+            resources->month++;
+
+            /* Update year */
+            if (resources->month >= 12) {
+                resources->month = 0;
+                resources->year++;
+            }
+        }
     }
 }
 
@@ -140,4 +156,28 @@ const char* resources_get_time_of_day(const Resources* resources) {
     } else {
         return "night";
     }
+}
+
+uint32_t resources_get_months_elapsed(const Resources* resources) {
+    if (!resources) {
+        return 0;
+    }
+    /* Total months = years * 12 + current month */
+    return (resources->year * 12) + resources->month;
+}
+
+uint32_t resources_get_years_elapsed(const Resources* resources) {
+    if (!resources) {
+        return 0;
+    }
+    return resources->year;
+}
+
+int resources_format_extended_time(const Resources* resources, char* buffer, size_t buffer_size) {
+    if (!resources || !buffer || buffer_size == 0) {
+        return 0;
+    }
+
+    return snprintf(buffer, buffer_size, "Year %u, Month %u, Day %u, %02u:00",
+                   resources->year, resources->month + 1, resources->day_of_month, resources->time_hours);
 }

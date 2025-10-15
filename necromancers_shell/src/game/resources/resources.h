@@ -22,8 +22,11 @@ typedef struct {
     uint32_t soul_energy;    /**< Current soul energy available */
     uint32_t mana;           /**< Current mana */
     uint32_t mana_max;       /**< Maximum mana capacity */
-    uint32_t day_count;      /**< Number of days elapsed since start */
+    uint32_t day_count;      /**< Total number of days elapsed since start */
     uint32_t time_hours;     /**< Current time in hours (0-23) */
+    uint32_t day_of_month;   /**< Day of current month (1-30) */
+    uint32_t month;          /**< Months elapsed since start (0-based) */
+    uint32_t year;           /**< Years elapsed since start (0-based) */
 } Resources;
 
 /**
@@ -152,5 +155,33 @@ int resources_format_time(const Resources* resources, char* buffer, size_t buffe
  * @return String describing the time of day
  */
 const char* resources_get_time_of_day(const Resources* resources);
+
+/**
+ * @brief Get total months elapsed since game start
+ *
+ * @param resources Pointer to resources structure
+ * @return Number of months elapsed
+ */
+uint32_t resources_get_months_elapsed(const Resources* resources);
+
+/**
+ * @brief Get total years elapsed since game start
+ *
+ * @param resources Pointer to resources structure
+ * @return Number of years elapsed
+ */
+uint32_t resources_get_years_elapsed(const Resources* resources);
+
+/**
+ * @brief Format extended time as a readable string
+ *
+ * Formats the current time as "Year X, Month Y, Day Z, HH:00"
+ *
+ * @param resources Pointer to resources structure
+ * @param buffer Buffer to write formatted string
+ * @param buffer_size Size of buffer
+ * @return Number of characters written (excluding null terminator)
+ */
+int resources_format_extended_time(const Resources* resources, char* buffer, size_t buffer_size);
 
 #endif /* RESOURCES_H */
