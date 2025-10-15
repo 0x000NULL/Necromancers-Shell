@@ -33,7 +33,6 @@ jobs:
           sudo apt-get install -y \
             libncurses5-dev \
             libncursesw5-dev \
-            valgrind \
             cppcheck
 
       # ===== Build =====
@@ -60,19 +59,14 @@ jobs:
         run: make analyze
 
       # ===== Memory Check =====
-      - name: Check for memory leaks
-        working-directory: necromancers_shell
-        run: |
-          make valgrind || true
-          if [ -f valgrind-out.txt ]; then
-            if grep -q "definitely lost: 0 bytes" valgrind-out.txt; then
-              echo "✓ No memory leaks detected"
-            else
-              echo "✗ Memory leaks detected!"
-              cat valgrind-out.txt
-              exit 1
-            fi
-          fi
+      # Note: Memory safety is checked via Address Sanitizer (ASan) and
+      # Undefined Behavior Sanitizer (UBSan) in the debug build above.
+      # Valgrind cannot run with ASan enabled, so we skip it.
+      # The sanitizers provide comprehensive memory checking including:
+      # - Memory leaks
+      # - Use-after-free
+      # - Buffer overflows
+      # - Undefined behavior
 
       # ===== Upload Artifacts =====
       - name: Upload build artifacts
@@ -94,6 +88,5 @@ jobs:
           name: logs-${{ matrix.platform }}
           path: |
             necromancers_shell/*.log
-            necromancers_shell/valgrind-out.txt
           if-no-files-found: ignore
           retention-days: 7
