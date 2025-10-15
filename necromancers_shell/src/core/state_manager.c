@@ -31,6 +31,7 @@ static const char* g_state_names[] = {
     [STATE_INIT] = "INIT",
     [STATE_MAIN_MENU] = "MAIN_MENU",
     [STATE_GAME_WORLD] = "GAME_WORLD",
+    [STATE_COMBAT] = "COMBAT",
     [STATE_DIALOGUE] = "DIALOGUE",
     [STATE_INVENTORY] = "INVENTORY",
     [STATE_PAUSE] = "PAUSE",

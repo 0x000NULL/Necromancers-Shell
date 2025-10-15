@@ -210,6 +210,9 @@ GameState* game_state_create(void) {
     /* Initialize corruption */
     corruption_init(&state->corruption);
 
+    /* Initialize combat (NULL - not in combat) */
+    state->combat = NULL;
+
     /* Set starting location (ID 1: Forgotten Graveyard) */
     state->current_location_id = 1;
 
@@ -230,6 +233,13 @@ GameState* game_state_create(void) {
 void game_state_destroy(GameState* state) {
     if (!state) {
         return;
+    }
+
+    /* Destroy combat state if active */
+    if (state->combat) {
+        /* Forward declaration - will include combat.h when building */
+        extern void combat_state_destroy(void*);
+        combat_state_destroy(state->combat);
     }
 
     soul_manager_destroy(state->souls);
