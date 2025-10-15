@@ -184,4 +184,48 @@ CommandResult cmd_upgrade(ParsedCommand* cmd);
  */
 CommandResult cmd_skills(ParsedCommand* cmd);
 
+/**
+ * Game Commands (Phase 4 - Combat)
+ */
+
+/**
+ * Attack Command
+ * Usage: attack <target_id>
+ *
+ * Attack an enemy combatant during combat.
+ */
+CommandResult cmd_attack(ParsedCommand* cmd);
+
+/**
+ * Defend Command
+ * Usage: defend
+ *
+ * Take a defensive stance in combat (+50% defense).
+ */
+CommandResult cmd_defend(ParsedCommand* cmd);
+
+/**
+ * Flee Command
+ * Usage: flee
+ *
+ * Attempt to escape from combat.
+ */
+CommandResult cmd_flee(ParsedCommand* cmd);
+
+/**
+ * Cast Command
+ * Usage: cast <spell> <target>
+ *
+ * Cast a combat spell on a target.
+ */
+CommandResult cmd_cast_combat(ParsedCommand* cmd);
+
+/**
+ * Register combat commands
+ *
+ * @param registry Command registry to register commands to
+ * @return Number of commands registered
+ */
+int register_combat_commands(struct CommandRegistry* registry);
+
 #endif /* COMMANDS_H */

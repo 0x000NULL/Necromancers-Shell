@@ -51,6 +51,10 @@ bool command_system_init(void) {
     int registered = register_builtin_commands(g_command_system.registry);
     LOG_INFO("Registered %d built-in commands", registered);
 
+    /* Register combat commands */
+    int combat_registered = register_combat_commands(g_command_system.registry);
+    LOG_INFO("Registered %d combat commands", combat_registered);
+
     /* Create input handler */
     g_command_system.input_handler = input_handler_create(g_command_system.registry);
     if (!g_command_system.input_handler) {

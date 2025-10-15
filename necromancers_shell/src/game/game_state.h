@@ -20,8 +20,9 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-/* Forward declaration for minion manager */
+/* Forward declarations */
 typedef struct MinionManager MinionManager;
+typedef struct CombatState CombatState;
 
 /**
  * @brief Central game state structure
@@ -34,6 +35,7 @@ typedef struct {
     WorldMap* world_map;            /**< World map visualization */
     TerritoryStatusManager* territory_status; /**< Territory control and alerts */
     DeathNetwork* death_network;    /**< Death Network for corpse generation */
+    CombatState* combat;            /**< Active combat state (NULL if not in combat) */
     Resources resources;            /**< Resources (energy, mana, time) */
     CorruptionState corruption;     /**< Corruption tracking */
     uint32_t current_location_id;   /**< ID of current location */

@@ -1,0 +1,150 @@
+# Enemy Definitions for Necromancer's Shell
+# Format: INI-style sections
+#
+# [ENEMY:enemy_id]
+# name = Display Name
+# type = ENEMY_TYPE (0=Paladin, 1=Priest, 2=Inquisitor, 3=Villager, 4=Guard, 5=RivalNecromancer)
+# hp = max health
+# attack = attack power
+# defense = defense rating
+# speed = speed rating
+# ai_behavior = AI pattern (0=Aggressive, 1=Defensive, 2=Balanced, 3=Support, 4=Tactical)
+# exp_reward = experience points
+# energy_reward = soul energy
+# description = Flavor text
+
+[ENEMY:paladin_01]
+name = Holy Paladin
+type = 0
+hp = 120
+attack = 35
+defense = 40
+speed = 8
+ai_behavior = 1
+exp_reward = 50
+energy_reward = 40
+description = A righteous warrior sworn to destroy the undead. Clad in blessed armor that glows with holy light.
+
+[ENEMY:priest_01]
+name = Village Priest
+type = 1
+hp = 60
+attack = 20
+defense = 15
+speed = 10
+ai_behavior = 3
+exp_reward = 35
+energy_reward = 30
+description = A servant of the Church who can heal allies and banish the unholy with sacred prayers.
+
+[ENEMY:inquisitor_01]
+name = Inquisitor Magnus
+type = 2
+hp = 80
+attack = 50
+defense = 20
+speed = 12
+ai_behavior = 0
+exp_reward = 60
+energy_reward = 50
+description = An elite undead hunter wielding silver blades and holy fire. They hunt necromancers relentlessly.
+
+[ENEMY:villager_01]
+name = Frightened Villager
+type = 3
+hp = 30
+attack = 5
+defense = 5
+speed = 6
+ai_behavior = 1
+exp_reward = 10
+energy_reward = 5
+description = A terrified civilian armed only with a pitchfork and desperation.
+
+[ENEMY:guard_01]
+name = Town Guard
+type = 4
+hp = 60
+attack = 25
+defense = 15
+speed = 9
+ai_behavior = 2
+exp_reward = 25
+energy_reward = 20
+description = A professional soldier trained in basic combat. Loyal to their lord and protective of civilians.
+
+[ENEMY:rival_necromancer_01]
+name = Magistrix Vex
+type = 5
+hp = 70
+attack = 40
+defense = 18
+speed = 11
+ai_behavior = 4
+exp_reward = 70
+energy_reward = 60
+description = A rival necromancer competing for power and resources. Cunning and ruthless in combat.
+
+# Additional enemy variants
+
+[ENEMY:paladin_elite]
+name = Paladin Commander
+type = 0
+hp = 150
+attack = 45
+defense = 50
+speed = 10
+ai_behavior = 1
+exp_reward = 75
+energy_reward = 60
+description = An elite paladin commander leading the church's forces against darkness.
+
+[ENEMY:priest_healer]
+name = High Priest
+type = 1
+hp = 80
+attack = 25
+defense = 20
+speed = 12
+ai_behavior = 3
+exp_reward = 50
+energy_reward = 45
+description = A senior cleric with powerful healing magic and divine protection.
+
+[ENEMY:inquisitor_zealot]
+name = Zealot Inquisitor
+type = 2
+hp = 100
+attack = 60
+defense = 25
+speed = 14
+ai_behavior = 0
+exp_reward = 80
+energy_reward = 70
+description = A fanatical inquisitor who shows no mercy to practitioners of dark arts.
+
+# Tutorial encounter enemies (weaker variants)
+
+[ENEMY:guard_recruit]
+name = Guard Recruit
+type = 4
+hp = 40
+attack = 15
+defense = 10
+speed = 8
+ai_behavior = 2
+exp_reward = 15
+energy_reward = 10
+description = A newly recruited guard still learning the basics of combat.
+
+[ENEMY:villager_militia]
+name = Militia Member
+type = 3
+hp = 35
+attack = 8
+defense = 7
+speed = 7
+ai_behavior = 1
+exp_reward = 12
+energy_reward = 8
+description = A villager who has taken up arms to defend their home.
