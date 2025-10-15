@@ -197,6 +197,50 @@ CommandResult cmd_skills(ParsedCommand* cmd);
 CommandResult cmd_memory(ParsedCommand* cmd);
 
 /**
+ * Game Commands (Phase 6 - Story Foundation)
+ */
+
+/**
+ * Message Command
+ * Usage: message <npc_id> <message>
+ *
+ * Send messages to NPCs (Regional Council, Thessara, gods).
+ */
+CommandResult cmd_message(ParsedCommand* cmd);
+
+/**
+ * Invoke Command
+ * Usage: invoke <god_name> [--offering <amount>]
+ *
+ * Invoke Divine Architects or perform divine summoning rituals.
+ */
+CommandResult cmd_invoke(ParsedCommand* cmd);
+
+/**
+ * Ritual Command
+ * Usage: ritual <type> [options]
+ *
+ * Perform necromantic rituals (phylactery, trial, offering, purification).
+ */
+CommandResult cmd_ritual(ParsedCommand* cmd);
+
+/**
+ * Free Command
+ * Usage: free <soul_id> [--permanent]
+ *
+ * Release bound souls from minions or free souls to afterlife.
+ */
+CommandResult cmd_free(ParsedCommand* cmd);
+
+/**
+ * Heal Command
+ * Usage: heal <minion_id> [--amount <hp>] [--use-mana]
+ *
+ * Heal damaged minions using soul energy or mana.
+ */
+CommandResult cmd_heal(ParsedCommand* cmd);
+
+/**
  * Game Commands (Phase 4 - Combat)
  */
 

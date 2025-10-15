@@ -366,6 +366,141 @@ static void register_game_commands(void) {
         if (command_registry_register(g_command_registry, &info)) registered++;
     }
 
+    /* Message command (Phase 6) */
+    {
+        CommandInfo info = {
+            .name = "message",
+            .description = "Send messages to NPCs",
+            .usage = "message <npc_id> <message>",
+            .help_text = "Communicate with NPCs in the game world.\n"
+                        "  Available NPCs:\n"
+                        "    Regional Council: vorgath, seraphine, mordak, echo, whisper, archivist\n"
+                        "    Special: thessara (requires discovery)\n"
+                        "    Gods: anara, keldrin, theros, myrith, vorathos, seraph, nexus",
+            .function = cmd_message,
+            .flags = NULL,
+            .flag_count = 0,
+            .min_args = 2,
+            .max_args = 2,
+            .hidden = false
+        };
+        if (command_registry_register(g_command_registry, &info)) registered++;
+    }
+
+    /* Invoke command (Phase 6) */
+    {
+        static FlagDefinition invoke_flags[] = {
+            {
+                .name = "offering",
+                .short_name = 'o',
+                .type = ARG_TYPE_INT,
+                .required = false,
+                .description = "Soul energy offering amount"
+            }
+        };
+        CommandInfo info = {
+            .name = "invoke",
+            .description = "Invoke Divine Architects",
+            .usage = "invoke <god_name> [--offering <amount>]",
+            .help_text = "Invoke the Seven Architects for communication or offerings.\n"
+                        "  Gods: anara, keldrin, theros, myrith, vorathos, seraph, nexus\n"
+                        "  Use --offering to spend soul energy for favor",
+            .function = cmd_invoke,
+            .flags = invoke_flags,
+            .flag_count = 1,
+            .min_args = 1,
+            .max_args = 1,
+            .hidden = false
+        };
+        if (command_registry_register(g_command_registry, &info)) registered++;
+    }
+
+    /* Ritual command (Phase 6) */
+    {
+        CommandInfo info = {
+            .name = "ritual",
+            .description = "Perform necromantic rituals",
+            .usage = "ritual <type> [options]",
+            .help_text = "Perform powerful necromantic rituals.\n"
+                        "  Types:\n"
+                        "    phylactery     - Create immortality vessel (500 energy, +20% corruption)\n"
+                        "    trial          - Attempt Trial of Ascension\n"
+                        "    purification   - Reduce corruption by 5% (100 mana)\n"
+                        "    offering       - Offer soul energy to gods",
+            .function = cmd_ritual,
+            .flags = NULL,
+            .flag_count = 0,
+            .min_args = 1,
+            .max_args = 1,
+            .hidden = false
+        };
+        if (command_registry_register(g_command_registry, &info)) registered++;
+    }
+
+    /* Free command (Phase 6) */
+    {
+        static FlagDefinition free_flags[] = {
+            {
+                .name = "permanent",
+                .short_name = 'p',
+                .type = ARG_TYPE_BOOL,
+                .required = false,
+                .description = "Permanently release soul to afterlife"
+            }
+        };
+        CommandInfo info = {
+            .name = "free",
+            .description = "Release bound souls",
+            .usage = "free <soul_id> [--permanent]",
+            .help_text = "Release souls from minions or free them entirely.\n"
+                        "  Without --permanent: Unbind from minion, keep in inventory\n"
+                        "  With --permanent: Release to afterlife, reduces corruption",
+            .function = cmd_free,
+            .flags = free_flags,
+            .flag_count = 1,
+            .min_args = 1,
+            .max_args = 1,
+            .hidden = false
+        };
+        if (command_registry_register(g_command_registry, &info)) registered++;
+    }
+
+    /* Heal command (Phase 6) */
+    {
+        static FlagDefinition heal_flags[] = {
+            {
+                .name = "amount",
+                .short_name = 'a',
+                .type = ARG_TYPE_INT,
+                .required = false,
+                .description = "Amount of HP to heal"
+            },
+            {
+                .name = "use-mana",
+                .short_name = 'm',
+                .type = ARG_TYPE_BOOL,
+                .required = false,
+                .description = "Use mana instead of soul energy (more efficient)"
+            }
+        };
+        CommandInfo info = {
+            .name = "heal",
+            .description = "Heal damaged minions",
+            .usage = "heal <minion_id> [--amount <hp>] [--use-mana]",
+            .help_text = "Restore minion health using resources.\n"
+                        "  Soul energy: 1 energy = 1 HP\n"
+                        "  Mana: 1 mana = 2 HP (more efficient)\n"
+                        "  Default: heal to full HP",
+            .function = cmd_heal,
+            .flags = heal_flags,
+            .flag_count = 2,
+            .min_args = 1,
+            .max_args = 1,
+            .hidden = false
+        };
+        if (command_registry_register(g_command_registry, &info)) registered++;
+    }
+
     LOG_INFO("Registered %d game commands", registered);
 }
 

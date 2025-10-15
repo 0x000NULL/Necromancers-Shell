@@ -1,0 +1,98 @@
+# Regional Council Necromancers
+# Six major necromancer characters with individual corruption, specializations, and armies
+
+[NECROMANCER:vorgath]
+name = Vorgath the Undying
+title = Military Commander
+corruption = 98
+army_size = 500
+specialization = Military Strategy
+personality = Pragmatic warlord, values strength and efficiency
+description = A towering figure clad in blackened armor, Vorgath commands the largest undead army in the region. His pragmatism borders on ruthlessness, but he honors his agreements.
+dialogue_trees = vorgath_first_meeting, vorgath_alliance_offer, vorgath_purge_warning, vorgath_endgame
+minion_types = death_knight:50, bone_dragon:5, wight:100, zombie:345
+territory_count = 12
+faction = Regional Council
+alliance_start = neutral
+location = fortress_of_eternal_night
+archetype = ally
+
+[NECROMANCER:seraphine_pale]
+name = Seraphine the Pale
+title = Soul Researcher
+corruption = 34
+army_size = 42
+specialization = Soul Science
+personality = Curious scholar, deeply conflicted about necromancy
+description = A gaunt woman with paper-white skin and haunted eyes. She seeks to understand the mechanics of souls, driven by a desperate hope to undo death itself.
+dialogue_trees = seraphine_introduction, seraphine_research_collab, seraphine_moral_crisis, seraphine_redemption
+minion_types = wraith:12, skeleton:20, spectre:10
+territory_count = 3
+faction = Regional Council
+alliance_start = neutral
+location = library_of_whispers
+archetype = mentor
+
+[NECROMANCER:mordak]
+name = Mordak Bonegrinder
+title = The Butcher
+corruption = 89
+army_size = 230
+specialization = Combat Magic
+personality = Sadistic, aggressive, enjoys causing suffering
+description = A hulking necromancer who delights in carnage. Sees all living beings as future additions to his army. Openly hostile to those he considers weak.
+dialogue_trees = mordak_confrontation, mordak_challenge, mordak_reformation, mordak_final_battle
+minion_types = ghoul:80, zombie:100, bone_golem:30, flesh_horror:20
+territory_count = 8
+faction = Regional Council
+alliance_start = hostile
+location = charnel_pits
+archetype = antagonist
+
+[NECROMANCER:thessara_echo]
+name = Thessara's Echo
+title = The Medium
+corruption = 52
+army_size = 15
+specialization = Spirit Communication
+personality = Enigmatic, speaks in dual voice, sometimes lucid sometimes channeling
+description = A medium who claims to channel the original Thessara. Whether genuine connection or elaborate delusion, she provides insights no living necromancer should possess.
+dialogue_trees = echo_first_contact, echo_thessara_messages, echo_ritual, echo_severing
+minion_types = spectre:10, shadow:5
+territory_count = 2
+faction = Regional Council
+alliance_start = neutral
+location = spirit_nexus
+archetype = mysterious
+
+[NECROMANCER:whisper]
+name = Whisper
+title = The Fragmented
+corruption = unknown
+army_size = unknown
+specialization = Wraith Existence
+personality = Distributed consciousness, speaks in overlapping voices, unstable
+description = Already achieved Wraith transformation. Exists as distributed consciousness across multiple fragments. Coherence varies wildly. Proof that the Wraith path is possible.
+dialogue_trees = whisper_fragments, whisper_warning, whisper_guidance, whisper_dissolution
+minion_types = none
+territory_count = 0
+faction = Regional Council
+alliance_start = neutral
+location = varies
+archetype = mysterious
+
+[NECROMANCER:archivist]
+name = The Archivist
+title = Historian of Death
+corruption = 45
+army_size = 5
+specialization = Knowledge and Statistics
+personality = Obsessive recorder, emotionally detached, values data above all
+description = An ancient necromancer who has dedicated centuries to recording the history of necromancy. Knows the fate of thousands of necromancers across history.
+dialogue_trees = archivist_records, archivist_statistics, archivist_purge_data, archivist_warnings
+minion_types = skeleton:5
+territory_count = 1
+faction = Regional Council
+alliance_start = neutral
+location = archive_of_endings
+archetype = neutral

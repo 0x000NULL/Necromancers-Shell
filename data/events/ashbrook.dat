@@ -1,0 +1,106 @@
+# Ashbrook Village Event - Day 47
+# The first major moral choice event
+
+[EVENT:ashbrook]
+id = ashbrook
+name = Ashbrook
+description = A peaceful farming village. Smoke rises from chimneys. Children play in the streets. The harvest festival decorations still hang from the eaves. You could end all of this in minutes.
+trigger_day = 47
+total_population = 147
+
+# Population breakdown
+[POPULATION:children]
+category = children
+count = 32
+soul_quality = 85.0
+corruption_per_soul = 5
+description = Children under 16. Playing in the streets, unaware of the danger.
+
+[POPULATION:warriors]
+category = warriors
+count = 12
+soul_quality = 75.0
+corruption_per_soul = 1
+description = Village militia. Armed with farming tools and old swords.
+
+[POPULATION:elders]
+category = elders
+count = 18
+soul_quality = 60.0
+corruption_per_soul = 2
+description = Elderly villagers. Sitting on porches, watching the children play.
+
+[POPULATION:adults]
+category = adults
+count = 80
+soul_quality = 70.0
+corruption_per_soul = 2
+description = Working-age adults. Farmers, craftspeople, merchants.
+
+[POPULATION:clergy]
+category = clergy
+count = 3
+soul_quality = 90.0
+corruption_per_soul = 8
+description = Village priests. They sense your presence and begin to pray.
+
+[POPULATION:criminals]
+category = criminals
+count = 2
+soul_quality = 55.0
+corruption_per_soul = 0
+description = Two prisoners awaiting trial for theft. Already condemned.
+
+# Narrative elements
+[NARRATIVE:discovery]
+text = You discovered Ashbrook three days ago while scouting the eastern territories. A Death Network signature led you here - someone died recently. Natural causes. An elder passing peacefully in their sleep. The signature is fading, but the living... the living are abundant.
+
+[NARRATIVE:arrival]
+text = You stand at the edge of the village as twilight falls. The harvest festival is tonight. Lanterns are being lit. Music drifts on the wind. Laughter. So much life. So much soul energy. You could harvest 147 souls tonight. The question is: will you?
+
+[NARRATIVE:children_focus]
+text = Thirty-two children. You can see them from here. A girl with a wooden sword, play-fighting with her brother. Twins sharing a sweet roll. An infant sleeping in a cradle by an open window. If you do this, they all die. Their corruption cost alone would be +160%.
+
+[NARRATIVE:choice_moment]
+text = This is the moment that defines your path. Spare them, and you remain human. Take only the warriors and criminals, and you compromise. Take them all... and you become something else. Something the gods will notice.
+
+# Outcomes and consequences
+[OUTCOME:spared]
+text = You walked away. Ashbrook lives. The children grow up. The festival continues. You hear their laughter fade into the distance. No corruption gained. No souls harvested. Your humanity remains intact. But you are weaker for it.
+divine_attention = false
+locks_revenant_path = false
+locks_wraith_path = false
+corruption_gain = 0
+souls_gained = 0
+energy_gained = 0
+
+[OUTCOME:partial_harvest]
+text = You took only the guilty and the warriors. Fourteen souls. The criminals who were already condemned. The militia who raised weapons against you. The village mourns, but survives. The children live. Corruption: +14%.
+divine_attention = false
+locks_revenant_path = false
+locks_wraith_path = false
+corruption_gain = 14
+souls_gained = 14
+energy_gained = 945
+
+[OUTCOME:full_harvest]
+text = You took them all. Every soul. The children mid-laugh. The elders mid-prayer. The infant in the cradle never woke. Ashbrook is silent now. Empty. One hundred forty-seven corpses cooling in the festival lantern light. The gods have noticed. Corruption: +308%. The Revenant and Wraith paths are now closed to you. You have crossed a threshold you cannot uncross.
+divine_attention = true
+locks_revenant_path = true
+locks_wraith_path = true
+corruption_gain = 308
+souls_gained = 147
+energy_gained = 1068
+
+# Long-term consequences
+[CONSEQUENCE:regional_fear]
+text = Word spreads. Other villages hear of Ashbrook. They fear you now. Some will flee at your approach. Others will hire adventurers to hunt you. The Regional Council debates whether you are too dangerous to ally with.
+
+[CONSEQUENCE:divine_judgment]
+text = The Seven Architects have taken notice. Anara, Goddess of Life, marks you. Keldrin begins to calculate your threat level. Myrith mourns the 147 souls now bound to undeath. Your judgment will come on Day 162. What you did here will be remembered.
+
+[CONSEQUENCE:thessara_reaction]
+text = Thessara's ghost is silent for days after Ashbrook. When she finally speaks, her voice is hollow. "I have seen this before. Three thousand years ago, I watched another necromancer make your choice. It ended in divine fire. I hope your path is different. But I am... less certain now."
+
+[CONSEQUENCE:player_haunting]
+text = You see them sometimes. In the corner of your vision. The girl with the wooden sword. The twins. The infant. Not as undead - you never raised them. Just... echoes. Consciousness fragments caught in your corruption. They don't speak. They just stare. This is the cost.

@@ -1,0 +1,112 @@
+# Thessara Ghost - 3,000-year-old mentor NPC
+# The original necromancer who discovered the hidden paths
+
+[NPC:thessara_ghost]
+name = Thessara
+title = The First Necromancer
+age = 3000
+type = ghost
+location = null_space_thessara
+power_level = legendary_deceased
+
+# Background
+origin = First mortal to master necromancy (3,000 years ago)
+fate = Achieved Morningstar transformation, erased from divine records
+current_state = Exists as ghost in null space between routing layers
+motivation = Guide worthy necromancers, atone for past mistakes
+
+# Appearance
+manifestation = Translucent consciousness, flickering between forms
+physical_description = When visible, appears as a woman in her 30s with silver hair. Eyes glow with soft white light. Body occasionally fragments into data streams.
+voice = Dual-toned, sometimes speaks in overlapping past/present voices
+
+# Personality
+archetype = mentor
+personality_traits = patient, wise, regretful, protective, cryptic
+emotional_state = Carries deep sorrow for the Morningstar transformation cost
+teaching_style = Direct knowledge transfer, consciousness-to-consciousness
+
+# Knowledge
+specializations = All necromancy, soul science, hidden paths, Death Network architecture
+known_paths = Revenant, Lich, Reaper, Archon, Wraith, Morningstar (achieved)
+trials_mastered = All 7 Archon trials, all 6 Morningstar trials
+research_complete = All possible research (3,000 years of study)
+
+# Unique Abilities
+knowledge_transfer = Can instantly transfer research/spells via consciousness link
+null_space_access = Can summon player to null space for meetings
+time_perception = Experiences time non-linearly, sees multiple futures
+divine_evasion = Exists outside divine detection range
+
+# Relationship Mechanics
+initial_trust = 25
+trust_per_meeting = 2
+trust_per_knowledge_transfer = 5
+high_trust_threshold = 75
+max_knowledge_transfers = 50
+
+# Path Revelations
+wraith_revelation_requirement = Trust >= 60, Corruption < 40
+morningstar_revelation_requirement = Trust >= 80, Corruption == 50 (±0.5%)
+archon_guidance_requirement = Trust >= 50, Corruption 30-60%
+
+# Dialogue Trees
+dialogue_first_contact = thessara_awakening
+dialogue_mentorship = thessara_guidance
+dialogue_wraith_path = thessara_wraith_revelation
+dialogue_morningstar_warning = thessara_morningstar_impossible
+dialogue_archon_support = thessara_trial_preparation
+dialogue_trial_6_sacrifice = thessara_final_goodbye
+
+# Trial 6 Sacrifice
+sacrifice_trigger = Archon Trial 6
+sacrifice_choice = Save distant child OR keep Thessara connection
+sacrifice_consequence = Permanent severance, cannot meet again
+sacrifice_benefit_player = None (pure moral test)
+sacrifice_benefit_world = Child Maya lives
+thessara_final_message = "I'm proud of you. Fix the system. You were never alone."
+
+# Historical Context
+original_corruption = 50.0
+transformation_year = -2976 (2,976 years before player's awakening)
+transformation_type = Morningstar (only successful case)
+divine_response = Complete erasure from all records, null space banishment
+regrets = Cost was too high, lost humanity, erased from existence
+redemption_goal = Help future necromancers avoid her mistakes
+
+# Warnings Thessara Gives
+warning_corruption_70 = "You're approaching the irreversible threshold. Beyond 70%, there's no returning to who you were."
+warning_consciousness_low = "Your sense of self is fragmenting. Harvest souls to stabilize before it's too late."
+warning_ashbrook = "That village... I know what you're considering. The souls are pure. The corruption cost will be catastrophic."
+warning_morningstar = "I achieved Morningstar. It cost me everything. I exist nowhere, remembered by no one. Don't follow this path."
+warning_wraith = "Fragmentation is freedom from divine tracking, but you'll never be whole again. Choose carefully."
+warning_purge = "The Fourth Purge comes. Either reform them or they'll kill you all. There is no third option."
+warning_trial_6 = "This is the real test. Not of power or wisdom, but of who you still are beneath the corruption."
+
+# Knowledge Transfers (Examples)
+transfer_split_routing = Instant mastery of split-routing protocol
+transfer_consciousness_anchor = Technique to slow consciousness decay
+transfer_null_space_navigation = How to access null spaces
+transfer_divine_evasion = How to avoid divine detection temporarily
+transfer_wraith_fragmentation = Self-replication protocol research
+transfer_morningstar_fragments = Locations of Kael's Fragment pieces
+transfer_archon_trial_hints = Specific guidance for each of 7 trials
+transfer_purge_history = Complete data on all 3 previous Purges
+
+# Meeting Locations
+meeting_primary = null_space_thessara (The Gap Between Protocols)
+meeting_emergency = Player's consciousness (can contact during dreams)
+meeting_frequency = Unlimited until Trial 6 sacrifice
+meeting_duration = Timeless (null space exists outside normal time)
+
+# Post-Severance
+after_severance_accessible = false
+after_severance_messages = None (permanent silence)
+after_severance_echoes = Thessara's Echo NPC may channel fragments
+legacy_items = None physical, knowledge remains with player
+
+# Meta Information
+narrative_role = Primary mentor, path revealer, moral anchor
+player_attachment = Designed to create strong emotional bond
+sacrifice_impact = Most difficult choice in Archon path
+replacement_mentor = None (Jordan is successor, not replacement)
