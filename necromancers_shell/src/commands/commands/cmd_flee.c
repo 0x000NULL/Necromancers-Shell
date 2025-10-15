@@ -94,13 +94,14 @@ CommandResult cmd_flee(ParsedCommand* cmd) {
     float roll = (float)rand() / (float)RAND_MAX;
     bool success = (roll < flee_chance);
 
-    char msg[512];
+    char msg[2048];  /* Increased buffer for multiple attack messages */
+    size_t offset = 0;
 
     if (success) {
         /* Successful flee */
         combat_log_message(combat, "Successfully fled from combat!");
 
-        snprintf(msg, sizeof(msg),
+        offset += snprintf(msg + offset, sizeof(msg) - offset,
             "You flee from combat! (Success chance: %d%%)\n"
             "\n"
             "Your forces retreat to safety.",
@@ -120,7 +121,7 @@ CommandResult cmd_flee(ParsedCommand* cmd) {
         /* Failed flee - enemies get free attacks */
         combat_log_message(combat, "Failed to flee! Enemies attack while you retreat!");
 
-        snprintf(msg, sizeof(msg),
+        offset += snprintf(msg + offset, sizeof(msg) - offset,
             "Failed to flee! (Success chance: %d%%)\n"
             "\n"
             "Enemies take advantage of your retreat!\n",
@@ -156,18 +157,16 @@ CommandResult cmd_flee(ParsedCommand* cmd) {
 
             bool alive = damage_apply_attack(combat, target, &result);
 
-            char attack_msg[512];
-            snprintf(attack_msg, sizeof(attack_msg),
+            offset += snprintf(msg + offset, sizeof(msg) - offset,
                 "\n%s hits %s for %u damage!%s",
                 enemy->name, target->name, result.damage_dealt,
                 alive ? "" : " SLAIN!");
-            strncat(msg, attack_msg, sizeof(msg) - strlen(msg) - 1);
         }
 
         /* Check if all player forces died */
         if (combat_check_defeat(combat)) {
             combat_end(combat, COMBAT_OUTCOME_DEFEAT);
-            strncat(msg, "\n\nDEFEAT! All your forces have fallen!", sizeof(msg) - strlen(msg) - 1);
+            offset += snprintf(msg + offset, sizeof(msg) - offset, "\n\nDEFEAT! All your forces have fallen!");
         } else {
             /* Continue combat - transition to enemy turn */
             combat->phase = COMBAT_PHASE_ENEMY_TURN;
@@ -179,7 +178,7 @@ CommandResult cmd_flee(ParsedCommand* cmd) {
             /* Check again for defeat */
             if (combat_check_defeat(combat)) {
                 combat_end(combat, COMBAT_OUTCOME_DEFEAT);
-                strncat(msg, "\n\nDEFEAT! All your forces have fallen!", sizeof(msg) - strlen(msg) - 1);
+                offset += snprintf(msg + offset, sizeof(msg) - offset, "\n\nDEFEAT! All your forces have fallen!");
             } else {
                 /* Start new turn */
                 combat->turn_number++;
@@ -192,9 +191,7 @@ CommandResult cmd_flee(ParsedCommand* cmd) {
 
                 combat_log_message(combat, "\n--- Turn %u - Player Turn ---", combat->turn_number);
 
-                char turn_msg[64];
-                snprintf(turn_msg, sizeof(turn_msg), "\n\nTurn %u begins!", combat->turn_number);
-                strncat(msg, turn_msg, sizeof(msg) - strlen(msg) - 1);
+                offset += snprintf(msg + offset, sizeof(msg) - offset, "\n\nTurn %u begins!", combat->turn_number);
             }
         }
     }
