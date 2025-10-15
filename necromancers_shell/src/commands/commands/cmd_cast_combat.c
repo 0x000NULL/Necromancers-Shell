@@ -174,8 +174,10 @@ CommandResult cmd_cast_combat(ParsedCommand* cmd) {
     /* Mark as acted */
     caster->has_acted_this_turn = true;
 
-    char msg[512];
-    snprintf(msg, sizeof(msg), "%s casts %s! (-%u mana)\n\n",
+    char msg[1024];  /* Increased buffer size for safety */
+    size_t offset = 0;
+
+    offset += snprintf(msg + offset, sizeof(msg) - offset, "%s casts %s! (-%u mana)\n\n",
         caster->name, spell->name, spell->mana_cost);
 
     /* Apply spell effect */
@@ -192,13 +194,11 @@ CommandResult cmd_cast_combat(ParsedCommand* cmd) {
         uint32_t heal = result.damage_dealt / 2;
         damage_apply_heal(combat, caster, heal);
 
-        char effect_msg[512];
-        snprintf(effect_msg, sizeof(effect_msg),
+        offset += snprintf(msg + offset, sizeof(msg) - offset,
             "%s takes %u necrotic damage\n%s heals for %u HP%s",
             target->name, result.damage_dealt,
             caster->name, heal,
             alive ? "" : "\n\nTarget slain!");
-        strncat(msg, effect_msg, sizeof(msg) - strlen(msg) - 1);
 
     } else if (strcasecmp(spell->name, "bolt") == 0) {
         /* Bolt: Pure damage */
@@ -209,12 +209,10 @@ CommandResult cmd_cast_combat(ParsedCommand* cmd) {
 
         bool alive = damage_apply_attack(combat, target, &result);
 
-        char effect_msg[256];
-        snprintf(effect_msg, sizeof(effect_msg),
+        offset += snprintf(msg + offset, sizeof(msg) - offset,
             "%s takes %u pure damage (ignores defense)%s",
             target->name, result.damage_dealt,
             alive ? "" : "\n\nTarget slain!");
-        strncat(msg, effect_msg, sizeof(msg) - strlen(msg) - 1);
 
     } else if (strcasecmp(spell->name, "weaken") == 0) {
         /* Weaken: Reduce defense (simplified - just log it) */
@@ -222,11 +220,9 @@ CommandResult cmd_cast_combat(ParsedCommand* cmd) {
         combat_log_message(combat, "%s's defense reduced by %u for 2 turns!",
             target->name, defense_reduction);
 
-        char effect_msg[256];
-        snprintf(effect_msg, sizeof(effect_msg),
+        offset += snprintf(msg + offset, sizeof(msg) - offset,
             "%s's defense weakened!\n-20%% defense (%u) for 2 turns",
             target->name, defense_reduction);
-        strncat(msg, effect_msg, sizeof(msg) - strlen(msg) - 1);
 
         /* Note: Full status effect system would be Phase 5 */
         /* For now, just log the effect */
@@ -253,10 +249,10 @@ CommandResult cmd_cast_combat(ParsedCommand* cmd) {
         /* Check victory/defeat */
         if (combat_check_victory(combat)) {
             combat_end(combat, COMBAT_OUTCOME_VICTORY);
-            strncat(msg, "\n\nVICTORY! All enemies defeated!", sizeof(msg) - strlen(msg) - 1);
+            offset += snprintf(msg + offset, sizeof(msg) - offset, "\n\nVICTORY! All enemies defeated!");
         } else if (combat_check_defeat(combat)) {
             combat_end(combat, COMBAT_OUTCOME_DEFEAT);
-            strncat(msg, "\n\nDEFEAT! All your forces have fallen!", sizeof(msg) - strlen(msg) - 1);
+            offset += snprintf(msg + offset, sizeof(msg) - offset, "\n\nDEFEAT! All your forces have fallen!");
         } else {
             /* New turn */
             combat->turn_number++;
@@ -268,9 +264,7 @@ CommandResult cmd_cast_combat(ParsedCommand* cmd) {
 
             combat_log_message(combat, "\n--- Turn %u - Player Turn ---", combat->turn_number);
 
-            char turn_msg[64];
-            snprintf(turn_msg, sizeof(turn_msg), "\n\nTurn %u begins!", combat->turn_number);
-            strncat(msg, turn_msg, sizeof(msg) - strlen(msg) - 1);
+            offset += snprintf(msg + offset, sizeof(msg) - offset, "\n\nTurn %u begins!", combat->turn_number);
         }
     }
 
