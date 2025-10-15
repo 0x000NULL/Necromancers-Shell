@@ -11,6 +11,7 @@
 #include "../../game/game_globals.h"
 #include "../../game/resources/resources.h"
 #include "../../game/resources/corruption.h"
+#include "../../game/souls/soul_manager.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -107,8 +108,8 @@ CommandResult cmd_invoke(ParsedCommand* cmd) {
     } else if (strcasecmp(god_name, "nexus") == 0) {
         fprintf(stream, "You invoke Nexus, God of Networks...\n\n");
         fprintf(stream, "[The Death Network hums with increased activity]\n\n");
-        fprintf(stream, "\"Query received. You have harvested %u souls to date.\n",
-                g_game_state->total_souls_harvested);
+        fprintf(stream, "\"Query received. You have harvested %zu souls to date.\n",
+                soul_manager_count(g_game_state->souls));
         fprintf(stream, "Network efficiency: %u%% optimal.\n",
                 100 - g_game_state->corruption.corruption / 2);
         fprintf(stream, "Continue optimizing soul flow protocols.\"\n\n");
@@ -132,10 +133,10 @@ CommandResult cmd_invoke(ParsedCommand* cmd) {
     }
 
     /* Spend offering if provided */
-    if (offering > 0 && strcasecmp(god_name, "anara") == 0 ||
+    if (offering > 0 && (strcasecmp(god_name, "anara") == 0 ||
         strcasecmp(god_name, "keldrin") == 0 ||
         strcasecmp(god_name, "vorathos") == 0 ||
-        strcasecmp(god_name, "nexus") == 0) {
+        strcasecmp(god_name, "nexus") == 0)) {
         resources_spend_soul_energy(&g_game_state->resources, offering);
         fprintf(stream, "\nOffering consumed: -%u soul energy\n", offering);
         fprintf(stream, "Remaining: %u\n", g_game_state->resources.soul_energy);

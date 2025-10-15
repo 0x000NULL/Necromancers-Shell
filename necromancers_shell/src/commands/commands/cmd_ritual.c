@@ -11,6 +11,7 @@
 #include "../../game/game_globals.h"
 #include "../../game/resources/resources.h"
 #include "../../game/resources/corruption.h"
+#include "../../game/souls/soul_manager.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -77,12 +78,12 @@ CommandResult cmd_ritual(ParsedCommand* cmd) {
         fprintf(stream, "The Seven Architects observe your progress.\n");
         fprintf(stream, "Your current state:\n");
         fprintf(stream, "  Corruption: %u%%\n", g_game_state->corruption.corruption);
-        fprintf(stream, "  Consciousness: %u%%\n", g_game_state->consciousness.level);
-        fprintf(stream, "  Souls Harvested: %u\n", g_game_state->total_souls_harvested);
+        fprintf(stream, "  Consciousness: %.1f%%\n", g_game_state->consciousness.stability);
+        fprintf(stream, "  Souls Harvested: %zu\n", soul_manager_count(g_game_state->souls));
         fprintf(stream, "  Day: %u\n\n", g_game_state->resources.day_count);
 
         if (g_game_state->corruption.corruption < 30 &&
-            g_game_state->consciousness.level > 70) {
+            g_game_state->consciousness.stability > 70) {
             fprintf(stream, "Anara nods approvingly. \"You maintain balance.\"\n");
         } else if (g_game_state->corruption.corruption > 70) {
             fprintf(stream, "Vorathos laughs. \"One of us now!\"\n");
@@ -162,7 +163,7 @@ CommandResult cmd_ritual(ParsedCommand* cmd) {
     fprintf(stream, "Soul Energy: %u\n", g_game_state->resources.soul_energy);
     fprintf(stream, "Mana: %u\n", g_game_state->resources.mana);
     fprintf(stream, "Corruption: %u%%\n", g_game_state->corruption.corruption);
-    fprintf(stream, "Consciousness: %u%%\n", g_game_state->consciousness.level);
+    fprintf(stream, "Consciousness: %.1f%%\n", g_game_state->consciousness.stability);
 
     fclose(stream);
 

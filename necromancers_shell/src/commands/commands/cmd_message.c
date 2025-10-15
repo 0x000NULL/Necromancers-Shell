@@ -61,8 +61,7 @@ CommandResult cmd_message(ParsedCommand* cmd) {
         fprintf(stream, "Trust level: Not yet implemented\n");
     } else if (strcasecmp(npc_id, "vorgath") == 0) {
         fprintf(stream, "[Vorgath the Unyielding responds with characteristic bluntness]\n\n");
-        fprintf(stream, "\"Speak plainly, %s. I have armies to command and territories\n",
-                g_game_state->player_name[0] ? g_game_state->player_name : "necromancer");
+        fprintf(stream, "\"Speak plainly, necromancer. I have armies to command and territories\n");
         fprintf(stream, "to conquer. Your message is noted.\"\n\n");
         fprintf(stream, "Alliance status: Not yet implemented\n");
     } else if (strcasecmp(npc_id, "seraphine") == 0) {

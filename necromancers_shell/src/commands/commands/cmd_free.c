@@ -130,7 +130,7 @@ CommandResult cmd_free(ParsedCommand* cmd) {
     fprintf(stream, "\n--- Current State ---\n");
     fprintf(stream, "Total souls: %zu\n", soul_manager_count(g_game_state->souls));
     fprintf(stream, "Corruption: %u%%\n", g_game_state->corruption.corruption);
-    fprintf(stream, "Consciousness: %u%%\n", g_game_state->consciousness.level);
+    fprintf(stream, "Consciousness: %.1f%%\n", g_game_state->consciousness.stability);
 
     fclose(stream);
 
