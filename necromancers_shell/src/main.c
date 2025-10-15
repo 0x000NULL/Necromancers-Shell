@@ -227,6 +227,125 @@ static void register_game_commands(void) {
         if (command_registry_register(g_command_registry, &info)) registered++;
     }
 
+    /* Map command */
+    {
+        static FlagDefinition map_flags[] = {
+            { .name = "width", .short_name = 'w', .type = ARG_TYPE_INT, .required = false,
+              .description = "Map width in characters (20-120)" },
+            { .name = "height", .short_name = 'h', .type = ARG_TYPE_INT, .required = false,
+              .description = "Map height in characters (10-40)" },
+            { .name = "no-legend", .short_name = 'n', .type = ARG_TYPE_BOOL, .required = false,
+              .description = "Hide legend" },
+            { .name = "show-all", .short_name = 'a', .type = ARG_TYPE_BOOL, .required = false,
+              .description = "Show undiscovered locations" }
+        };
+
+        CommandInfo info = {
+            .name = "map",
+            .description = "Display world map",
+            .usage = "map [--width <n>] [--height <n>] [--no-legend] [--show-all]",
+            .help_text = "Displays an ASCII map of the world with your current location.\n"
+                        "Use options to customize the display size and visibility.",
+            .function = cmd_map,
+            .flags = map_flags,
+            .flag_count = 4,
+            .min_args = 0,
+            .max_args = 0,
+            .hidden = false
+        };
+        if (command_registry_register(g_command_registry, &info)) registered++;
+    }
+
+    /* Route command */
+    {
+        static FlagDefinition route_flags[] = {
+            { .name = "show-map", .short_name = 'm', .type = ARG_TYPE_BOOL, .required = false,
+              .description = "Show map with highlighted route" }
+        };
+
+        CommandInfo info = {
+            .name = "route",
+            .description = "Plot path to destination",
+            .usage = "route <location_name|location_id> [--show-map]",
+            .help_text = "Calculates the optimal path to your destination.\n"
+                        "Shows travel time, danger level, and step-by-step directions.",
+            .function = cmd_route,
+            .flags = route_flags,
+            .flag_count = 1,
+            .min_args = 1,
+            .max_args = 1,
+            .hidden = false
+        };
+        if (command_registry_register(g_command_registry, &info)) registered++;
+    }
+
+    /* Research command */
+    {
+        CommandInfo info = {
+            .name = "research",
+            .description = "Manage research projects",
+            .usage = "research [info|start|current|cancel|completed] [<project_id>]",
+            .help_text = "View and manage research projects.\n"
+                        "  research              - List available projects\n"
+                        "  research info <id>    - View project details\n"
+                        "  research start <id>   - Start a research project\n"
+                        "  research current      - View current research\n"
+                        "  research cancel       - Cancel current research\n"
+                        "  research completed    - List completed projects",
+            .function = cmd_research,
+            .flags = NULL,
+            .flag_count = 0,
+            .min_args = 0,
+            .max_args = 2,
+            .hidden = false
+        };
+        if (command_registry_register(g_command_registry, &info)) registered++;
+    }
+
+    /* Upgrade command */
+    {
+        CommandInfo info = {
+            .name = "upgrade",
+            .description = "Manage skill tree",
+            .usage = "upgrade [info|unlock|branch|unlocked|reset] [<skill_id>|<branch_name>]",
+            .help_text = "View and unlock skills in the skill tree.\n"
+                        "  upgrade                - Show skill tree overview\n"
+                        "  upgrade info <id>      - View skill details\n"
+                        "  upgrade unlock <id>    - Unlock a skill\n"
+                        "  upgrade branch [name]  - View skills by branch\n"
+                        "  upgrade unlocked       - List unlocked skills\n"
+                        "  upgrade reset          - Reset all skills (debug)",
+            .function = cmd_upgrade,
+            .flags = NULL,
+            .flag_count = 0,
+            .min_args = 0,
+            .max_args = 2,
+            .hidden = false
+        };
+        if (command_registry_register(g_command_registry, &info)) registered++;
+    }
+
+    /* Skills command */
+    {
+        CommandInfo info = {
+            .name = "skills",
+            .description = "View active skills and bonuses",
+            .usage = "skills [bonuses|abilities|branch <name>]",
+            .help_text = "Display your active skills and stat bonuses.\n"
+                        "  skills              - Show all active skills\n"
+                        "  skills bonuses      - Show all stat bonuses\n"
+                        "  skills abilities    - Show unlocked abilities\n"
+                        "  skills branch <name> - Filter by skill branch",
+            .function = cmd_skills,
+            .flags = NULL,
+            .flag_count = 0,
+            .min_args = 0,
+            .max_args = 2,
+            .hidden = false
+        };
+        if (command_registry_register(g_command_registry, &info)) registered++;
+    }
+
     LOG_INFO("Registered %d game commands", registered);
 }
 

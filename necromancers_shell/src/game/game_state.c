@@ -5,6 +5,8 @@
 
 #include "game_state.h"
 #include "minions/minion_manager.h"
+#include "../data/data_loader.h"
+#include "../data/location_data.h"
 #include "../utils/logger.h"
 #include <stdlib.h>
 #include <string.h>
@@ -33,21 +35,169 @@ GameState* game_state_create(void) {
         return NULL;
     }
 
-    /* Load locations (hardcoded for now) */
-    size_t loaded = territory_manager_load_from_file(state->territory, NULL);
+    /* Load locations from data file */
+    DataFile* location_data = data_file_load("data/locations.dat");
+    size_t loaded = 0;
+    if (location_data) {
+        loaded = location_data_load_all(state->territory, location_data);
+        if (loaded > 0) {
+            LOG_INFO("Loaded %zu locations from data/locations.dat", loaded);
+        } else {
+            LOG_WARN("No locations loaded from data file, using fallback");
+        }
+    } else {
+        LOG_WARN("Could not load data/locations.dat, using fallback");
+    }
+
+    /* Fallback: Load hardcoded locations if data file failed */
     if (loaded == 0) {
-        LOG_ERROR("Failed to load any locations");
+        loaded = territory_manager_load_from_file(state->territory, NULL);
+        if (loaded == 0) {
+            LOG_ERROR("Failed to load any locations");
+            if (location_data) data_file_destroy(location_data);
+            territory_manager_destroy(state->territory);
+            soul_manager_destroy(state->souls);
+            free(state);
+            return NULL;
+        }
+        LOG_INFO("Loaded %zu fallback locations", loaded);
+    }
+
+    /* Initialize location graph */
+    state->location_graph = location_graph_create();
+    if (!state->location_graph) {
+        LOG_ERROR("Failed to create location graph");
+        if (location_data) data_file_destroy(location_data);
         territory_manager_destroy(state->territory);
         soul_manager_destroy(state->souls);
         free(state);
         return NULL;
     }
-    LOG_INFO("Loaded %zu locations", loaded);
+
+    /* Build graph connections from data file */
+    size_t connections = 0;
+    if (location_data) {
+        connections = location_data_build_connections(state->territory, location_data);
+        if (connections > 0) {
+            LOG_INFO("Built %zu location connections from data file", connections);
+        }
+        data_file_destroy(location_data);
+        location_data = NULL;
+    }
+
+    /* Fallback: Create default connections if none were loaded */
+    if (connections == 0) {
+        LOG_WARN("No connections loaded from data file, creating fallback connections");
+        location_graph_add_bidirectional(state->location_graph, 1, 2, 2, 10);
+        location_graph_add_bidirectional(state->location_graph, 2, 3, 3, 15);
+        location_graph_add_bidirectional(state->location_graph, 2, 4, 1, 5);
+        location_graph_add_bidirectional(state->location_graph, 3, 5, 2, 20);
+        location_graph_add_bidirectional(state->location_graph, 4, 5, 2, 12);
+    }
+
+    /* Initialize world map */
+    state->world_map = world_map_create(state->territory, state->location_graph);
+    if (!state->world_map) {
+        LOG_ERROR("Failed to create world map");
+        location_graph_destroy(state->location_graph);
+        territory_manager_destroy(state->territory);
+        soul_manager_destroy(state->souls);
+        free(state);
+        return NULL;
+    }
+
+    /* Auto-layout locations on map */
+    world_map_auto_layout(state->world_map, 100);
+
+    /* Initialize territory status manager */
+    state->territory_status = territory_status_create();
+    if (!state->territory_status) {
+        LOG_ERROR("Failed to create territory status manager");
+        world_map_destroy(state->world_map);
+        location_graph_destroy(state->location_graph);
+        territory_manager_destroy(state->territory);
+        soul_manager_destroy(state->souls);
+        free(state);
+        return NULL;
+    }
+
+    /* Initialize Death Network */
+    state->death_network = death_network_create();
+    if (!state->death_network) {
+        LOG_ERROR("Failed to create death network");
+        territory_status_destroy(state->territory_status);
+        world_map_destroy(state->world_map);
+        location_graph_destroy(state->location_graph);
+        territory_manager_destroy(state->territory);
+        soul_manager_destroy(state->souls);
+        free(state);
+        return NULL;
+    }
+
+    /* Populate Death Network with all locations */
+    size_t location_count = territory_manager_count(state->territory);
+    LOG_INFO("Populating Death Network with %zu locations", location_count);
+    for (uint32_t loc_id = 1; loc_id <= location_count; loc_id++) {
+        Location* loc = territory_manager_get_location(state->territory, loc_id);
+        if (loc) {
+            /* Set death signature based on location type */
+            uint8_t base_sig = 40;  /* Default moderate */
+            uint32_t max_corpses = 20;
+            uint8_t regen = 2;
+
+            switch (loc->type) {
+                case LOCATION_TYPE_GRAVEYARD:
+                    base_sig = 60; max_corpses = 30; regen = 3;
+                    break;
+                case LOCATION_TYPE_BATTLEFIELD:
+                    base_sig = 80; max_corpses = 50; regen = 5;
+                    break;
+                case LOCATION_TYPE_VILLAGE:
+                    base_sig = 30; max_corpses = 15; regen = 2;
+                    break;
+                case LOCATION_TYPE_CRYPT:
+                    base_sig = 70; max_corpses = 40; regen = 4;
+                    break;
+                case LOCATION_TYPE_RITUAL_SITE:
+                    base_sig = 50; max_corpses = 25; regen = 3;
+                    break;
+                default:
+                    break;
+            }
+
+            death_network_add_location(state->death_network, loc_id, base_sig, max_corpses, regen);
+
+            /* Set quality distribution based on location type */
+            if (loc->type == LOCATION_TYPE_BATTLEFIELD) {
+                /* Battlefields have higher quality */
+                death_network_set_quality_distribution(state->death_network, loc_id,
+                    30,  /* poor */
+                    35,  /* average */
+                    25,  /* good */
+                    8,   /* excellent */
+                    2    /* legendary */
+                );
+            } else if (loc->type == LOCATION_TYPE_CRYPT) {
+                /* Crypts have ancient souls */
+                death_network_set_quality_distribution(state->death_network, loc_id,
+                    20,  /* poor */
+                    30,  /* average */
+                    30,  /* good */
+                    15,  /* excellent */
+                    5    /* legendary */
+                );
+            }
+            /* Others use default distribution set by death_network_add_location */
+        }
+    }
 
     /* Initialize minion manager */
     state->minions = minion_manager_create(50);
     if (!state->minions) {
         LOG_ERROR("Failed to create minion manager");
+        territory_status_destroy(state->territory_status);
+        world_map_destroy(state->world_map);
+        location_graph_destroy(state->location_graph);
         territory_manager_destroy(state->territory);
         soul_manager_destroy(state->souls);
         free(state);
@@ -83,11 +233,20 @@ void game_state_destroy(GameState* state) {
     }
 
     soul_manager_destroy(state->souls);
-    territory_manager_destroy(state->territory);
     minion_manager_destroy(state->minions);
+    death_network_destroy(state->death_network);
+    territory_status_destroy(state->territory_status);
+    world_map_destroy(state->world_map);
+    location_graph_destroy(state->location_graph);
+    territory_manager_destroy(state->territory);
 
     free(state);
     LOG_INFO("Game state destroyed");
+}
+
+GameState* game_state_get_instance(void) {
+    extern GameState* g_game_state;
+    return g_game_state;
 }
 
 uint32_t game_state_next_soul_id(GameState* state) {
@@ -155,6 +314,11 @@ void game_state_advance_time(GameState* state, uint32_t hours) {
     /* Regenerate mana (10 per hour) */
     uint32_t mana_regen = hours * 10;
     resources_add_mana(&state->resources, mana_regen);
+
+    /* Update Death Network (regenerate corpses, decay signatures, random events) */
+    if (state->death_network) {
+        death_network_update(state->death_network, hours);
+    }
 
     LOG_DEBUG("Advanced time by %u hours (mana regen: %u)", hours, mana_regen);
 }

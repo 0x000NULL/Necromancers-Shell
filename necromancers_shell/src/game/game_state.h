@@ -11,12 +11,16 @@
 
 #include "souls/soul_manager.h"
 #include "world/territory.h"
+#include "world/location_graph.h"
+#include "world/world_map.h"
+#include "world/territory_status.h"
+#include "world/death_network.h"
 #include "resources/resources.h"
 #include "resources/corruption.h"
 #include <stdint.h>
 #include <stdbool.h>
 
-/* Forward declaration for minion manager (Week 9) */
+/* Forward declaration for minion manager */
 typedef struct MinionManager MinionManager;
 
 /**
@@ -24,8 +28,12 @@ typedef struct MinionManager MinionManager;
  */
 typedef struct {
     SoulManager* souls;             /**< Soul inventory manager */
-    MinionManager* minions;         /**< Minion army manager (NULL for now) */
+    MinionManager* minions;         /**< Minion army manager */
     TerritoryManager* territory;    /**< World locations and territory */
+    LocationGraph* location_graph;  /**< Location connectivity and pathfinding */
+    WorldMap* world_map;            /**< World map visualization */
+    TerritoryStatusManager* territory_status; /**< Territory control and alerts */
+    DeathNetwork* death_network;    /**< Death Network for corpse generation */
     Resources resources;            /**< Resources (energy, mana, time) */
     CorruptionState corruption;     /**< Corruption tracking */
     uint32_t current_location_id;   /**< ID of current location */
@@ -51,6 +59,13 @@ GameState* game_state_create(void);
  * @param state Game state to destroy (can be NULL)
  */
 void game_state_destroy(GameState* state);
+
+/**
+ * @brief Get global game state instance
+ *
+ * @return Pointer to global game state, or NULL if not initialized
+ */
+GameState* game_state_get_instance(void);
 
 /**
  * @brief Get next available soul ID and increment counter

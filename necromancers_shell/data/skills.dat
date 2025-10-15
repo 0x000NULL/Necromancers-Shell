@@ -1,0 +1,238 @@
+# Necromancer's Shell - Skill Definitions
+#
+# This file defines passive skills and abilities that permanently enhance the player.
+#
+# Each skill has:
+# - name: Display name
+# - description: What the skill does
+# - max_rank: Maximum investment level (1-5 typically)
+# - unlock_level: Player level required for rank 1
+# - category: combat, necromancy, utility, mastery
+# - prerequisite: Required skill ID (none if no prerequisite)
+# - effect_per_rank: Numerical effect scaling
+
+# ==============================================================================
+# COMBAT SKILLS
+# ==============================================================================
+
+[SKILL:shadow_affinity]
+name = Shadow Affinity
+description = Increases shadow spell damage and reduces mana cost of shadow spells.
+max_rank = 5
+unlock_level = 0
+category = combat
+prerequisite = none
+effect_per_rank = 10
+effect_type = damage_percent
+
+[SKILL:blood_magic]
+name = Blood Magic
+description = Increases effectiveness of life drain and blood spells. Also improves health-to-mana conversion.
+max_rank = 5
+unlock_level = 2
+category = combat
+prerequisite = none
+effect_per_rank = 8
+effect_type = healing_percent
+
+[SKILL:bone_mastery]
+name = Bone Mastery
+description = Bone spells deal more damage and have reduced cooldowns.
+max_rank = 5
+unlock_level = 4
+category = combat
+prerequisite = none
+effect_per_rank = 12
+effect_type = damage_percent
+
+[SKILL:death_touch]
+name = Death Touch
+description = All death magic ignores a portion of enemy defenses.
+max_rank = 3
+unlock_level = 7
+category = combat
+prerequisite = shadow_affinity
+effect_per_rank = 15
+effect_type = armor_penetration
+
+# ==============================================================================
+# NECROMANCY SKILLS
+# ==============================================================================
+
+[SKILL:efficient_raising]
+name = Efficient Raising
+description = Reduces soul energy cost of raising minions.
+max_rank = 5
+unlock_level = 0
+category = necromancy
+prerequisite = none
+effect_per_rank = 10
+effect_type = cost_reduction
+
+[SKILL:undead_vigor]
+name = Undead Vigor
+description = Increases health and defense of all raised minions.
+max_rank = 5
+unlock_level = 1
+category = necromancy
+prerequisite = efficient_raising
+effect_per_rank = 8
+effect_type = minion_stat_bonus
+
+[SKILL:dark_commander]
+name = Dark Commander
+description = Increases maximum number of controlled minions.
+max_rank = 3
+unlock_level = 3
+category = necromancy
+prerequisite = undead_vigor
+effect_per_rank = 2
+effect_type = minion_cap_increase
+
+[SKILL:soul_binding]
+name = Soul Binding
+description = Minions bound to souls gain additional stat bonuses.
+max_rank = 5
+unlock_level = 5
+category = necromancy
+prerequisite = undead_vigor
+effect_per_rank = 5
+effect_type = soul_bonus_mult
+
+[SKILL:eternal_servants]
+name = Eternal Servants
+description = Raised minions have a chance to revive after being destroyed.
+max_rank = 3
+unlock_level = 9
+category = necromancy
+prerequisite = dark_commander
+effect_per_rank = 15
+effect_type = revive_chance
+
+# ==============================================================================
+# UTILITY SKILLS
+# ==============================================================================
+
+[SKILL:soul_attunement]
+name = Soul Attunement
+description = Increases soul quality from harvested corpses.
+max_rank = 5
+unlock_level = 0
+category = utility
+prerequisite = none
+effect_per_rank = 5
+effect_type = quality_bonus
+
+[SKILL:mana_regeneration]
+name = Mana Regeneration
+description = Increases passive mana regeneration rate.
+max_rank = 5
+unlock_level = 1
+category = utility
+prerequisite = none
+effect_per_rank = 20
+effect_type = regen_percent
+
+[SKILL:dark_meditation]
+name = Dark Meditation
+description = Increases maximum mana pool.
+max_rank = 5
+unlock_level = 3
+category = utility
+prerequisite = mana_regeneration
+effect_per_rank = 50
+effect_type = max_mana_increase
+
+[SKILL:corpse_finder]
+name = Corpse Finder
+description = Reveals additional corpses when scanning locations.
+max_rank = 3
+unlock_level = 2
+category = utility
+prerequisite = soul_attunement
+effect_per_rank = 10
+effect_type = corpse_bonus
+
+[SKILL:territorial_control]
+name = Territorial Control
+description = Increases control gained when conquering locations.
+max_rank = 5
+unlock_level = 6
+category = utility
+prerequisite = none
+effect_per_rank = 10
+effect_type = control_bonus
+
+# ==============================================================================
+# MASTERY SKILLS (High Level)
+# ==============================================================================
+
+[SKILL:necromantic_mastery]
+name = Necromantic Mastery
+description = Increases all necromancy spell effects and minion stats. Ultimate necromancy skill.
+max_rank = 3
+unlock_level = 10
+category = mastery
+prerequisite = dark_commander
+effect_per_rank = 15
+effect_type = all_necromancy
+
+[SKILL:shadow_lord]
+name = Shadow Lord
+description = All shadow and death spells have increased potency and reduced costs.
+max_rank = 3
+unlock_level = 10
+category = mastery
+prerequisite = death_touch
+effect_per_rank = 12
+effect_type = all_shadow
+
+[SKILL:life_leech]
+name = Life Leech
+description = All damage dealt heals you for a percentage. Vampiric mastery.
+max_rank = 3
+unlock_level = 12
+category = mastery
+prerequisite = blood_magic
+effect_per_rank = 5
+effect_type = lifesteal_percent
+
+[SKILL:soul_collector]
+name = Soul Collector
+description = Automatically harvest souls from enemies killed by your spells or minions.
+max_rank = 3
+unlock_level = 11
+category = mastery
+prerequisite = soul_attunement
+effect_per_rank = 25
+effect_type = auto_harvest_chance
+
+[SKILL:immortal_legion]
+name = Immortal Legion
+description = Minions gain experience faster and level cap is increased.
+max_rank = 3
+unlock_level = 13
+category = mastery
+prerequisite = eternal_servants
+effect_per_rank = 50
+effect_type = xp_bonus
+
+# ==============================================================================
+# NOTES FOR GAME BALANCE
+# ==============================================================================
+#
+# Skill Categories:
+#   - Combat: Direct damage and combat effectiveness
+#   - Necromancy: Minion-related bonuses
+#   - Utility: Resource management and exploration
+#   - Mastery: Late-game powerful bonuses
+#
+# Rank Scaling:
+#   - Most skills: 5 ranks (incremental improvement)
+#   - Important skills: 3 ranks (significant per rank)
+#   - Mastery skills: 3 ranks (powerful, late game)
+#
+# Prerequisites:
+#   - Create skill trees with meaningful choices
+#   - Force specialization (can't max everything)
+#   - Reward focused builds

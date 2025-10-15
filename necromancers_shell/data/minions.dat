@@ -1,0 +1,129 @@
+# Necromancer's Shell - Minion Type Definitions
+#
+# This file defines the base statistics and properties for all minion types.
+#
+# Each minion type has:
+# - name: Display name
+# - description: Lore and gameplay description
+# - base_health: Starting health points
+# - base_attack: Base attack power
+# - base_defense: Base defense rating
+# - base_speed: Speed rating (affects turn order)
+# - base_loyalty: Starting loyalty (0-100)
+# - raise_cost: Soul energy cost to raise this type
+# - unlock_level: Player level required to unlock (0 = available from start)
+
+# ==============================================================================
+# TIER 1: Basic Undead (Available from start)
+# ==============================================================================
+
+[MINION:zombie]
+name = Zombie
+description = A shambling corpse animated by dark magic. Slow but resilient, zombies serve as frontline tanks. Their rotting flesh absorbs damage, but their sluggish movements make them vulnerable to quick enemies.
+base_health = 100
+base_attack = 15
+base_defense = 20
+base_speed = 5
+base_loyalty = 90
+raise_cost = 50
+unlock_level = 0
+role = tank
+specialization = melee_defense
+
+[MINION:skeleton]
+name = Skeleton
+description = Reanimated bones held together by necromantic energy. Fast and agile, skeletons excel at hit-and-run tactics. Their lack of flesh makes them fragile, but their speed compensates.
+base_health = 50
+base_attack = 25
+base_defense = 10
+base_speed = 15
+base_loyalty = 85
+raise_cost = 75
+unlock_level = 0
+role = scout
+specialization = speed_attack
+
+# ==============================================================================
+# TIER 2: Advanced Undead (Requires some progression)
+# ==============================================================================
+
+[MINION:ghoul]
+name = Ghoul
+description = A feral undead creature driven by insatiable hunger. Ghouls are aggressive melee combatants with powerful claws. Their bestial nature makes them harder to control but devastatingly effective in close quarters.
+base_health = 80
+base_attack = 30
+base_defense = 15
+base_speed = 10
+base_loyalty = 70
+raise_cost = 125
+unlock_level = 3
+role = striker
+specialization = melee_burst
+
+[MINION:wraith]
+name = Wraith
+description = An ethereal spirit bound to the mortal plane. Wraiths phase through physical defenses and wield spectral magic. Their incorporeal form makes them hard to hit but leaves them vulnerable to holy magic.
+base_health = 60
+base_attack = 35
+base_defense = 8
+base_speed = 20
+base_loyalty = 75
+raise_cost = 200
+unlock_level = 5
+role = caster
+specialization = shadow_magic
+
+# ==============================================================================
+# TIER 3: Elite Undead (Late game, powerful)
+# ==============================================================================
+
+[MINION:wight]
+name = Wight
+description = The animated remains of a fallen warrior, retaining fragments of their combat skills. Wights are elite frontline fighters with high health and devastating attacks. Their ancient armor still bears the scars of countless battles.
+base_health = 120
+base_attack = 40
+base_defense = 25
+base_speed = 12
+base_loyalty = 80
+raise_cost = 350
+unlock_level = 8
+role = elite_warrior
+specialization = balanced_combat
+
+[MINION:revenant]
+name = Revenant
+description = A powerful undead created from a soul with unfinished business. Revenants retain much of their former intelligence and combat prowess. They are the most powerful minions, but their strong will makes them harder to control.
+base_health = 150
+base_attack = 50
+base_defense = 30
+base_speed = 15
+base_loyalty = 65
+raise_cost = 500
+unlock_level = 12
+role = champion
+specialization = overwhelming_power
+
+# ==============================================================================
+# NOTES FOR GAME BALANCE
+# ==============================================================================
+#
+# Cost Progression:
+#   Zombie:    50 SE  (Tier 1 tank)
+#   Skeleton:  75 SE  (Tier 1 scout)
+#   Ghoul:    125 SE  (Tier 2 striker)
+#   Wraith:   200 SE  (Tier 2 caster)
+#   Wight:    350 SE  (Tier 3 elite)
+#   Revenant: 500 SE  (Tier 3 champion)
+#
+# Loyalty Trade-off:
+#   Lower loyalty = more powerful but harder to control
+#   High loyalty types (Zombie 90%, Skeleton 85%) are reliable
+#   Low loyalty types (Revenant 65%, Ghoul 70%) may disobey
+#
+# Role System:
+#   Tank: High HP/Def, low speed (Zombie)
+#   Scout: High speed, low HP/Def (Skeleton)
+#   Striker: High attack, moderate stats (Ghoul)
+#   Caster: Special abilities, low defense (Wraith)
+#   Elite: High all-around stats (Wight)
+#   Champion: Dominant in all areas (Revenant)

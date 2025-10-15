@@ -1,0 +1,261 @@
+# Necromancer's Shell - Location Definitions
+# Format: [LOCATION:id] followed by properties
+# All locations in the game world with their metadata
+
+# ============================================================================
+# STARTING GROUNDS - Tutorial and Early Game
+# ============================================================================
+
+[LOCATION:graveyard_blackwood]
+name = Blackwood Graveyard
+type = graveyard
+description = A decrepit cemetery shrouded in perpetual mist. Weathered tombstones lean at odd angles, and the air reeks of decay. This is where it all began.
+corpse_count = 150
+soul_quality_avg = 45
+control_level = 100
+defense_strength = 10
+discovered = true
+connections = battlefield_crimson_plains,village_millhaven
+region = STARTING_GROUNDS
+map_x = 10
+map_y = 10
+symbol = @
+
+[LOCATION:battlefield_crimson_plains]
+name = Crimson Plains
+type = battlefield
+description = A vast battlefield littered with the remains of a great war. The ground is permanently stained crimson, and bones protrude from the scorched earth like grotesque flowers.
+corpse_count = 300
+soul_quality_avg = 65
+control_level = 0
+defense_strength = 50
+discovered = false
+connections = graveyard_blackwood,crypt_ancient_vault,village_thornhaven,ritual_site_stone_circle
+region = EASTERN_WASTES
+map_x = 25
+map_y = 12
+symbol = B
+
+[LOCATION:village_millhaven]
+name = Millhaven
+type = village
+description = A small farming village, blissfully unaware of the darkness stirring in the nearby graveyard. Wheat fields sway in the breeze, and smoke rises from chimneys at dusk.
+corpse_count = 80
+soul_quality_avg = 35
+control_level = 0
+defense_strength = 100
+discovered = false
+connections = graveyard_blackwood,village_thornhaven,crypt_forgotten_tombs
+region = SOUTHERN_VILLAGES
+map_x = 15
+map_y = 20
+symbol = V
+
+# ============================================================================
+# EASTERN WASTES - Mid Game Combat Zones
+# ============================================================================
+
+[LOCATION:village_thornhaven]
+name = Thornhaven Garrison
+type = village
+description = A fortified garrison town on the edge of civilization. Church soldiers patrol the walls, vigilant against the undead threat. Brother Aldric commands from here.
+corpse_count = 120
+soul_quality_avg = 55
+control_level = 0
+defense_strength = 200
+discovered = false
+connections = battlefield_crimson_plains,village_millhaven,crypt_ancient_vault
+region = SOUTHERN_VILLAGES
+map_x = 20
+map_y = 18
+symbol = V
+
+[LOCATION:crypt_ancient_vault]
+name = Ancient Vault of Kings
+type = crypt
+description = The burial place of forgotten monarchs. Stone sarcophagi line marble halls, and the air hums with residual magical energy. Rich souls linger here.
+corpse_count = 200
+soul_quality_avg = 75
+control_level = 0
+defense_strength = 80
+discovered = false
+connections = battlefield_crimson_plains,village_thornhaven,ritual_site_stone_circle
+region = NORTHERN_CRYPTS
+map_x = 28
+map_y = 5
+symbol = C
+
+# ============================================================================
+# NORTHERN CRYPTS - High-Value Soul Sources
+# ============================================================================
+
+[LOCATION:crypt_forgotten_tombs]
+name = Forgotten Tombs
+type = crypt
+description = A labyrinth of ancient burial chambers beneath the earth. Collapsed passages and sealed doors hide forgotten treasures and powerful souls.
+corpse_count = 180
+soul_quality_avg = 70
+control_level = 0
+defense_strength = 60
+discovered = false
+connections = village_millhaven,ritual_site_shadow_grove
+region = NORTHERN_CRYPTS
+map_x = 12
+map_y = 3
+symbol = C
+
+[LOCATION:crypt_ossuary_depths]
+name = The Ossuary Depths
+type = crypt
+description = A vast underground cathedral built entirely from bones. Thousands of skulls line the walls, their empty sockets watching in silent judgment.
+corpse_count = 250
+soul_quality_avg = 80
+control_level = 0
+defense_strength = 100
+discovered = false
+connections = ritual_site_stone_circle,ritual_site_shadow_grove,central_nexus_blackspire
+region = NORTHERN_CRYPTS
+map_x = 18
+map_y = 2
+symbol = C
+
+# ============================================================================
+# RITUAL SITES - Magical Power Locations
+# ============================================================================
+
+[LOCATION:ritual_site_stone_circle]
+name = Whispering Stone Circle
+type = ritual_site
+description = Ancient standing stones arranged in a perfect circle. During the full moon, whispers echo from the stones—fragments of rituals performed millennia ago.
+corpse_count = 50
+soul_quality_avg = 90
+control_level = 0
+defense_strength = 30
+discovered = false
+connections = battlefield_crimson_plains,crypt_ancient_vault,crypt_ossuary_depths
+region = EASTERN_WASTES
+map_x = 32
+map_y = 8
+symbol = R
+
+[LOCATION:ritual_site_shadow_grove]
+name = Shadow Grove
+type = ritual_site
+description = A grove where no sunlight penetrates the twisted canopy. The trees themselves seem to pulse with dark energy, and shadows move independently of their sources.
+corpse_count = 40
+soul_quality_avg = 85
+control_level = 0
+defense_strength = 40
+discovered = false
+connections = crypt_forgotten_tombs,crypt_ossuary_depths
+region = NORTHERN_CRYPTS
+map_x = 8
+map_y = 5
+symbol = R
+
+[LOCATION:ritual_site_obsidian_sanctum]
+name = Obsidian Sanctum
+type = ritual_site
+description = A temple carved from a single massive obsidian monolith. The walls reflect distorted images—not of the present, but of possible futures.
+corpse_count = 30
+soul_quality_avg = 95
+control_level = 0
+defense_strength = 50
+discovered = false
+connections = central_nexus_blackspire
+region = RITUAL_SITES
+map_x = 23
+map_y = 25
+symbol = R
+
+# ============================================================================
+# CENTRAL NEXUS - Endgame Hub
+# ============================================================================
+
+[LOCATION:central_nexus_blackspire]
+name = Blackspire Tower
+type = ritual_site
+description = Your dark sanctum, a towering spire of black stone that pierces the sky. From here, you command your undead armies and conduct your most powerful rituals. The Death Network converges here.
+corpse_count = 100
+soul_quality_avg = 100
+control_level = 100
+defense_strength = 500
+discovered = true
+connections = crypt_ossuary_depths,ritual_site_obsidian_sanctum,battlefield_crimson_plains
+region = CENTRAL_NEXUS
+map_x = 18
+map_y = 15
+symbol = @
+special_flags = player_base,upgradeable,network_hub
+
+# ============================================================================
+# LATE GAME LOCATIONS - Challenging Areas
+# ============================================================================
+
+[LOCATION:battlefield_ashen_wastes]
+name = The Ashen Wastes
+type = battlefield
+description = The site of a cataclysmic magical battle centuries ago. Nothing grows here, and the very air crackles with unstable magical energy. Powerful but corrupted souls linger.
+corpse_count = 400
+soul_quality_avg = 85
+control_level = 0
+defense_strength = 150
+discovered = false
+connections = central_nexus_blackspire
+region = EASTERN_WASTES
+map_x = 30
+map_y = 22
+symbol = B
+special_flags = high_corruption,late_game
+
+[LOCATION:village_last_bastion]
+name = Last Bastion of the Light
+type = village
+description = The Church's final fortress. Paladins and priests make their last stand here. Taking this location will require all your cunning and power.
+corpse_count = 200
+soul_quality_avg = 90
+control_level = 0
+defense_strength = 500
+discovered = false
+connections = central_nexus_blackspire
+region = SOUTHERN_VILLAGES
+map_x = 5
+map_y = 25
+symbol = V
+special_flags = endgame,boss_location
+
+[LOCATION:crypt_cathedral_of_bones]
+name = Cathedral of Bones
+type = crypt
+description = The legendary necromancer Vex's former stronghold. Now abandoned, but her experiments remain—and some are still active. Dangerous, but invaluable knowledge awaits within.
+corpse_count = 300
+soul_quality_avg = 95
+control_level = 0
+defense_strength = 200
+discovered = false
+connections = central_nexus_blackspire
+region = NORTHERN_CRYPTS
+map_x = 25
+map_y = 1
+symbol = C
+special_flags = late_game,rival_location
+
+# ============================================================================
+# SECRET LOCATIONS - Optional Content
+# ============================================================================
+
+[LOCATION:ritual_site_void_nexus]
+name = The Void Nexus
+type = ritual_site
+description = A tear in reality itself. Those who gaze too long into the Void feel their sanity slip away. The most powerful and corrupted souls are drawn here like moths to flame.
+corpse_count = 20
+soul_quality_avg = 100
+control_level = 0
+defense_strength = 10
+discovered = false
+connections = crypt_cathedral_of_bones,ritual_site_obsidian_sanctum
+region = RITUAL_SITES
+map_x = 30
+map_y = 30
+symbol = R
+special_flags = secret,endgame,high_corruption,ending_location
