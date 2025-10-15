@@ -264,7 +264,7 @@ necromancers_shell/
 
 ---
 
-### Phase 3: World Building (Weeks 11-14) 
+### Phase 3: World Building (Weeks 11-14)  [Done]
 
 **Goal**: Create the game world and progression systems
 
@@ -297,7 +297,7 @@ necromancers_shell/
 
 ---
 
-### Phase 4: Combat System (Weeks 15-18)
+### Phase 4: Combat System (Weeks 15-18) [Done]
 
 **Goal**: Implement turn-based combat
 
@@ -330,7 +330,7 @@ necromancers_shell/
 
 ---
 
-### Phase 5: Narrative Engine (Weeks 19-23)
+### Phase 5: Narrative Engine (Weeks 19-23) [Done]
 
 **Goal**: Implement story systems and dialogue
 
@@ -369,40 +369,970 @@ necromancers_shell/
 
 ---
 
-### Phase 6: Story Integration (Weeks 24-28)
+### Phase 6: Story Foundation & Extended Systems (Weeks 24-30)
 
-**Goal**: Implement the three-act story structure
+**Goal**: Implement critical story infrastructure and extended game systems based on the expanded narrative
+
+**Background**: Analysis of the full 22,000-word story revealed significant systems missing from the original plan. These are not optional - they're core to the story's narrative arc and player experience.
 
 **Tasks**:
-1. **Act I Content**
-   - Tutorial sequence
-   - Early missions
-   - Character introductions
-   - Mystery setup
 
-2. **Act II Content**
-   - Expansion missions
-   - Moral dilemmas
-   - Relationship development
-   - Mid-game revelations
+1. **Consciousness Decay System** (Week 24)
+   - Separate from corruption - tracks identity/awareness stability
+   - Monthly decay rate (-0.1% per month by default)
+   - Consciousness percentage (0-100%)
+   - Time until critical threshold (months calculation)
+   - Fragmentation mechanics (for Wraith path)
+   - Integration with save/load system
 
-3. **Act III Content**
-   - Three ending paths
-   - Final confrontations
-   - Climactic choices
-   - Epilogue system
+   ```c
+   typedef struct {
+       float stability;              // 0-100%
+       float decay_rate;             // -0.1% per month base
+       uint32_t months_until_critical;
+       float fragmentation_level;    // 0-100% (Wraith path)
+       bool approaching_wraith;      // Warning flag
+   } ConsciousnessState;
+   ```
 
-4. **Dynamic Events**
-   - Random encounters
-   - Time-sensitive missions
-   - Moral choice events
-   - Consequence propagation
+2. **70% Corruption Threshold System** (Week 24)
+   - Expand corruption from basic to 10 detailed tiers
+   - Implement irreversible threshold at 70%
+   - Path lockout mechanics (Revenant locked >30%, Wraith locked >40%)
+   - Dissolution warning system
+   - Per-tier psychological effects
 
-**Deliverable**: Complete story from beginning to end with multiple paths.
+   **Corruption Tiers**:
+   ```
+   Tier 0 (0-10%):   Pristine - Still thinks of corpses as people
+   Tier 1 (11-20%):  Tainted - Guilt fading, rationalization begins
+   Tier 2 (21-30%):  Corrupted - Resource mentality emerging
+   Tier 3 (31-40%):  Tainted - Humanity cracking
+   Tier 4 (41-50%):  Vile - Barely human
+   Tier 5 (51-60%):  Vile - Can still feel some emotions
+   Tier 6 (61-69%):  Abyssal - 9 points from point of no return
+   Tier 7 (70%):     IRREVERSIBLE THRESHOLD - Soul becomes unrouteable
+   Tier 8 (71-89%):  Damned - Locked into Lich/Reaper paths only
+   Tier 9 (90-99%):  Void-Touched - Near total loss
+   Tier 10 (100%):   Lich Lord - Transformation complete
+   ```
+
+   Data file: `data/corruption_tiers.dat`
+
+3. **Extended Time Tracking** (Week 24)
+   - Add months and years to existing day/hour system
+   - Month calculation (30 days per month)
+   - Year calculation (12 months per year)
+   - Long-term event scheduling
+   - Anniversary/milestone tracking
+
+   ```c
+   typedef struct {
+       uint32_t day;      // Day of month (1-30)
+       uint8_t hour;      // Hour of day (0-23)
+       uint32_t month;    // Months since start
+       uint32_t year;     // Years since start
+       uint64_t total_hours; // Total hours elapsed
+   } ExtendedTimeState;
+   ```
+
+4. **Regional Council NPCs** (Week 25)
+   - 6 major necromancer characters
+   - Individual corruption levels and specializations
+   - Alliance/relationship system with council
+   - Council meeting events
+   - Collective decision-making mechanics
+
+   **Council Members**:
+   - **Vorgath the Undying** (98% corruption) - Military leader, 500+ minion army
+   - **Seraphine the Pale** (34% corruption) - Soul research specialist
+   - **Mordak Bonegrinder** (89% corruption) - Combat specialist, antagonist
+   - **Thessara's Echo** (52% corruption) - Medium channeling original Thessara
+   - **Whisper** (Unknown corruption) - Wraith-class, already fragmented
+   - **The Archivist** (45% corruption) - Historian, statistician
+
+   Data file: `data/necromancers.dat`
+
+   ```ini
+   [NECROMANCER:vorgath]
+   name = Vorgath the Undying
+   corruption = 98
+   army_size = 500
+   specialization = Military Strategy
+   personality = Pragmatic warlord
+   dialogue_trees = vorgath_alliance, vorgath_purge_warning, vorgath_endgame
+   minion_types = death_knight:50, bone_dragon:5, wight:100, zombie:345
+   territory_count = 12
+   alliance_type = non_aggression  # Can upgrade to full_alliance
+   ```
+
+5. **Divine Architect NPCs** (Week 26)
+   - 7 god-tier characters (The Seven Architects)
+   - Individual domains and personalities
+   - Divine Council dialogue system
+   - Per-god reputation tracking
+   - God-specific challenges/trials
+
+   **The Seven Architects**:
+   - **Anara, the Weaver** - Goddess of life, compassionate, weeps at mercy
+   - **Keldrin, the Lawgiver** - God of order, judges with equations
+   - **Theros, the Eternal** - God of time, observes across all moments
+   - **Myrith, the Dreamer** - Goddess of souls, designed consciousness
+   - **Vorathos, the Void** - God of entropy, potential combat opponent
+   - **Seraph, the Guardian** - Goddess of boundaries, wary protector
+   - **Nexus, the Connector** - God of networks, built Death Network
+
+   Data file: `data/gods.dat`
+
+   ```ini
+   [GOD:keldrin]
+   name = Keldrin, the Lawgiver
+   domain = Order and Structure
+   manifestation = Crystalline geometry, mathematical precision
+   personality = Logical, uncompromising, fair
+   dialogue_trees = keldrin_summons, keldrin_judgment, keldrin_trial_evaluation
+   power_level = divine_architect
+   combat_possible = false  # Cannot be fought
+   favor_min = -100
+   favor_max = 100
+   favor_start = 0
+   ```
+
+6. **Thessara Ghost System** (Week 27)
+   - Thessara as persistent NPC (3,000 years old)
+   - Null space encounter system
+   - Consciousness-to-consciousness data transfer
+   - Direct knowledge uploads (instant research)
+   - Mentorship dialogue trees
+   - Trial 6 sacrifice mechanics (permanent loss)
+
+   ```c
+   typedef struct {
+       bool discovered;
+       bool severed;  // True after Trial 6
+       uint32_t meetings_count;
+       uint32_t knowledge_transfers;
+       float trust_level;  // 0-100%
+   } ThessaraRelationship;
+   ```
+
+   Data file: `data/npcs/thessara.dat`
+
+7. **Null Space Location System** (Week 27)
+   - Special locations outside normal topology
+   - Access via specific events/summons only
+   - No corpses, no standard resources
+   - Unique encounter mechanics
+   - Between-worlds positioning
+
+   Data file: `data/locations_null_spaces.dat`
+
+   ```ini
+   [LOCATION:thessara_null_space]
+   type = null_space
+   name = The Gap Between Protocols
+   description = A null space between routing layers
+   access_method = thessara_summons
+   coordinates = [DATA EXPUNGED]
+   death_signature = 0
+   corpse_generation = none
+   special_encounter = thessara_ghost
+   exits = none  # Must be summoned out
+   ```
+
+8. **The Ashbrook Event** (Week 28)
+   - Critical Day 47 story event
+   - Village population simulation (147 NPCs)
+   - Mass soul harvesting mechanics
+   - Child NPC processing (different from adults)
+   - Major corruption spike (+38%: 23% → 61%)
+   - Divine attention trigger
+   - Path lockout calculations
+
+   ```c
+   typedef struct {
+       uint32_t population;
+       uint32_t children_count;
+       uint32_t warriors_count;
+       uint32_t elders_count;
+       float average_soul_quality;
+       uint32_t corruption_cost;  // +38%
+       bool triggers_divine_attention;
+       char* moral_consequence_text;
+   } VillageRaidEvent;
+   ```
+
+   Data file: `data/events/ashbrook.dat`
+
+9. **Multi-Necromancer Alliance System** (Week 28)
+   - Alliance types: Full Alliance, Non-Aggression Pact, Information Exchange
+   - Phylactery oath binding mechanics
+   - Council coordination for Purge defense
+   - Resource sharing mechanics
+   - Trust/betrayal systems
+
+   ```c
+   typedef enum {
+       ALLIANCE_HOSTILE,
+       ALLIANCE_NEUTRAL,
+       ALLIANCE_NON_AGGRESSION,
+       ALLIANCE_INFO_EXCHANGE,
+       ALLIANCE_FULL
+   } AllianceType;
+
+   typedef struct {
+       char npc_id[64];
+       AllianceType type;
+       bool phylactery_oath;  // Binding, cannot break
+       uint32_t knowledge_shared;
+       uint32_t resources_shared;
+       float trust_level;
+   } NecromancerAlliance;
+   ```
+
+10. **Extended Ending System** (Week 28-29)
+    - Expand from 3 to 6 major endings
+    - Add 1 failure ending (Morningstar failure)
+    - Detailed requirements and lockout tracking
+    - Epilogue content per ending
+    - Post-transformation gameplay hooks
+
+    Data file: `data/endings_expanded.dat`
+
+**New Commands**:
+```bash
+# Communication
+message <npc_id> --text "message"  # Send to Regional Council
+invoke divine_council               # Summon the gods (Day 162+)
+
+# Corruption Management
+ritual cleanse                      # Soul cleansing (-5%, costs 2000 energy, 48 hrs)
+free <minion_id>                    # Free minion, reduce corruption (-2%)
+
+# Healing (inverse necrosis)
+heal <target>                       # Save life, -2% corruption, 300-500 energy
+```
+
+**New Data Files**:
+```
+data/corruption_tiers.dat           # 10 detailed corruption tiers
+data/necromancers.dat               # Regional Council (6 NPCs)
+data/gods.dat                       # Divine Architects (7 NPCs)
+data/npcs/thessara.dat              # Thessara ghost details
+data/locations_null_spaces.dat      # Special locations
+data/events/ashbrook.dat            # Day 47 turning point
+data/endings_expanded.dat           # 6 endings + failure
+data/time_events.dat                # Multi-year event schedule
+```
+
+**Deliverable**: Foundation systems for expanded narrative with 13 new major NPCs, extended time tracking, consciousness decay, and critical story infrastructure.
 
 ---
 
-### Phase 7: Polish & Content (Weeks 29-34)
+### Phase 7: The Archon Path (Weeks 31-37)
+
+**Goal**: Implement the Archon transformation path and associated systems
+
+**Background**: The Archon path is one of six possible endings and involves reforming the Death Network from within. Requires completing 7 trials, maintaining 30-60% corruption, and demonstrating responsible necromancy.
+
+**Tasks**:
+
+1. **Archon Trial System Framework** (Week 31)
+   - Trial state tracking (0-7 completed)
+   - Trial unlock conditions
+   - Success/failure branching
+   - Permanent consequences system
+   - Integration with corruption/consciousness
+
+   ```c
+   typedef enum {
+       TRIAL_LOCKED,
+       TRIAL_AVAILABLE,
+       TRIAL_IN_PROGRESS,
+       TRIAL_PASSED,
+       TRIAL_FAILED
+   } TrialStatus;
+
+   typedef struct {
+       char id[64];
+       char name[128];
+       TrialType type;  // COMBAT, PUZZLE, MORAL, TECHNICAL, etc.
+       TrialStatus status;
+       uint32_t attempts;
+       float best_score;
+       char* completion_text;
+   } ArchonTrial;
+   ```
+
+2. **Trial 1: Test of Power** (Week 31)
+   - Special combat: Seraphim boss fight
+   - Divine enforcer AI
+   - Distributed attack network strategy
+   - Victory condition: Force yield
+   - Reward: Combat mastery recognition
+
+   ```ini
+   [TRIAL:archon_power]
+   number = 1
+   name = Test of Power
+   type = combat
+   opponent = seraphim_divine_enforcer
+   opponent_hp = 500
+   opponent_attack = 75
+   opponent_defense = 50
+   victory_condition = yield_at_throat
+   strategy_hint = "Think like debugger, not warrior"
+   reward_text = "You fight like you're debugging a system"
+   ```
+
+3. **Trial 2: Test of Wisdom** (Week 32)
+   - Routing Paradox puzzle
+   - Soul stuck for 200 years
+   - Multiple solution paths
+   - Correct solution: Split-route 60/40
+   - Unlocks: New routing protocol
+
+   ```ini
+   [TRIAL:archon_wisdom]
+   number = 2
+   name = Test of Wisdom
+   type = puzzle
+   puzzle_type = routing_paradox
+   soul_id = soldier_penance_001
+   stuck_duration_years = 200
+   conflict = "Qualifies for both Heaven (penance) and Hell (atrocities)"
+   solutions = orthodox_heaven, orthodox_hell, split_route, custom
+   correct_solution = split_route
+   split_allocation = 60,40
+   reward = split_routing_protocol_unlocked
+   ```
+
+4. **Trial 3: Test of Morality** (Week 32)
+   - Impossible choice: Save 100 lives OR gain 50,000 energy
+   - Choice mechanics implementation
+   - Resource sacrifice system
+   - Permanent stat reduction path
+   - God reaction to choice
+
+   ```ini
+   [TRIAL:archon_morality]
+   number = 3
+   name = Test of Morality
+   type = moral_choice
+   option_a = save_100_innocents
+   option_a_cost = all_resources
+   option_a_corruption = -5
+   option_b = harvest_100_souls
+   option_b_reward = 50000
+   option_b_corruption = +25
+   correct_choice = option_a
+   anara_reaction_correct = "You are so rare, Administrator"
+   anara_reaction_wrong = "I wept when I saw your choice"
+   ```
+
+5. **Trial 4: Test of Technical Skill** (Week 33)
+   - Death Network code inspection
+   - Bug finding mini-game
+   - Source code representation
+   - 17 bugs, 7 inefficiencies, 3 unjust edge cases
+   - Deliverable: Improved Reincarnation Queue
+
+   ```c
+   typedef struct {
+       char bug_id[64];
+       BugType type;  // LOGIC_ERROR, INEFFICIENCY, INJUSTICE
+       bool discovered;
+       bool fixed;
+       char* description;
+       char* fix_code;
+   } DeathNetworkBug;
+
+   // Player must find 27 total issues
+   typedef struct {
+       DeathNetworkBug bugs[17];
+       DeathNetworkBug inefficiencies[7];
+       DeathNetworkBug injustices[3];
+       uint32_t found_count;
+       uint32_t fixed_count;
+       float improvement_percent;
+   } TechnicalSkillTrial;
+   ```
+
+   Data file: `data/death_network_bugs.dat`
+
+6. **Trial 5: Test of Resolve** (Week 33)
+   - 30-day corruption resistance challenge
+   - Chamber of Corrupted Souls location
+   - Corruption climb: 41% → 53%
+   - Must stay below 60% (or lose Archon path)
+   - Thessara intervention event
+   - Daily corruption ticks
+
+   ```c
+   typedef struct {
+       uint32_t days_remaining;
+       float corruption_start;
+       float corruption_current;
+       float corruption_max_allowed;  // 60%
+       bool thessara_helped;
+       char* daily_temptation_text;
+   } ResolveTrialState;
+   ```
+
+7. **Trial 6: Test of Sacrifice** (Week 34)
+   - Save distant child OR keep Thessara connection
+   - Permanent loss of mentor
+   - No mechanical benefit to sacrifice
+   - Pure moral test
+   - Thessara's final message
+
+   ```ini
+   [TRIAL:archon_sacrifice]
+   number = 6
+   name = Test of Sacrifice
+   type = sacrifice
+   sacrifice_target = thessara_connection
+   sacrifice_permanent = true
+   benefit = child_maya_life_saved
+   benefit_player = none
+   thessara_final_message = "I'm proud of you. Fix the system. You were never alone."
+   ```
+
+8. **Trial 7: Test of Leadership** (Week 34)
+   - Lead Regional Council for 30 days
+   - Reduce collective corruption by 10%+
+   - Individual council member management
+   - Mordak reformation (93% → 86%)
+   - Vorgath reformation (98% → 91%)
+   - Completion unlocks Archon transformation
+
+   ```c
+   typedef struct {
+       uint32_t days_remaining;
+       float council_corruption_start;
+       float council_corruption_current;
+       float target_reduction;  // 10%
+       NecromancerProgress progress[6];  // One per council member
+       uint32_t reforms_successful;
+   } LeadershipTrialState;
+   ```
+
+   Data file: `data/trials_archon.dat`
+
+9. **Divine Council Dialogue System** (Week 35)
+   - Multi-speaker dialogue (7 gods simultaneously)
+   - Divine judgment mechanics
+   - Amnesty grant/deny system
+   - Individual god favor tracking
+   - Conditional restrictions system
+
+   ```c
+   typedef struct {
+       bool summoned;
+       bool amnesty_granted;
+       uint8_t restrictions_count;
+       char restrictions[5][256];
+       int8_t favor[7];  // Per god, -100 to 100
+       char verdict_text[1024];
+   } DivineCouncilState;
+   ```
+
+10. **Network Patching Mechanics** (Week 35)
+    - Bug database system
+    - Patch deployment commands
+    - Success/failure feedback
+    - Network improvement tracking
+    - Achievement: Network Contributor
+
+    ```bash
+    # New commands
+    debug network                    # List discovered bugs
+    debug info <bug_id>              # View bug details
+    patch deploy <bug_id>            # Deploy fix
+    patch test <bug_id>              # Test in sandbox
+    network stats                    # View improvement metrics
+    ```
+
+11. **Split-Routing System** (Week 36)
+    - Soul fragmentation mechanics
+    - Multi-destination routing
+    - Percentage allocation system
+    - Reunification tracking
+    - Edge case for Wisdom trial
+
+    ```c
+    typedef struct {
+        Soul* soul;
+        Afterlife* destinations[4];
+        float percentages[4];  // Must sum to 100%
+        bool reunification_offered;
+        uint32_t years_until_reunification;
+    } SplitRoutedSoul;
+    ```
+
+    ```bash
+    # New command
+    route split <soul_id> --dest <afterlife1>,<afterlife2> --alloc <pct1>,<pct2>
+    ```
+
+12. **Fourth Purge System** (Week 36)
+    - Purge countdown timer (5 years → accelerated by Ashbrook)
+    - Divine enforcer spawning
+    - Council defense coordination
+    - Reformation alternative path
+    - Purge outcome based on Archon progress
+
+    ```c
+    typedef struct {
+        uint32_t days_until_purge;
+        bool accelerated;  // Ashbrook triggered early
+        uint32_t enforcers_deployed;
+        uint32_t necromancers_killed;
+        uint32_t necromancers_reformed;
+        bool reformation_successful;
+    } PurgeState;
+    ```
+
+    Data file: `data/purges.dat`
+
+    ```ini
+    [PURGE:fourth]
+    year = current
+    original_timer = 1825  # 5 years in days
+    accelerated_timer = 547  # 1.5 years after Ashbrook
+    strategy = reformation_or_extermination
+    enforcers = seraphim:10, hellknight:8, inevitable:12
+    estimated_casualties_base = 200
+    estimated_casualties_with_archon = 50
+    player_role = reform_147_necromancers
+    ```
+
+13. **Archon Transformation** (Week 37)
+    - Post-transformation state
+    - Administrative privileges granted
+    - New abilities unlocked
+    - Reformation program mechanics
+    - Epilogue content hooks
+
+    ```c
+    typedef struct {
+        bool transformed;
+        uint32_t administrative_level;  // 1-10
+        uint32_t necromancers_reformed;
+        CodeOfConduct* rules;
+        bool divine_recognition;
+        float corruption_locked;  // Fixed at transformation %
+    } ArchonState;
+    ```
+
+**New Commands**:
+```bash
+# Trial Management
+trials                              # List Archon trials
+trials info <number>                # View trial details
+trials start <number>               # Begin trial
+
+# Network Administration (post-Archon)
+archon grant_amnesty <npc_id>       # Grant amnesty during Purge
+archon review <npc_id>              # Review necromancer
+archon reform <npc_id>              # Start reformation program
+archon code                         # View Code of Conduct
+
+# Bug Fixing
+debug network                       # View Death Network bugs
+patch deploy <bug_id>               # Deploy fix
+network stats                       # Improvement metrics
+
+# Routing
+route split <soul_id> --dest <list> --alloc <percentages>
+```
+
+**New Data Files**:
+```
+data/trials_archon.dat              # 7 Archon trials
+data/death_network_bugs.dat         # ~1,000 bugs to discover
+data/purges.dat                     # Historical Purges
+data/divine_council.dat             # Council dialogue trees
+data/enforcers.dat                  # Divine enforcer types
+data/reformation_program.dat        # Post-Archon mechanics
+```
+
+**Deliverable**: Complete Archon path with 7 trials, divine judgment system, network administration tools, and post-transformation gameplay.
+
+---
+
+### Phase 8: Hidden Paths (Optional) (Weeks 38-45)
+
+**Goal**: Implement Wraith and partial Morningstar paths
+
+**Background**: These are alternate endings discovered by Thessara. Wraith is achievable, Morningstar is intentionally nearly impossible (only 1 success in 3,000 years).
+
+**Tasks**:
+
+1. **Wraith Route Foundation** (Week 38)
+   - Consciousness fragmentation system
+   - Fragment count tracking (target: 10,000)
+   - Distributed consciousness mechanics
+   - Identity coherence degradation
+   - Freedom from system tracking
+
+   ```c
+   typedef struct {
+       float fragment_percent;  // 0-100%
+       uint32_t fragments_created;
+       uint32_t target_fragments;  // 10,000
+       float centralized_identity;  // 100% → 0%
+       float coherence_level;
+       bool transformation_complete;
+   } WraithState;
+   ```
+
+2. **Wraith Requirements** (Week 38)
+   - Corruption < 40% requirement
+   - Consciousness > 95% requirement
+   - Essence Diffusion artifact quest
+   - 100-day stealth from divine detection
+   - Self-Replication Protocol research (350 hours)
+
+   Data file: `data/paths/wraith.dat`
+
+3. **Fragmentation Mechanics** (Week 39)
+   - Fragment spawning algorithm
+   - Individual fragment autonomy
+   - Fragment communication system
+   - Collective decision-making
+   - Fragment loss/recovery
+
+   ```bash
+   # New commands
+   fragment begin                   # Start Wraith transformation
+   fragment status                  # View fragmentation progress
+   fragment manifest <location>     # Manifest at location
+   fragment recall                  # Recall fragments
+   ```
+
+4. **Multi-School Magic Foundation** (Week 40)
+   - 4 magic schools: Necromancy, Divine, Arcane, Primal
+   - School mastery requirements (1 year each)
+   - Cross-school synergies
+   - Teacher NPC system
+   - Spell unlocks per school
+
+   ```c
+   typedef enum {
+       SCHOOL_NECROMANCY,  // Default
+       SCHOOL_DIVINE,      // Learn from angels/gods
+       SCHOOL_ARCANE,      // Learn from wizards
+       SCHOOL_PRIMAL       // Learn from druids/elementals
+   } MagicSchool;
+
+   typedef struct {
+       MagicSchool school;
+       float mastery;  // 0-100%
+       uint32_t training_days;
+       char teacher_id[64];
+       uint32_t spells_unlocked;
+   } SchoolProgress;
+   ```
+
+   Data file: `data/magic_schools.dat`
+
+5. **Morningstar Requirements** (Week 41)
+   - Corruption EXACTLY 50% (perfect balance)
+   - 50,000 soul energy
+   - All 4 magic schools mastered
+   - Defeat god in combat (or philosophical stalemate)
+   - Acquire Fragment of the First Death
+   - Construct Apotheosis Engine (1,000 hour research)
+
+   ```c
+   typedef struct {
+       bool corruption_balanced;  // Exactly 50%
+       float corruption_tolerance; // ±0.5%
+       uint32_t balance_days_maintained;
+       bool magic_complete[4];
+       bool god_defeated;
+       bool kael_fragment_acquired;
+       bool apotheosis_engine_complete;
+   } MorningstarProgress;
+   ```
+
+   Data file: `data/paths/morningstar.dat`
+
+6. **Partial Morningstar Trials** (Week 42-43)
+   - Trial 1: God Combat (vs Vorathos recommended)
+   - Trial 2: Kael's Fragment quest (Mount Karaketh)
+   - Trial 3-5: Magic school mastery
+   - Trial 6: Apotheosis Engine construction
+   - Note: Trial 7 (Transcendence) intentionally unimplemented
+
+   **Reason for partial implementation**:
+   - Morningstar is meant to be impossible
+   - Only Azrael ever succeeded (erased from history)
+   - Provides aspirational content
+   - Failure state is interesting story outcome
+
+   ```ini
+   [TRIAL:morningstar_combat]
+   number = 1
+   name = Combat or Stalemate a God
+   type = combat_philosophical
+   recommended_target = vorathos
+   victory_condition = philosophical_stalemate
+   alternative = defeat_minor_avatar
+   completion_text = "The god pauses. You are... interesting."
+   ```
+
+7. **Special Items & Artifacts** (Week 44)
+   - Kael's Fragment (degraded, requires restoration)
+   - Essence Diffusion Artifact (Wraith path)
+   - Apotheosis Engine components (7, one per god)
+   - Ancient souls (10+ required for Morningstar)
+
+   ```ini
+   [ITEM:kael_fragment]
+   name = Fragment of the First Death
+   type = quest_item
+   location = mount_karaketh
+   condition = degraded_after_5000_years
+   restoration_required = true
+   restoration_cost = 10000
+   restoration_time = 168  # 7 days
+   required_for = morningstar_trial_2
+   lore = "The soul of the first mortal to ever die"
+   ```
+
+   Data file: `data/special_items.dat`
+
+8. **God Combat System** (Week 44)
+   - Divine-tier enemy AI
+   - Philosophical argument mechanics
+   - Stalemate detection
+   - Impossible-to-win balancing
+   - Respect/recognition outcomes
+
+   ```c
+   typedef struct {
+       God* opponent;
+       uint32_t argument_quality;  // Player's philosophical arguments
+       uint32_t combat_damage_dealt;
+       uint32_t combat_damage_taken;
+       bool stalemate_achieved;
+       bool respect_earned;
+   } GodCombatState;
+   ```
+
+9. **Extended Endings Implementation** (Week 45)
+   - 6 major endings + 1 failure
+   - Unique epilogue for each
+   - Post-transformation gameplay samples
+   - Jordan successor introduction (Archon/Reaper paths)
+   - Statistics tracking per ending
+
+   **Endings**:
+   1. **Revenant**: Resurrect to mortal life (<30% corruption)
+   2. **Lich Lord**: Immortal tyrant (>50% corruption)
+   3. **Reaper**: Death Network administrator (40-69%)
+   4. **Archon**: Revolutionary reformer (30-60% + trials)
+   5. **Wraith**: Distributed consciousness (<40% + fragmentation)
+   6. **Morningstar**: Ascend to godhood (EXACTLY 50% + trials)
+   7. **Morningstar Failure**: Eternal glitch (failed Trial 7)
+
+   Data file: `data/endings_all.dat`
+
+10. **Post-Ending Content** (Week 45)
+    - Brief post-transformation gameplay (10-20 minutes)
+    - Archon: Meet Jordan (Day 1124, 3 years later)
+    - Reaper: First guided soul
+    - Wraith: Experience fragmentation
+    - Lich Lord: Survey conquered territories
+    - Statistics summary screen
+    - New Game+ hooks
+
+    ```c
+    typedef struct {
+        EndingType ending;
+        uint32_t days_played;
+        uint32_t souls_harvested;
+        uint32_t lives_saved;
+        uint32_t minions_raised;
+        uint32_t necromancers_reformed;
+        float final_corruption;
+        float final_consciousness;
+        char* epilogue_text;
+    } EndingStatistics;
+    ```
+
+**New Commands**:
+```bash
+# Wraith Path
+fragment begin                      # Start transformation
+fragment status                     # View progress
+fragment manifest <location>        # Appear at location
+fragment collective                 # View all fragments
+
+# Morningstar Path
+balance check                       # Check 50% corruption balance
+magic school <name>                 # View school progress
+apotheosis status                   # View engine construction
+transcend                           # Attempt Trial 7 (unimplemented)
+
+# God Interaction
+challenge <god_id>                  # Initiate god combat
+argue <topic>                       # Philosophical argument
+```
+
+**New Data Files**:
+```
+data/paths/wraith.dat               # Wraith route details
+data/paths/morningstar.dat          # Morningstar route (partial)
+data/magic_schools.dat              # 4 magic schools
+data/special_items.dat              # Quest items
+data/god_combat.dat                 # God combat mechanics
+data/trials_morningstar.dat         # Morningstar trials (6 of 7)
+data/endings_all.dat                # All 7 endings
+data/epilogues/                     # Per-ending epilogue content
+```
+
+**Deliverable**: Wraith route (complete), Morningstar route (intentionally partial), multi-school magic system, extended endings with epilogues.
+
+**Note**: This phase is marked optional because:
+- Archon path is the "intended" story route
+- Wraith/Morningstar are aspirational content
+- Development time: +8 weeks to total
+- Can be added post-release as DLC/expansion
+
+---
+
+### Phase 9: Story Integration (Weeks 46-50)
+
+**Goal**: Implement the three-act story structure with all new systems integrated
+
+**Background**: Now that all major systems are in place (Phases 6-8), integrate the full narrative arc from Day 1 to ending, incorporating consciousness decay, corruption tiers, divine trials, and multi-path endings.
+
+**Tasks**:
+
+1. **Act I Content: The Awakening (Days 1-47)** (Week 46)
+   - Tutorial sequence (Days 1-7)
+     - Death and awakening at terminal
+     - First harvest (stabilize consciousness)
+     - First minion raised
+     - Thessara's first contact
+   - Early exploration (Days 8-30)
+     - Discover Regional Council
+     - First alliance decisions
+     - Soul energy economy tutorial
+     - Corruption introduction
+   - The Ashbrook Event (Day 47)
+     - Major turning point
+     - Mass harvest or mercy choice
+     - Divine attention triggered
+     - Path lockouts calculated
+
+2. **Act II Content: The Spiral (Days 48-162)** (Week 47)
+   - Consciousness decay tracking
+     - Monthly decay warnings
+     - Fragmentation events
+     - Stability management
+   - Regional Council interactions
+     - Vorgath's alliance offer
+     - Seraphine's research collaboration
+     - Mordak's antagonism
+     - The Archivist's data
+   - Thessara's mentorship
+     - Knowledge transfers
+     - Hidden path revelations
+     - Trial preparation
+   - Fourth Purge countdown
+     - Enforcer sightings
+     - Council coordination
+     - Defense or reformation choice
+   - Moral dilemmas (10+ events)
+     - Save lives vs harvest souls
+     - Individual mercy acts
+     - Corruption management
+
+3. **Act III Content: The Choice (Days 163+)** (Week 48)
+   - Divine Summons (Day 162)
+     - Keldrin's summons
+     - Divine Council judgment
+     - Amnesty granted/denied
+   - Path Selection
+     - Archon Trials (if amnesty granted)
+     - Lich Lord acceleration (if high corruption)
+     - Reaper negotiation (if mid-range)
+     - Wraith preparation (if low corruption)
+     - Revenant redemption (if very low)
+     - Morningstar impossible quest (if exactly 50%)
+   - Final confrontations
+     - Fourth Purge resolution
+     - Council fate determination
+     - Reformation or extermination
+   - Climactic choices
+     - Transformation decision
+     - Final corruption check
+     - Path lockout validation
+   - Epilogue system
+     - Per-ending epilogue content
+     - Statistics summary
+     - Jordan introduction (Archon/Reaper)
+     - Post-game state
+
+4. **Dynamic Events Integration** (Week 49)
+   - Random encounters
+     - Divine enforcer patrols
+     - Rival necromancer raids
+     - Lost soul rescue opportunities
+     - Artifact discoveries
+   - Time-sensitive missions
+     - Thessara's urgent messages
+     - Council emergency meetings
+     - Purge countdown events
+     - Trial deadlines
+   - Moral choice events
+     - Individual lives to save/harvest
+     - Village encounters
+     - Child NPCs
+     - Impossible choices
+   - Consequence propagation
+     - Corruption tier effects on dialogue
+     - Divine favor/disfavor outcomes
+     - Council relationship changes
+     - Path availability updates
+
+5. **Event Timeline System** (Week 50)
+   - Story beat scheduling
+     - Day 1: Awakening
+     - Day 7: Thessara contact
+     - Day 47: Ashbrook (if player chooses)
+     - Day 89: Council introduction
+     - Day 162: Divine Summons (if qualified)
+     - Day 1124: Jordan successor (Archon epilogue)
+   - Conditional event triggers
+     - Corruption thresholds
+     - Consciousness thresholds
+     - Relationship thresholds
+     - Quest completion flags
+   - Multi-path branching
+     - Event availability by path
+     - Mutually exclusive events
+     - Path-specific content
+
+**New Data Files**:
+```
+data/story/act1_events.dat          # Days 1-47 events
+data/story/act2_events.dat          # Days 48-162 events
+data/story/act3_events.dat          # Days 163+ events
+data/story/timeline.dat             # Major story beats
+data/story/moral_events.dat         # Moral dilemma library
+data/story/jordan.dat               # Successor character
+```
+
+**Deliverable**: Complete story from beginning to all 7 possible endings, with full integration of consciousness decay, corruption tiers, divine trials, and multi-necromancer alliances.
+
+---
+
+### Phase 10: Polish & Content (Weeks 51-56)
 
 **Goal**: Add content, polish, and secondary features
 
@@ -438,7 +1368,7 @@ necromancers_shell/
 
 ---
 
-### Phase 8: Testing & Optimization (Weeks 35-38)
+### Phase 11: Testing & Optimization (Weeks 57-61)
 
 **Goal**: Bug fixing, performance optimization, playtesting
 
@@ -470,7 +1400,7 @@ necromancers_shell/
 
 ---
 
-### Phase 9: Release Preparation (Weeks 39-40)
+### Phase 12: Release Preparation (Weeks 62-63)
 
 **Goal**: Package and distribute the game
 
@@ -2657,57 +3587,142 @@ add_subdirectory(tests)
 
 ## 9. Development Timeline
 
-### Detailed Schedule (40 weeks)
+### UPDATED Detailed Schedule (63 weeks)
 
-**Months 1-2 (Weeks 1-8)**:
-- Foundation setup
-- Command system MVP
-- Core game systems
+**NOTE**: This timeline has been significantly expanded from the original 40-week plan to accommodate the full story.md narrative scope. The expanded content includes:
+- 13 major NPCs (6 Regional Council + 7 Divine Architects)
+- 14 major quest chains (7 Archon + 7 Morningstar trials)
+- Consciousness decay system
+- 70% corruption threshold mechanics
+- Multi-path endings (expanded from 3 to 7)
+- Extended time tracking (months/years)
+- Post-game content
+
+**Months 1-2 (Weeks 1-8)** - COMPLETE:
+- Foundation setup (Phase 0)
+- Command system MVP (Phase 1)
+- Core game systems (Phase 2)
 - Milestone: Can raise undead and harvest souls via terminal
 
-**Months 3-4 (Weeks 9-16)**:
-- World building
+**Months 3-4 (Weeks 9-16)** - COMPLETE:
+- World building (Phase 3)
 - Location system
 - Death Network simulation
-- Combat system foundation
+- Combat system foundation (Phase 4)
 - Milestone: Can explore world and engage in basic combat
 
-**Months 5-6 (Weeks 17-24)**:
-- Narrative engine
+**Months 5-6 (Weeks 17-24)** - COMPLETE:
+- Narrative engine (Phase 5)
 - Dialogue system
 - Quest system
 - Relationship tracking
-- Story Act I implementation
-- Milestone: Tutorial and Act I playable
+- NPC implementation (original 4 NPCs)
+- Milestone: Tutorial and basic story playable
 
-**Months 7-8 (Weeks 25-32)**:
-- Story Act II and III implementation
-- All commands implemented
-- Dynamic events
-- Moral choices
-- Multiple ending paths
-- Milestone: Complete story playthrough possible
+**Months 6-7 (Weeks 24-30)** - NEW PHASE 6:
+- Story Foundation & Extended Systems
+- Consciousness decay system
+- 70% corruption threshold (10 tiers)
+- Extended time tracking (months/years)
+- Regional Council NPCs (6 characters)
+- Divine Architect NPCs (7 gods)
+- Thessara ghost system
+- Null space locations
+- Ashbrook event (Day 47)
+- Multi-necromancer alliances
+- Extended ending framework (7 endings)
+- Milestone: Critical narrative infrastructure complete
 
-**Months 9-10 (Weeks 33-40)**:
-- Polish and content
-- ASCII art
-- Tutorial refinement
-- Testing and bug fixing
+**Months 8-9 (Weeks 31-37)** - NEW PHASE 7:
+- The Archon Path
+- 7 Archon Trials (Power, Wisdom, Morality, Technical, Resolve, Sacrifice, Leadership)
+- Divine Council dialogue and judgment
+- Network patching mechanics
+- Split-routing system
+- Fourth Purge countdown
+- Archon transformation
+- Reformation program
+- Milestone: Archon path fully playable
+
+**Months 10-11 (Weeks 38-45)** - NEW PHASE 8 (OPTIONAL):
+- Hidden Paths (Wraith & Morningstar)
+- Wraith fragmentation system (10,000 fragments)
+- Multi-school magic (Necromancy, Divine, Arcane, Primal)
+- Morningstar requirements (EXACTLY 50% corruption)
+- Partial Morningstar trials (6 of 7)
+- God combat system
+- Special items & artifacts
+- Extended endings implementation (all 7)
+- Post-ending content (Jordan successor)
+- Milestone: All ending paths available (Archon recommended, others aspirational)
+
+**Months 11-12 (Weeks 46-50)** - PHASE 9:
+- Story Integration (renumbered from Phase 6)
+- Act I: The Awakening (Days 1-47)
+- Act II: The Spiral (Days 48-162)
+- Act III: The Choice (Days 163+)
+- Dynamic events integration
+- Event timeline system
+- All story beats scheduled
+- Milestone: Complete story from Day 1 to all endings
+
+**Months 13-14 (Weeks 51-56)** - PHASE 10:
+- Polish & Content (renumbered from Phase 7)
+- All spell commands
+- Intelligence commands
+- Management commands
+- ASCII art for all locations/NPCs
+- Combat visualizations
+- Tutorial system
+- Accessibility features
+- Milestone: Feature-complete with high polish
+
+**Months 14-15 (Weeks 57-61)** - PHASE 11:
+- Testing & Optimization (renumbered from Phase 8)
+- Bug fixing (valgrind clean)
 - Performance optimization
-- Release preparation
+- Extensive playtesting
+- Balance tuning (all 7 ending paths)
+- Platform testing
+- Milestone: Stable, balanced, optimized
+
+**Month 16 (Weeks 62-63)** - PHASE 12:
+- Release Preparation (renumbered from Phase 9)
+- Documentation
+- Build system
+- Distribution
 - Milestone: 1.0 release ready
 
 ### Resource Requirements
 
 **Single Developer**:
-- 40 weeks full-time (8 months)
-- Or 80 weeks part-time (20 months)
+- **63 weeks full-time (15.75 months / ~16 months)**
+- Or **126 weeks part-time (31.5 months / ~2.6 years)**
+- Original estimate: 40 weeks
+- **Expansion: +23 weeks (+58% more work)**
 
 **Small Team (3 people)**:
-- Lead Developer: Core systems and architecture
-- Content Developer: Story, dialogue, quests
-- Artist: ASCII art, UI design
-- Timeline: 6-9 months
+- Lead Developer: Core systems, Archon trials, network mechanics
+- Content Developer: Story, 13 major NPCs, 14 quest chains, dialogue trees
+- Artist: ASCII art for expanded cast, UI design, god manifestations
+- Timeline: **10-14 months** (vs original 6-9 months)
+
+**Timeline Breakdown by Scope**:
+- **Core MVP (Phases 0-5)**: 24 weeks (original plan, COMPLETE)
+- **Story Expansion (Phases 6-7)**: +14 weeks (critical additions)
+- **Hidden Paths (Phase 8)**: +8 weeks (OPTIONAL - can be DLC)
+- **Story Integration (Phase 9)**: +5 weeks (vs original 5 weeks)
+- **Polish/Test/Release (Phases 10-12)**: +12 weeks (more content to test)
+
+**Optional vs Required**:
+- **Minimum viable story**: Skip Phase 8 = **55 weeks (~13.75 months)**
+  - Archon path as primary story route
+  - Basic Revenant/Lich Lord/Reaper endings
+  - Saves ~8 weeks
+- **Full story experience**: All phases = **63 weeks (~16 months)**
+  - All 7 ending paths
+  - Wraith and Morningstar content
+  - Complete aspirational narrative
 
 **Recommended Tools**:
 - Version control: Git + GitHub
@@ -2999,57 +4014,134 @@ doxygen Doxyfile
 
 The implementation is successful if:
 1. Game runs without crashes on Linux, Windows, macOS
-2. Complete story playable from start to all endings
+2. Complete story playable from start to all 7 endings
 3. No memory leaks (valgrind clean)
 4. Save/load works reliably
-5. Performance: 60 FPS sustained, < 100MB memory
+5. Performance: 60 FPS sustained, < 150MB memory (increased for extended systems)
 6. Player reviews indicate engaging story and satisfying gameplay
-7. Average playtime 10-15 hours for first playthrough
+7. Average playtime 20-30 hours for first playthrough (expanded narrative)
+8. At least 3 ending paths fully playable (Archon, Lich Lord, Revenant minimum)
+9. All 7 Archon Trials functional and balanced
+10. Regional Council NPCs and Divine Architects fully implemented
 
 ### Final Recommendations
 
 **Do**:
-- Start with MVP, iterate
+- Start with MVP, iterate (Phases 0-5 complete)
 - Test on all platforms early
 - Profile and optimize hot paths
 - Write tests for critical systems
-- Get playtesters early (week 30+)
+- Get playtesters early (week 50+ for story balance)
 - Use version control religiously
 - Document as you go
+- Prioritize Archon path as primary story route
+- Consider Phase 8 (Hidden Paths) as optional/DLC
+- Focus on consciousness decay and corruption threshold systems first
+- Build dialogue system to support 13 major NPCs
 
 **Don't**:
 - Don't optimize prematurely
 - Don't add features without design doc update
-- Don't skip testing
-- Don't ignore memory management
-- Don't hardcode content (use data files)
+- Don't skip testing (especially for 7 ending paths)
+- Don't ignore memory management (more complex state now)
+- Don't hardcode content (even more critical with 14 quest chains)
 - Don't delay cross-platform testing
+- Don't implement Morningstar Trial 7 (intentionally impossible)
+- Don't attempt to maintain exactly 50% corruption (it's meant to be nearly impossible)
 
 **Key Success Factors**:
-1. **Solid Foundation**: Core systems (parser, state, memory) must be rock-solid
-2. **Data-Driven Design**: Makes iteration fast and enables modding
-3. **Early Playtesting**: Catches balance and pacing issues
+1. **Solid Foundation**: Core systems (parser, state, memory) must be rock-solid (COMPLETE)
+2. **Data-Driven Design**: Makes iteration fast and enables modding (critical for 13 NPCs + 14 quests)
+3. **Early Playtesting**: Catches balance and pacing issues (especially corruption balance)
 4. **Performance Discipline**: Profile early, optimize judiciously
 5. **Platform Abstraction**: Makes cross-platform work manageable
 6. **Good Error Handling**: Makes debugging and player experience better
+7. **Modular Narrative**: Build story systems incrementally (consciousness, corruption, trials)
+8. **Clear Path Priorities**: Focus on Archon path first, others as time permits
 
 ### Next Steps
 
-To begin implementation:
-1. Set up development environment
-2. Create project structure
-3. Implement Phase 0 (Foundation)
-4. Get a basic terminal interface working
-5. Start implementing command parser
-6. Build iteratively from there
+**Current Status**: Phases 0-5 complete (24 weeks done)
 
-This plan provides a roadmap, but flexibility is important. Adjust priorities based on what you learn during development. The narrative complexity of this game is unusual for a C project, but the data-driven approach makes it manageable.
+**To continue implementation**:
+1. Begin Phase 6 (Weeks 24-30): Story Foundation
+   - Implement consciousness decay system
+   - Expand corruption to 10 tiers with 70% threshold
+   - Add Regional Council NPCs (6 characters)
+   - Add Divine Architect NPCs (7 gods)
+   - Implement Thessara ghost system
+2. Continue to Phase 7 (Weeks 31-37): Archon Path
+   - Build 7 Archon Trials sequentially
+   - Implement Divine Council judgment
+   - Add network patching mechanics
+3. Evaluate Phase 8 (Weeks 38-45): Optional Hidden Paths
+   - Can be implemented as post-release DLC
+   - Focus on minimum viable story first (55 weeks vs 63 weeks)
 
-Good luck building Necromancer's Shell. It's an ambitious project with a compelling concept that could become something truly special.
+### Scope Management
+
+**This plan now reflects the FULL story.md narrative (22,000 words)**. The expansion from the original plan is significant:
+
+**Original Plan**:
+- 40 weeks
+- 3 endings
+- 4 major NPCs
+- ~20,000 LOC
+
+**Expanded Plan (Updated)**:
+- **63 weeks** (or 55 weeks minimum viable)
+- **7 endings** (3 required, 4 optional)
+- **17 major NPCs** (4 original + 6 council + 7 gods)
+- **~56,000 LOC** (36,000 new + 20,000 original)
+- **+23 data files** for new systems
+
+**Recommendation**: The narrative complexity has increased 280% from the original plan. Consider:
+1. Implement Phases 6-7 (Archon path) as planned
+2. Ship Phase 8 (Wraith/Morningstar) as DLC/expansion
+3. This reduces timeline to 55 weeks (~13.75 months) while preserving core narrative
+
+### Flexibility Notes
+
+This plan provides a comprehensive roadmap, but **flexibility is crucial**:
+- Story.md is aspirational - not all content may be necessary
+- Archon path is the "intended" route and should be prioritized
+- Wraith and Morningstar paths provide replayability but aren't required for 1.0
+- The data-driven approach makes it possible to add content incrementally
+- Post-release updates can expand the narrative over time
+
+The narrative complexity of this game is **exceptional for a C project**, but the systems-focused approach (consciousness as code, corruption as state, Death Network as infrastructure) aligns well with the C implementation. The protagonist is literally a sysadmin - the technical metaphors are not just flavor, they're core to the design.
+
+Good luck building Necromancer's Shell. This is now a **significantly more ambitious** project than originally planned, but the expanded narrative scope matches the quality of story.md. It has the potential to be truly special.
 
 ---
 
-**Total Implementation Timeline**: 9-12 months (single developer)
-**Estimated Final Code Size**: ~20,000 lines of C + data files
+## Final Statistics
+
+**Total Implementation Timeline**:
+- **Full Implementation**: 63 weeks / 15.75 months (single developer)
+- **Minimum Viable Story**: 55 weeks / 13.75 months (single developer, skip Phase 8)
+- **Original Estimate**: 40 weeks / 10 months
+- **Expansion Factor**: +58% weeks, +280% narrative complexity
+
+**Estimated Final Code Size**:
+- **Production Code**: ~36,000 lines of C (original: ~20,000)
+- **Test Code**: ~10,000 lines (comprehensive coverage)
+- **Data Files**: ~23 new .dat files + original set
+- **Total LOC**: ~56,000 lines
+
+**Content Statistics**:
+- **Major NPCs**: 17 (4 original + 6 Regional Council + 7 Divine Architects)
+- **Ending Paths**: 7 (Revenant, Lich Lord, Reaper, Archon, Wraith, Morningstar, Morningstar Failure)
+- **Quest Chains**: 14+ (7 Archon Trials + 6 Morningstar Trials + Redemption quests)
+- **Magic Schools**: 4 (Necromancy, Divine, Arcane, Primal)
+- **Corruption Tiers**: 10 (vs original basic system)
+- **Time Tracking**: Days, Hours, Months, Years (vs original Days/Hours only)
+
 **Target Platforms**: Linux, Windows, macOS
-**Technology Stack**: C11, ncurses/PDCurses, JSON-C
+
+**Technology Stack**: C11, ncurses/PDCurses, custom data loader (INI-style format)
+
+**Target Playtime**:
+- **Single Playthrough**: 20-30 hours (vs original 10-15 hours)
+- **All Endings**: 80-120 hours
+- **Speedrun Potential**: Yes (multiple optimization routes)
