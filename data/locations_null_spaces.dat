@@ -1,0 +1,271 @@
+# Null Space Locations
+# Special locations outside normal world topology
+# Access via summons/events only, no standard travel
+
+[LOCATION:thessara_null_space]
+type = null_space
+name = The Gap Between Protocols
+short_name = Gap
+region = null
+coordinates = [DATA EXPUNGED]
+
+# Description
+description = A void between routing layers where reality becomes uncertain. Translucent walls of code shimmer and shift. Time flows differently here - or perhaps not at all. Thessara's ghost manifests in this space, existing between death protocols.
+atmosphere = Timeless, ethereal, neither warm nor cold
+sounds = Distant whispers of routing protocols, occasional data stream hums
+visuals = Flickering grid patterns, translucent geometric structures, floating consciousness fragments
+
+# Access
+access_method = thessara_summons
+access_requirement = Thessara must call player here
+access_difficulty = impossible_without_summons
+can_discover_normally = false
+can_travel_to = false
+requires_special_state = consciousness_link_active
+
+# Properties
+death_signature = 0
+corpse_generation = none
+corpse_availability = 0
+soul_density = 0
+corruption_rate = 0
+danger_level = 0
+
+# Network Properties
+connected_locations = none
+exits = none
+escape_method = thessara_dismisses_player
+time_dilation = variable
+
+# Special Encounters
+primary_encounter = thessara_ghost
+possible_encounters = none
+hostile_entities = none
+peaceful_entities = thessara_ghost
+
+# Resources
+harvestable_corpses = false
+discoverable_artifacts = false
+territory_controllable = false
+strategic_value = mentorship_access
+
+# Restrictions
+combat_possible = false
+minion_access = false
+normal_commands_available = limited
+special_commands = talk, learn, ask, leave
+
+# Lore
+origin = Byproduct of Death Network architecture
+age = Unknown (exists outside time)
+purpose = Safe space for divine-evasion conversations
+discoverers = Only Thessara knows of its existence
+divine_awareness = Undetectable by gods (exists in blind spot)
+
+# Narrative Role
+story_importance = critical
+first_visit_day = variable (Thessara chooses)
+key_revelations = Wraith path, Morningstar path, trial guidance
+emotional_impact = Player's safe haven, bond with Thessara
+trial_6_relevance = Last meeting location before sacrifice
+
+[LOCATION:divine_council_chamber]
+type = null_space
+name = The Celestial Sanctum
+short_name = Sanctum
+region = null
+coordinates = [DIVINE REALM]
+
+# Description
+description = An impossible space where the Seven Architects convene. Crystalline walls reflect infinite realities. Seven thrones of pure elemental force surround a central judgment platform. The weight of divine scrutiny is palpable.
+atmosphere = Overwhelming divine presence, reality feels thin
+sounds = Overlapping divine voices, harmonic resonance
+visuals = Blinding light, geometric perfection, manifesting godforms
+
+# Access
+access_method = divine_summons
+access_requirement = Day 162+, player must invoke council
+access_difficulty = requires_invoke_command
+can_discover_normally = false
+can_travel_to = false
+requires_special_state = divine_judgment_ready
+
+# Properties
+death_signature = infinite
+corpse_generation = none
+corpse_availability = 0
+soul_density = infinite
+corruption_rate = -10
+danger_level = 100
+
+# Network Properties
+connected_locations = none
+exits = none
+escape_method = council_dismisses_player
+time_dilation = stopped
+
+# Special Encounters
+primary_encounter = seven_architects_council
+possible_encounters = none
+hostile_entities = potentially_all_seven
+peaceful_entities = conditionally_all_seven
+
+# Resources
+harvestable_corpses = false
+discoverable_artifacts = false
+territory_controllable = false
+strategic_value = judgment_amnesty
+
+# Restrictions
+combat_possible = false
+minion_access = false
+normal_commands_available = none
+special_commands = speak, plea, accept_verdict
+
+# Lore
+origin = Existed before mortal universe
+age = Eternal
+purpose = Divine judgment and cosmic administration
+discoverers = All who invoke are brought here
+divine_awareness = perfect (gods' home realm)
+
+# Narrative Role
+story_importance = critical
+first_visit_day = 162+
+key_revelations = Divine verdict, restrictions, amnesty/condemnation
+emotional_impact = Most intimidating location in game
+trial_relevance = Gateway to Archon path
+
+[LOCATION:void_breach]
+type = null_space
+name = The Void Breach
+short_name = Breach
+region = null
+coordinates = [UNSTABLE]
+
+# Description
+description = A tear in reality where Vorathos's domain bleeds through. Entropy given form. Everything here is slowly unmaking itself. Useful for god combat challenge (Morningstar path) or philosophical stalemate.
+atmosphere = Cold, hostile, reality-dissolving
+sounds = Silence broken by occasional reality cracks
+visuals = Darkness consuming light, geometric impossibilities collapsing
+
+# Access
+access_method = vorathos_challenge
+access_requirement = Player challenges Vorathos to combat
+access_difficulty = extremely_dangerous
+can_discover_normally = false
+can_travel_to = false
+requires_special_state = god_challenge_issued
+
+# Properties
+death_signature = void
+corpse_generation = none
+corpse_availability = 0
+soul_density = negative
+corruption_rate = +5
+danger_level = 100
+
+# Network Properties
+connected_locations = none
+exits = victory_or_defeat
+escape_method = complete_challenge
+time_dilation = subjective
+
+# Special Encounters
+primary_encounter = vorathos_combat
+possible_encounters = entropy_manifestations
+hostile_entities = vorathos
+peaceful_entities = none
+
+# Resources
+harvestable_corpses = false
+discoverable_artifacts = false
+territory_controllable = false
+strategic_value = morningstar_trial_1
+
+# Restrictions
+combat_possible = true
+minion_access = false
+normal_commands_available = combat_only
+special_commands = attack, argue, defend, retreat
+
+# Lore
+origin = Crack in reality caused by Vorathos's presence
+age = Eternal
+purpose = Arena for god challenges
+discoverers = Very few (most don't survive)
+divine_awareness = perfect (Vorathos's domain)
+
+# Narrative Role
+story_importance = optional_high
+first_visit_day = variable (Morningstar path only)
+key_revelations = Philosophical arguments with entropy
+emotional_impact = Terrifying, existential
+trial_relevance = Morningstar Trial 1 (combat/stalemate)
+
+[LOCATION:memory_vault]
+type = null_space
+name = The Archive of Forgotten Souls
+short_name = Memory Vault
+region = null
+coordinates = [REDACTED]
+
+# Description
+description = A repository of erased consciousness fragments. Here lie the memories of those removed from divine records - including the original Azrael (Morningstar transformer). Accessing this location reveals Morningstar path secrets.
+atmosphere = Quiet, sorrowful, heavy with lost identities
+sounds = Whispers of forgotten names, data stream static
+visuals = Floating memory orbs, walls of erased text, consciousness shards
+
+# Access
+access_method = archivist_reveals_location
+access_requirement = High relationship with The Archivist NPC
+access_difficulty = requires_special_knowledge
+can_discover_normally = false
+can_travel_to = false
+requires_special_state = archivist_trust_high
+
+# Properties
+death_signature = 0
+corpse_generation = none
+corpse_availability = 0
+soul_density = fragment_only
+corruption_rate = 0
+danger_level = 0
+
+# Network Properties
+connected_locations = none
+exits = archivist_portal
+escape_method = archivist_recalls_player
+time_dilation = none
+
+# Special Encounters
+primary_encounter = memory_fragments
+possible_encounters = echo_of_azrael
+hostile_entities = none
+peaceful_entities = memory_echoes
+
+# Resources
+harvestable_corpses = false
+discoverable_artifacts = true
+territory_controllable = false
+strategic_value = morningstar_lore
+
+# Restrictions
+combat_possible = false
+minion_access = false
+normal_commands_available = limited
+special_commands = examine, read, collect, leave
+
+# Lore
+origin = Divine Council's memory dump
+age = Ancient (contains all erased records)
+purpose = Storage of inconvenient truths
+discoverers = Only The Archivist knows
+divine_awareness = none (intentionally forgotten)
+
+# Narrative Role
+story_importance = optional_critical
+first_visit_day = variable (Morningstar path)
+key_revelations = Azrael's story, Morningstar true cost
+emotional_impact = Haunting, cautionary
+trial_relevance = Morningstar path research

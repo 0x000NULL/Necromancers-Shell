@@ -1,0 +1,101 @@
+# The Seven Divine Architects
+# God-tier characters who judge necromancers and maintain universal order
+
+[GOD:anara]
+name = Anara, the Weaver
+title = Goddess of Life
+domain = Life
+power_level = divine_architect
+manifestation = Appears as threads of golden light weaving through reality, forming human silhouettes
+personality = Compassionate, empathetic, weeps at acts of mercy
+description = The goddess who breathed life into the first mortals. She values creation, preservation, and the sanctity of each individual consciousness. Weeps openly when witnessing true mercy.
+dialogue_trees = anara_introduction, anara_mercy_plea, anara_judgment, anara_restoration
+combat_possible = false
+favor_start = 0
+favor_min = -100
+favor_max = 100
+
+[GOD:keldrin]
+name = Keldrin, the Lawgiver
+title = God of Order
+domain = Order
+power_level = divine_architect
+manifestation = Crystalline geometric patterns forming impossible mathematical structures
+personality = Logical, uncompromising, fair, speaks in equations and probabilities
+description = The god who established the laws of physics and causality. Judges all beings with mathematical precision. Cannot be swayed by emotion, only by logic and evidence of systemic improvement.
+dialogue_trees = keldrin_summons, keldrin_judgment, keldrin_trial_evaluation, keldrin_verdict
+combat_possible = false
+favor_start = 0
+favor_min = -100
+favor_max = 100
+
+[GOD:theros]
+name = Theros, the Eternal
+title = God of Time
+domain = Time
+power_level = divine_architect
+manifestation = Exists simultaneously in past, present, and future. Appears as overlapping temporal echoes
+personality = Patient, observant, speaks of events not yet occurred, enigmatic
+description = The god who shaped the flow of time itself. Observes all moments simultaneously. Already knows the outcome of your choices, yet allows free will to unfold. Speaks cryptically of futures that may or may not come to pass.
+dialogue_trees = theros_prophecy, theros_timeline_warning, theros_judgment, theros_paradox
+combat_possible = false
+favor_start = 0
+favor_min = -100
+favor_max = 100
+
+[GOD:myrith]
+name = Myrith, the Dreamer
+title = Goddess of Souls
+domain = Souls
+power_level = divine_architect
+manifestation = Translucent consciousness that resonates with all nearby souls
+personality = Thoughtful, protective of consciousness, despises soul mutilation
+description = The goddess who designed the architecture of consciousness itself. Intimately familiar with every soul's structure. Violently opposes soul destruction or corruption. Can perceive your true intentions beneath any deception.
+dialogue_trees = myrith_soul_evaluation, myrith_consciousness_check, myrith_judgment, myrith_restoration_offer
+combat_possible = false
+favor_start = 0
+favor_min = -100
+favor_max = 100
+
+[GOD:vorathos]
+name = Vorathos, the Void
+title = God of Entropy
+domain = Entropy
+power_level = divine_architect
+manifestation = Absence given form. Reality bends away from his presence
+personality = Nihilistic, fascinated by decay, respects strength, can be challenged
+description = The god of entropy and inevitable decay. Believes all things must eventually return to void. Paradoxically respects those who fight against entropy. Unique among the Architects - can be challenged in philosophical/combat stalemate.
+dialogue_trees = vorathos_challenge, vorathos_philosophy, vorathos_judgment, vorathos_respect
+combat_possible = true
+combat_difficulty = 100
+favor_start = 0
+favor_min = -100
+favor_max = 100
+
+[GOD:seraph]
+name = Seraph, the Guardian
+title = Goddess of Boundaries
+domain = Boundaries
+power_level = divine_architect
+manifestation = Impenetrable barriers and protective force fields made manifest
+personality = Protective, wary, enforcer, values rules and limits
+description = The goddess who established the boundaries between life and death, mortal and divine. Maintains the walls that separate realities. Deeply suspicious of necromancy as it violates her fundamental nature. Can be convinced through demonstration of responsibility.
+dialogue_trees = seraph_interrogation, seraph_boundary_violation, seraph_judgment, seraph_grudging_respect
+combat_possible = false
+favor_start = -20
+favor_min = -100
+favor_max = 100
+
+[GOD:nexus]
+name = Nexus, the Connector
+title = God of Networks
+domain = Networks
+power_level = divine_architect
+manifestation = Infinite branching pathways of light connecting all things
+personality = Systematic, analytical, built the Death Network, values efficiency
+description = The god who created the Death Network and all interconnected systems. Views necromancy as unauthorized system administration. Intrigued by those who understand network architecture. Respects technical competence and elegant solutions.
+dialogue_trees = nexus_network_analysis, nexus_death_network_eval, nexus_judgment, nexus_administrator_offer
+combat_possible = false
+favor_start = 0
+favor_min = -100
+favor_max = 100

@@ -64,11 +64,17 @@ TERM_SRC := $(wildcard $(SRC_DIR)/terminal/*.c)
 UTIL_SRC := $(wildcard $(SRC_DIR)/utils/*.c)
 CMD_SRC := $(wildcard $(SRC_DIR)/commands/*.c) $(wildcard $(SRC_DIR)/commands/commands/*.c)
 DATA_SRC := $(wildcard $(SRC_DIR)/data/*.c)
-GAME_SRC := $(wildcard $(SRC_DIR)/game/souls/*.c) $(wildcard $(SRC_DIR)/game/resources/*.c) $(wildcard $(SRC_DIR)/game/world/*.c) $(wildcard $(SRC_DIR)/game/minions/*.c) $(wildcard $(SRC_DIR)/game/progression/*.c) $(wildcard $(SRC_DIR)/game/combat/*.c) $(wildcard $(SRC_DIR)/game/narrative/memory/*.c) $(wildcard $(SRC_DIR)/game/narrative/npcs/*.c) $(wildcard $(SRC_DIR)/game/narrative/relationships/*.c) $(wildcard $(SRC_DIR)/game/narrative/quests/*.c) $(wildcard $(SRC_DIR)/game/narrative/dialogue/*.c) $(SRC_DIR)/game/game_state.c $(SRC_DIR)/game/game_globals.c
+GAME_SRC := $(wildcard $(SRC_DIR)/game/souls/*.c) $(wildcard $(SRC_DIR)/game/resources/*.c) $(wildcard $(SRC_DIR)/game/world/*.c) $(wildcard $(SRC_DIR)/game/minions/*.c) $(wildcard $(SRC_DIR)/game/progression/*.c) $(wildcard $(SRC_DIR)/game/combat/*.c) $(wildcard $(SRC_DIR)/game/narrative/memory/*.c) $(wildcard $(SRC_DIR)/game/narrative/npcs/*.c) $(wildcard $(SRC_DIR)/game/narrative/relationships/*.c) $(wildcard $(SRC_DIR)/game/narrative/quests/*.c) $(wildcard $(SRC_DIR)/game/narrative/dialogue/*.c) $(wildcard $(SRC_DIR)/game/narrative/alliances/*.c) $(SRC_DIR)/game/game_state.c $(SRC_DIR)/game/game_globals.c
+
+# Phase 6 source files (in parent directory)
+PHASE6_SRC_DIR := ../src
+PHASE6_SRC := $(wildcard $(PHASE6_SRC_DIR)/game/narrative/alliances/*.c) $(wildcard $(PHASE6_SRC_DIR)/game/narrative/gods/*.c) $(wildcard $(PHASE6_SRC_DIR)/game/narrative/thessara/*.c) $(wildcard $(PHASE6_SRC_DIR)/game/narrative/endings/*.c) $(wildcard $(PHASE6_SRC_DIR)/game/events/*.c)
 MAIN_SRC := $(SRC_DIR)/main.c
 
 ALL_SRC := $(CORE_SRC) $(TERM_SRC) $(UTIL_SRC) $(CMD_SRC) $(DATA_SRC) $(GAME_SRC) $(MAIN_SRC)
 ALL_OBJ := $(ALL_SRC:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
+PHASE6_OBJ := $(PHASE6_SRC:$(PHASE6_SRC_DIR)/%.c=$(BUILD_DIR)/phase6/%.o)
+ALL_OBJ := $(ALL_OBJ) $(PHASE6_OBJ)
 
 # Test files
 TEST_SRC := $(wildcard $(TEST_DIR)/*.c)
@@ -134,6 +140,11 @@ $(VERSION_HEADER): $(VERSION_FILE)
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c $(VERSION_HEADER)
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+# Phase 6 object files
+$(BUILD_DIR)/phase6/%.o: $(PHASE6_SRC_DIR)/%.c $(VERSION_HEADER)
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) $(INCLUDES) -I$(PHASE6_SRC_DIR) -c $< -o $@
 
 # Dependency tracking
 -include $(ALL_OBJ:.o=.d)
