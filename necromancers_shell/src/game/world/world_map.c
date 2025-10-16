@@ -556,8 +556,9 @@ size_t world_map_render(const WorldMap* map,
         const char* legend = "\n[Legend: @ = You, G = Graveyard, B = Battlefield, V = Village, C = Crypt, R = Ritual Site, ? = Undiscovered]\n";
         size_t legend_len = strlen(legend);
         if (written + legend_len < buffer_size) {
-            strcpy(buffer + written, legend);
+            memcpy(buffer + written, legend, legend_len);
             written += legend_len;
+            buffer[written] = '\0';
         }
     }
 

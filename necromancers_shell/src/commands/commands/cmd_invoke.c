@@ -12,6 +12,7 @@
 #include "../../game/resources/resources.h"
 #include "../../game/resources/corruption.h"
 #include "../../game/souls/soul_manager.h"
+#include "../../game/events/divine_summons_event.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -31,6 +32,25 @@ CommandResult cmd_invoke(ParsedCommand* cmd) {
     }
 
     const char* god_name = parsed_command_get_arg(cmd, 0);
+
+    /* Special handling for Divine Council summons acknowledgment */
+    if (strcasecmp(god_name, "divine_council") == 0) {
+        if (divine_summons_acknowledge(g_game_state)) {
+            return command_result_success("");
+        } else {
+            return command_result_error(EXEC_ERROR_COMMAND_FAILED,
+                "Cannot acknowledge Divine summons at this time.");
+        }
+    }
+
+    /* Special handling for Divine Judgment (after all trials complete) */
+    if (strcasecmp(god_name, "divine_judgment") == 0) {
+        printf("\n");
+        printf("Divine Judgment invocation (not yet fully implemented)\n");
+        printf("This will trigger the Seven Architects' final verdict.\n");
+        printf("\n");
+        return command_result_success("");
+    }
 
     /* Get optional offering amount */
     uint32_t offering = 0;

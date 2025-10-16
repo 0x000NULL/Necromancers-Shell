@@ -12,6 +12,7 @@
 #include "../../game/resources/resources.h"
 #include "../../game/resources/corruption.h"
 #include "../../game/souls/soul_manager.h"
+#include "../../game/events/trial_sequence_events.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -74,25 +75,51 @@ CommandResult cmd_ritual(ParsedCommand* cmd) {
     } else if (strcasecmp(ritual_type, "trial") == 0) {
         fprintf(stream, "You attempt a Trial of Ascension...\n\n");
 
-        fprintf(stream, "[SIMULATION MODE]\n\n");
-        fprintf(stream, "The Seven Architects observe your progress.\n");
+        fprintf(stream, "=== Archon Trials ===\n\n");
+        fprintf(stream, "The path to Archon transformation requires completion of seven trials:\n\n");
+
+        fprintf(stream, "1. Trial of Power - Combat mastery\n");
+        fprintf(stream, "2. Trial of Wisdom - Knowledge and understanding\n");
+        fprintf(stream, "3. Trial of Sacrifice - Willingness to give up power\n");
+        fprintf(stream, "4. Trial of Leadership - Command without cruelty\n");
+        fprintf(stream, "5. Trial of Mercy - Restraint and compassion\n");
+        fprintf(stream, "6. Trial of Resolve - Conviction under pressure\n");
+        fprintf(stream, "7. Trial of Balance - Harmony between forces\n\n");
+
         fprintf(stream, "Your current state:\n");
         fprintf(stream, "  Corruption: %u%%\n", g_game_state->corruption.corruption);
         fprintf(stream, "  Consciousness: %.1f%%\n", g_game_state->consciousness.stability);
         fprintf(stream, "  Souls Harvested: %zu\n", soul_manager_count(g_game_state->souls));
         fprintf(stream, "  Day: %u\n\n", g_game_state->resources.day_count);
 
-        if (g_game_state->corruption.corruption < 30 &&
-            g_game_state->consciousness.stability > 70) {
-            fprintf(stream, "Anara nods approvingly. \"You maintain balance.\"\n");
+        /* Evaluate current state */
+        if (g_game_state->corruption.corruption >= 30 &&
+            g_game_state->corruption.corruption <= 60 &&
+            g_game_state->consciousness.stability >= 70) {
+            fprintf(stream, "The Seven Architects observe: \"You walk the narrow path.\"\n");
+            fprintf(stream, "\"Neither too pure, nor too corrupted. Balance personified.\"\n");
+        } else if (g_game_state->corruption.corruption < 30 &&
+                   g_game_state->consciousness.stability > 70) {
+            fprintf(stream, "Anara nods approvingly. \"You maintain balance and purity.\"\n");
         } else if (g_game_state->corruption.corruption > 70) {
-            fprintf(stream, "Vorathos laughs. \"One of us now!\"\n");
+            fprintf(stream, "Vorathos laughs. \"So much corruption! Yet you seek ascension?\"\n");
+            fprintf(stream, "\"Interesting. The Archon path may still be yours.\"\n");
         } else {
-            fprintf(stream, "Keldrin calculates. \"Inconclusive. Continue observations.\"\n");
+            fprintf(stream, "Keldrin calculates. \"Current trajectory: suboptimal.\"\n");
+            fprintf(stream, "\"Recommendation: stabilize consciousness, moderate corruption.\"\n");
         }
 
-        fprintf(stream, "\nNote: Full trial system integration pending.\n");
-        fprintf(stream, "Trials will unlock at Day 50+\n");
+        fprintf(stream, "\n[TRIAL SYSTEM - INTEGRATION COMPLETE]\n");
+        fprintf(stream, "Trial infrastructure: Active\n");
+        fprintf(stream, "Trial mechanics: Pending full implementation\n");
+        fprintf(stream, "Trials will become playable in future updates.\n\n");
+
+        if (g_game_state->archon_trials) {
+            fprintf(stream, "Trial manager: Initialized\n");
+            fprintf(stream, "Use 'ritual trial <number>' to view specific trial details.\n");
+        } else {
+            fprintf(stream, "Note: Trial manager not yet initialized in this game.\n");
+        }
 
     } else if (strcasecmp(ritual_type, "purification") == 0) {
         fprintf(stream, "You attempt a Purification Ritual...\n\n");

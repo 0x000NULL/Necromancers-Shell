@@ -13,9 +13,11 @@
 #include "../../game/world/location.h"
 #include "../../game/resources/resources.h"
 #include "../../game/resources/corruption.h"
+#include "../../game/events/ashbrook_event.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 #include <time.h>
 
 /**
@@ -63,6 +65,19 @@ CommandResult cmd_harvest(ParsedCommand* cmd) {
     if (!g_game_state) {
         return command_result_error(EXEC_ERROR_INTERNAL,
                                      "Game state not initialized");
+    }
+
+    /* Check for special event-based harvest (e.g., "harvest ashbrook") */
+    if (cmd->arg_count > 0) {
+        const char* target = parsed_command_get_arg(cmd, 0);
+        if (strcasecmp(target, "ashbrook") == 0) {
+            if (ashbrook_harvest_village(g_game_state)) {
+                return command_result_success("");
+            } else {
+                return command_result_error(EXEC_ERROR_COMMAND_FAILED,
+                    "Cannot harvest Ashbrook at this time.");
+            }
+        }
     }
 
     /* Get current location */

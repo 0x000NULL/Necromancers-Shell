@@ -372,8 +372,14 @@ GameState* game_state_create(void) {
         return NULL;
     }
 
-    /* TODO: Load events from data/events.dat */
-    /* event_scheduler_load_from_file(state->event_scheduler, "data/events.dat"); */
+    /* Register all story events */
+    extern uint32_t register_all_story_events(EventScheduler*, GameState*);
+    uint32_t events_registered = register_all_story_events(state->event_scheduler, state);
+    if (events_registered == 0) {
+        LOG_ERROR("Failed to register any story events - game may not function correctly");
+    } else {
+        LOG_INFO("Successfully registered %u story event(s)", events_registered);
+    }
 
     /* Initialize ending system */
     state->ending_system = ending_system_create();

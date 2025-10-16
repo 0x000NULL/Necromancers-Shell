@@ -336,5 +336,6 @@ void register_quest_command(void);
 void register_lore_command(void);
 void register_council_command(void);
 void register_path_command(void);
+void register_spare_command(void);
 
 #endif /* COMMANDS_H */
