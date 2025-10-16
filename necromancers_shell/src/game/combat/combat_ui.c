@@ -49,15 +49,17 @@ void combat_ui_format_health_bar(char* buf, size_t buf_size,
     }
 
     /* Build bar */
-    char bar[128] = "[";
-    for (int i = 0; i < width && i < 60; i++) {
-        if (i < filled) {
-            strcat(bar, "=");
-        } else {
-            strcat(bar, "-");
-        }
+    char bar[128];
+    size_t pos = 0;
+    bar[pos++] = '[';
+
+    /* Add bar characters with bounds checking */
+    for (int i = 0; i < width && i < 60 && pos < sizeof(bar) - 2; i++) {
+        bar[pos++] = (i < filled) ? '=' : '-';
     }
-    strcat(bar, "]");
+
+    bar[pos++] = ']';
+    bar[pos] = '\0';
 
     /* Calculate percentage */
     int percent = 0;
@@ -86,13 +88,15 @@ void combat_ui_format_combatant(char* buf, size_t buf_size,
                                 combatant->health, combatant->health_max, 10);
 
     /* Status indicators */
-    char status[128] = "";
+    char status[128];
     if (!combatant_is_alive(combatant)) {
-        strcat(status, " [DEAD]");
+        snprintf(status, sizeof(status), " [DEAD]");
     } else if (combatant->is_defending) {
-        strcat(status, " [DEFENDING]");
+        snprintf(status, sizeof(status), " [DEFENDING]");
     } else if (combatant->has_acted_this_turn) {
-        strcat(status, " [ACTED]");
+        snprintf(status, sizeof(status), " [ACTED]");
+    } else {
+        status[0] = '\0';  /* Empty string if no status */
     }
 
     /* Format line */

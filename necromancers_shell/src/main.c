@@ -507,7 +507,8 @@ static void register_game_commands(void) {
     register_lore_command();
     register_council_command();
     register_path_command();
-    registered += 5; /* Track new commands */
+    register_spare_command();
+    registered += 6; /* Track new commands */
 
     LOG_INFO("Registered %d game commands", registered);
 }

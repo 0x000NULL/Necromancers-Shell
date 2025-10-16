@@ -78,8 +78,22 @@ Minion* minion_manager_remove(MinionManager* manager, uint32_t minion_id) {
         return NULL;
     }
 
+    /* Defensive: Ensure count doesn't exceed capacity */
+    if (manager->count > manager->capacity) {
+        return NULL;
+    }
+
     /* Find minion by ID */
     for (size_t i = 0; i < manager->count; i++) {
+        /* Defensive bounds check */
+        if (i >= manager->capacity) {
+            break;
+        }
+
+        if (!manager->minions[i]) {
+            continue;  /* Skip NULL minions */
+        }
+
         if (manager->minions[i]->id == minion_id) {
             /* Store pointer to return */
             Minion* minion = manager->minions[i];
@@ -102,8 +116,22 @@ Minion* minion_manager_get(MinionManager* manager, uint32_t minion_id) {
         return NULL;
     }
 
+    /* Defensive: Ensure count doesn't exceed capacity */
+    if (manager->count > manager->capacity) {
+        return NULL;
+    }
+
     /* Find minion by ID */
     for (size_t i = 0; i < manager->count; i++) {
+        /* Defensive bounds check */
+        if (i >= manager->capacity) {
+            break;
+        }
+
+        if (!manager->minions[i]) {
+            continue;  /* Skip NULL minions */
+        }
+
         if (manager->minions[i]->id == minion_id) {
             return manager->minions[i];
         }
@@ -125,9 +153,25 @@ Minion** minion_manager_get_at_location(MinionManager* manager, uint32_t locatio
         return NULL;
     }
 
+    *count_out = 0;
+
+    /* Defensive: Ensure count doesn't exceed capacity */
+    if (manager->count > manager->capacity) {
+        return NULL;
+    }
+
     /* Count minions at location first */
     size_t count = 0;
     for (size_t i = 0; i < manager->count; i++) {
+        /* Defensive bounds check */
+        if (i >= manager->capacity) {
+            break;
+        }
+
+        if (!manager->minions[i]) {
+            continue;  /* Skip NULL minions */
+        }
+
         if (manager->minions[i]->location_id == location_id) {
             count++;
         }
@@ -148,6 +192,15 @@ Minion** minion_manager_get_at_location(MinionManager* manager, uint32_t locatio
     /* Fill result array */
     size_t result_index = 0;
     for (size_t i = 0; i < manager->count; i++) {
+        /* Defensive bounds check */
+        if (i >= manager->capacity) {
+            break;
+        }
+
+        if (!manager->minions[i]) {
+            continue;  /* Skip NULL minions */
+        }
+
         if (manager->minions[i]->location_id == location_id) {
             result[result_index++] = manager->minions[i];
         }
@@ -168,8 +221,22 @@ size_t minion_manager_count_by_type(MinionManager* manager, MinionType type) {
         return 0;
     }
 
+    /* Defensive: Ensure count doesn't exceed capacity */
+    if (manager->count > manager->capacity) {
+        return 0;
+    }
+
     size_t count = 0;
     for (size_t i = 0; i < manager->count; i++) {
+        /* Defensive bounds check */
+        if (i >= manager->capacity) {
+            break;
+        }
+
+        if (!manager->minions[i]) {
+            continue;  /* Skip NULL minions */
+        }
+
         if (manager->minions[i]->type == type) {
             count++;
         }
@@ -183,8 +250,22 @@ size_t minion_manager_count_at_location(MinionManager* manager, uint32_t locatio
         return 0;
     }
 
+    /* Defensive: Ensure count doesn't exceed capacity */
+    if (manager->count > manager->capacity) {
+        return 0;
+    }
+
     size_t count = 0;
     for (size_t i = 0; i < manager->count; i++) {
+        /* Defensive bounds check */
+        if (i >= manager->capacity) {
+            break;
+        }
+
+        if (!manager->minions[i]) {
+            continue;  /* Skip NULL minions */
+        }
+
         if (manager->minions[i]->location_id == location_id) {
             count++;
         }

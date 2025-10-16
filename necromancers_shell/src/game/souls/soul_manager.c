@@ -128,6 +128,12 @@ Soul** soul_manager_get_filtered(SoulManager* manager, const SoulFilter* filter,
 
     *count_out = 0;
 
+    /* Defensive: Ensure count doesn't exceed capacity */
+    if (manager->count > manager->capacity) {
+        /* Data corruption detected */
+        return NULL;
+    }
+
     /* If no filter, return all souls */
     if (!filter) {
         if (manager->count == 0) {
@@ -147,7 +153,16 @@ Soul** soul_manager_get_filtered(SoulManager* manager, const SoulFilter* filter,
     /* Count matching souls first */
     size_t match_count = 0;
     for (size_t i = 0; i < manager->count; i++) {
+        /* Defensive bounds check */
+        if (i >= manager->capacity) {
+            break;
+        }
+
         Soul* soul = manager->souls[i];
+        if (!soul) {
+            continue;  /* Skip NULL souls */
+        }
+
         bool matches = true;
 
         /* Check type filter */
@@ -185,7 +200,16 @@ Soul** soul_manager_get_filtered(SoulManager* manager, const SoulFilter* filter,
     /* Fill result array with matching souls */
     size_t result_index = 0;
     for (size_t i = 0; i < manager->count; i++) {
+        /* Defensive bounds check */
+        if (i >= manager->capacity) {
+            break;
+        }
+
         Soul* soul = manager->souls[i];
+        if (!soul) {
+            continue;  /* Skip NULL souls */
+        }
+
         bool matches = true;
 
         /* Check type filter */

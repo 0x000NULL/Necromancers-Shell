@@ -34,26 +34,27 @@ void test_ashbrook_register_event(void) {
     printf("Test: ashbrook_register_event... ");
 
     ashbrook_reset_for_testing();
-    GameState* state = game_state_create();
-    assert(state != NULL);
 
+    /* Create scheduler first, then state */
     EventScheduler* scheduler = event_scheduler_create();
     assert(scheduler != NULL);
 
-    /* Register Ashbrook event */
-    bool success = ashbrook_register_event(scheduler, state);
-    assert(success == true);
+    /* Create GameState without auto-registration by using a fresh scheduler */
+    /* Note: game_state_create() will register events, so we need to reset first */
+    GameState* state = game_state_create();
+    assert(state != NULL);
 
-    /* Cannot register twice */
-    success = ashbrook_register_event(scheduler, state);
-    assert(success == false);
-
-    /* Event should be registered in scheduler */
-    const ScheduledEvent* event = event_scheduler_get_event(scheduler, 47);
+    /* The event should already be registered during game_state_create() */
+    /* So we verify it exists in the state's scheduler */
+    const ScheduledEvent* event = event_scheduler_get_event(state->event_scheduler, 47);
     assert(event != NULL);
     assert(event->trigger_type == EVENT_TRIGGER_DAY);
     assert(event->trigger_value == 47);
     assert(event->priority == EVENT_PRIORITY_CRITICAL);
+
+    /* Trying to register again should fail */
+    bool success = ashbrook_register_event(state->event_scheduler, state);
+    assert(success == false);
 
     event_scheduler_destroy(scheduler);
     game_state_destroy(state);
