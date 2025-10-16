@@ -1,0 +1,78 @@
+# Trial 7: Test of Leadership - Data File
+# Lead Regional Council for 30 days, reduce collective corruption by 10%
+
+[TRIAL:leadership]
+duration_days = 30
+council_size = 6
+collective_corruption_start = 75.3
+target_reduction_percent = 10.0
+target_corruption = 67.77
+
+[MEMBER:mordak]
+name = Mordak the Devourer
+corruption_start = 93
+corruption_target = 86
+resistance = high
+specialty = combat
+attitude_start = hostile
+
+[MEMBER:vorgath]
+name = Vorgath the Cruel
+corruption_start = 98
+corruption_target = 91
+resistance = high
+specialty = torture
+attitude_start = hostile
+
+[MEMBER:elara]
+name = Elara Shadowmend
+corruption_start = 67
+corruption_target = 60
+resistance = medium
+specialty = soul_binding
+attitude_start = neutral
+
+[MEMBER:thane]
+name = Thane Blackthorn
+corruption_start = 78
+corruption_target = 71
+resistance = medium
+specialty = necromantic_research
+attitude_start = neutral
+
+[MEMBER:seraphine]
+name = Seraphine Nightwhisper
+corruption_start = 45
+corruption_target = 40
+resistance = low
+specialty = spirit_communion
+attitude_start = supportive
+
+[MEMBER:kael]
+name = Kael Darkheart
+corruption_start = 71
+corruption_target = 64
+resistance = medium
+specialty = dark_rituals
+attitude_start = neutral
+
+[REFORM:code_of_conduct]
+all_members_change = -1.0
+mordak_exception = 0
+vorgath_exception = 0
+attitude_change = 0
+
+[REFORM:soul_ethics]
+low_corruption_change = -2.0
+high_corruption_change = -0.5
+threshold = 70
+attitude_change = 5
+
+[REFORM:corruption_limits]
+all_members_change = -1.5
+attitude_change = -5
+
+[REFORM:peer_accountability]
+supportive_influence = -1.0
+neutral_influence = -0.5
+hostile_influence = 0

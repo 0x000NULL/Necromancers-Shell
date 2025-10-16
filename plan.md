@@ -377,7 +377,7 @@ necromancers_shell/
 
 **Tasks**:
 
-1. **Consciousness Decay System** (Week 24)
+1. **Consciousness Decay System** (Week 24) [Done]
    - Separate from corruption - tracks identity/awareness stability
    - Monthly decay rate (-0.1% per month by default)
    - Consciousness percentage (0-100%)
@@ -395,7 +395,7 @@ necromancers_shell/
    } ConsciousnessState;
    ```
 
-2. **70% Corruption Threshold System** (Week 24)
+2. **70% Corruption Threshold System** (Week 24) [Done]
    - Expand corruption from basic to 10 detailed tiers
    - Implement irreversible threshold at 70%
    - Path lockout mechanics (Revenant locked >30%, Wraith locked >40%)
@@ -419,7 +419,7 @@ necromancers_shell/
 
    Data file: `data/corruption_tiers.dat`
 
-3. **Extended Time Tracking** (Week 24)
+3. **Extended Time Tracking** (Week 24) [Done]
    - Add months and years to existing day/hour system
    - Month calculation (30 days per month)
    - Year calculation (12 months per year)
@@ -436,7 +436,7 @@ necromancers_shell/
    } ExtendedTimeState;
    ```
 
-4. **Regional Council NPCs** (Week 25)
+4. **Regional Council NPCs** (Week 25) [Done]
    - 6 major necromancer characters
    - Individual corruption levels and specializations
    - Alliance/relationship system with council
@@ -466,7 +466,7 @@ necromancers_shell/
    alliance_type = non_aggression  # Can upgrade to full_alliance
    ```
 
-5. **Divine Architect NPCs** (Week 26)
+5. **Divine Architect NPCs** (Week 26) [Done]
    - 7 god-tier characters (The Seven Architects)
    - Individual domains and personalities
    - Divine Council dialogue system
@@ -498,7 +498,7 @@ necromancers_shell/
    favor_start = 0
    ```
 
-6. **Thessara Ghost System** (Week 27)
+6. **Thessara Ghost System** (Week 27) [Done]
    - Thessara as persistent NPC (3,000 years old)
    - Null space encounter system
    - Consciousness-to-consciousness data transfer
@@ -518,7 +518,7 @@ necromancers_shell/
 
    Data file: `data/npcs/thessara.dat`
 
-7. **Null Space Location System** (Week 27)
+7. **Null Space Location System** (Week 27) [Done]
    - Special locations outside normal topology
    - Access via specific events/summons only
    - No corpses, no standard resources
@@ -540,7 +540,7 @@ necromancers_shell/
    exits = none  # Must be summoned out
    ```
 
-8. **The Ashbrook Event** (Week 28)
+8. **The Ashbrook Event** (Week 28) [Done]
    - Critical Day 47 story event
    - Village population simulation (147 NPCs)
    - Mass soul harvesting mechanics
@@ -564,7 +564,7 @@ necromancers_shell/
 
    Data file: `data/events/ashbrook.dat`
 
-9. **Multi-Necromancer Alliance System** (Week 28)
+9. **Multi-Necromancer Alliance System** (Week 28) [Done]
    - Alliance types: Full Alliance, Non-Aggression Pact, Information Exchange
    - Phylactery oath binding mechanics
    - Council coordination for Purge defense
@@ -590,7 +590,7 @@ necromancers_shell/
    } NecromancerAlliance;
    ```
 
-10. **Extended Ending System** (Week 28-29)
+10. **Extended Ending System** (Week 28-29) [Done]
     - Expand from 3 to 6 major endings
     - Add 1 failure ending (Morningstar failure)
     - Detailed requirements and lockout tracking

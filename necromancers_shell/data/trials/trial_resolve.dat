@@ -1,0 +1,50 @@
+# Trial 5: Test of Resolve - 30-Day Corruption Endurance
+# Chamber of Corrupted Souls tests mental fortitude and resistance
+
+[CHALLENGE:corruption_endurance]
+duration_days = 30
+chamber_location = Chamber of Corrupted Souls
+corruption_start = 41
+corruption_daily_increase = 0.4
+corruption_max_allowed = 60
+temptation_corruption = 10
+temptation_reward = 5000
+thessara_help_day = 20
+thessara_help_threshold = 55
+thessara_help_amount = -5
+thessara_message = I can ease your burden once, Administrator. The weight of corrupted souls is crushing. Use this gift wisely.
+failure_message = Your corruption exceeded 60%. The Archon path is lost. You were not ready to bear this burden.
+success_message = You endured 30 days in the Chamber without breaking. Your resolve is unshakable. The fifth seal dissolves.
+
+[STORY:context]
+description = The Chamber of Corrupted Souls is a place between worlds where the most vile and twisted souls await judgment. Spending time here exposes you to their malice, their pain, their endless rage. The corruption seeps into you slowly, day by day, wearing down your resistance. Daily temptations whisper of easy power - just a little more corruption for immense strength. The Divine Architects watch to see if you can endure constant pressure without breaking. Can you resist the easy path when it's offered every single day? This is the test of resolve.
+
+[MECHANICS:progression]
+base_corruption_increase = 0.4_percent_per_day
+total_natural_increase = 12_percent_over_30_days
+starting_corruption = 41_percent
+expected_final = 53_percent_without_temptations
+failure_threshold = 60_percent
+daily_temptation_chance = 100_percent
+temptation_types = power,knowledge,dominion,immortality
+temptation_rotation = deterministic_based_on_day
+
+[THESSARA:intervention]
+availability_day = 20
+corruption_threshold = 55_percent
+help_amount = minus_5_percent
+one_time_only = true
+relationship_requirement = none
+message_before = The corruption is overwhelming you. I sense your struggle. If you accept my help, I can ease it slightly - but only once.
+message_after = I have done what I can. The rest is up to you. Stay strong, Administrator.
+
+[EVALUATION:criteria]
+pass_condition = complete_30_days_below_60_percent
+perfect_score_corruption = below_50_percent
+temptation_resist_bonus = 1.5_points_per_resist
+temptation_accept_penalty = 5_points_per_accept
+thessara_help_penalty = 10_points
+corruption_bonus_low = 10_points_if_below_50
+corruption_bonus_medium = 5_points_if_below_55
+archon_path_requirement = absolute
+no_retry = true

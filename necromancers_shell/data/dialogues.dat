@@ -1,0 +1,347 @@
+# Dialogues Data File
+# Major Dialogue Trees for Necromancer's Shell
+# Format: INI-style with [DIALOGUE:id] sections
+
+# ============================================================================
+# THESSARA - Mentor Dialogues
+# ============================================================================
+
+[DIALOGUE:thessara_revelation]
+npc = thessara
+trigger = after_ashbrook
+trigger_day = 50
+type = mentor_introduction
+location = null_space
+message = I saw what you did to Ashbrook. 147 souls in one night. That kind of harvest... it changes you, doesn't it?
+provides = six_paths_knowledge
+importance = critical
+choices = acknowledge, deny, question
+next_dialogue = thessara_paths_explained
+corruption_gate = 38
+
+[DIALOGUE:thessara_paths_explained]
+npc = thessara
+trigger = after_revelation
+type = mentor_teaching
+message = There are six paths before you, Administrator. Revenant, Lich Lord, Reaper, Archon, Wraith, and Morningstar. Each offers a different answer to what you've become.
+provides = path_overview
+importance = critical
+choices = ask_revenant, ask_lich, ask_reaper, ask_archon, ask_wraith, ask_morningstar
+next_dialogue = thessara_advice
+knowledge_unlocked = six_paths
+
+[DIALOGUE:thessara_advice]
+npc = thessara
+trigger = paths_explained
+type = mentor_warning
+message = Choose carefully. Some paths close based on your corruption level. Ashbrook pushed you past many thresholds already.
+provides = corruption_warning
+importance = major
+choices = understand, question_corruption, deny_impact
+corruption_current = 38
+
+[DIALOGUE:thessara_goodbye]
+npc = thessara
+trigger = archon_trial_6
+type = sacrifice_moment
+message = If you save Maya, you sever our connection permanently. I'll be gone. But she'll live. Is that worth it?
+importance = critical
+choices = save_maya_lose_thessara, refuse_trial
+emotional_weight = maximum
+irreversible = true
+
+# ============================================================================
+# VORGATH - Political Dialogues
+# ============================================================================
+
+[DIALOGUE:vorgath_first_contact]
+npc = vorgath
+trigger_day = 34
+type = threat_negotiation
+location = plague_pit_border
+message = Administrator. I've been monitoring your progress. The Plague Pit is mine. You can acknowledge that, or we can have a very brief conversation about territory rights.
+choices = accept_alliance, decline_fight, flee, propose_alternative
+importance = political_foundation
+corruption_visible = true
+
+[DIALOGUE:vorgath_non_aggression]
+npc = vorgath
+trigger = accept_alliance
+type = pact_formation
+message = Smart. I have no interest in fighting you. Keep your territories, I'll keep mine. If the gods come for us, we stand together.
+outcome = non_aggression_pact
+provides = alliance_bonus
+relationship_change = neutral_to_ally
+
+[DIALOGUE:vorgath_purge_warning]
+npc = vorgath
+trigger_day = 92
+type = alliance_strategy
+location = battlefield_nexus
+message = I heard about the soldier. Word travels fast. The gods are watching us more closely now. We need to organize.
+provides = purge_information
+importance = introduces_purge_mechanic
+choices = agree_organization, refuse, ask_details
+next_dialogue = regional_council_introduction
+
+[DIALOGUE:vorgath_fourth_purge]
+npc = vorgath
+trigger = fourth_purge_begins
+trigger_day = 387
+type = crisis_response
+message = It's happening. 347 necromancers marked for purging. We can save some of them if we act fast. Or we can use this to eliminate competition.
+choices = save_necromancers, eliminate_rivals, stay_neutral
+moral_weight = high
+corruption_impact = significant
+
+# ============================================================================
+# KELDRIN - Divine Council Dialogues
+# ============================================================================
+
+[DIALOGUE:keldrin_summons]
+npc = keldrin
+trigger_day = 155
+type = divine_summons
+location = null_space
+message = Necromancer Administrator. You have been noticed. The Divine Council requests your presence. This is not negotiable, but you may choose how to respond.
+choices = accept_summons, refuse_summons
+importance = critical
+accept_outcome = divine_council_judgment
+refuse_outcome = targeted_in_purge
+
+[DIALOGUE:divine_council_judgment]
+npcs = all_seven_gods
+trigger = accept_summons
+type = divine_interrogation
+location = celestial_chamber
+message_keldrin = Necromancer. You stand before the Seven Architects. We will ask questions. You will answer truthfully.
+message_anara = How do you justify the desecration of life?
+message_vorathos = Do you understand the beauty of entropy you wield?
+message_myrith = Have you treated the souls with respect?
+choices = multiple_responses
+outcome = conditional_archon_status
+importance = critical
+judgment_type = favor_based
+
+[DIALOGUE:keldrin_archon_offer]
+npc = keldrin
+trigger = pass_judgment
+type = position_offer
+message = The Council has decided. We offer you a position: Archon. Administrator with divine oversight. You will fix the Death Network's flaws. You will be watched.
+choices = accept_archon, decline
+accept_outcome = archon_path_unlocked
+decline_outcome = reaper_path_offered
+importance = critical
+
+# ============================================================================
+# VORATHOS - Mortality Dialogues
+# ============================================================================
+
+[DIALOGUE:vorathos_mortality_revelation]
+npc = vorathos
+trigger_day = 1500
+type = truth_revelation
+location = void_chamber
+message = You've been Archon long enough. You deserve to know the truth. Your consciousness is decaying. 34 years maximum before you fragment completely. The clock is ticking.
+reveals = consciousness_decay_mechanic
+importance = major
+corruption_independent = true
+timer_starts = 34_years
+
+[DIALOGUE:vorathos_endgame_choice]
+npc = vorathos
+trigger = consciousness_decay_warning
+type = existential_decision
+message = So what will you do, Administrator? Become a lich and freeze your decay? Resurrect before it's too late? Or attempt the impossible - the Morningstar path?
+choices = choose_lich, choose_resurrection, attempt_morningstar
+importance = determines_ending
+philosophical_weight = maximum
+
+[DIALOGUE:vorathos_morningstar_warning]
+npc = vorathos
+trigger = attempt_morningstar
+type = dire_warning
+message = You understand the odds? 22 have tried. Only Azrael succeeded. The others... some still exist as errors in the system. Permanent. Aware. Trapped.
+importance = morningstar_risk
+choices = proceed_anyway, reconsider
+courage_test = true
+
+# ============================================================================
+# JORDAN - Student Dialogues
+# ============================================================================
+
+[DIALOGUE:jordan_awakening]
+npc = jordan
+trigger_day = 1124
+type = mentorship_beginning
+location = forgotten_graveyard
+message = Help. I don't understand what's happening. I was driving and then... I'm dead? But I'm still here. And there's this interface... What is this?
+importance = passing_torch
+choices = explain_system, offer_guidance, send_away
+student_arc_begins = true
+
+[DIALOGUE:jordan_first_lesson]
+npc = jordan
+trigger = accept_student
+type = teaching_moment
+message = So I can actually... administer death? That's what you do? That's what this whole system is?
+provides = mentor_experience
+importance = role_reversal
+choices = teach_ethics, teach_power, teach_technical
+
+[DIALOGUE:jordan_reaper_choice]
+npc = jordan
+trigger = student_path_decision
+type = graduation
+message = I've decided. I want to be a Reaper. An eternal administrator, like you tried to be. I'll carry on your work. Thank you, teacher.
+importance = legacy
+emotional_weight = high
+outcome = jordan_becomes_reaper
+
+# ============================================================================
+# SERAPHINE - Scholar Dialogues
+# ============================================================================
+
+[DIALOGUE:seraphine_research_offer]
+npc = seraphine
+trigger = regional_council_meeting
+type = collaboration_offer
+message = Your technical knowledge combined with my soul research... we could make real breakthroughs. Ethical breakthroughs. Interested?
+choices = accept_collaboration, decline
+outcome = research_partnership
+corruption_impact = negative
+reformation_progress = positive
+
+[DIALOGUE:seraphine_ombudsman]
+npc = seraphine
+trigger = reformation_success
+type = position_announcement
+message = The Council voted. I'm the first Necromantic Ombudsman. We actually did it - we proved necromancy can be ethical. This is because of you.
+importance = reformation_milestone
+emotional_weight = high
+achievement_unlocked = reformed_community
+
+# ============================================================================
+# REGIONAL COUNCIL - Group Dialogues
+# ============================================================================
+
+[DIALOGUE:regional_council_first_meeting]
+npcs = vorgath, seraphine, mordak, thessaras_echo, whisper, archivist
+trigger_day = 92
+type = political_summit
+location = battlefield_nexus
+message_vorgath = Welcome, Administrator. We seven represent the strongest necromancers in this region. The gods are tightening their grip. We need to decide our response.
+provides = council_formation
+importance = political_organization
+choices = propose_reform, propose_resistance, propose_hiding
+
+[DIALOGUE:council_vote_reformation]
+npcs = all_council_members
+trigger = propose_reform
+type = democratic_vote
+votes_for = seraphine, archivist, thessaras_echo, player
+votes_against = mordak, vorgath
+votes_abstain = whisper
+outcome = reformation_program_begins
+importance = major
+duration = 30_days
+
+# ============================================================================
+# MINOR NPC DIALOGUES
+# ============================================================================
+
+[DIALOGUE:soldier_encounter]
+npc = soldier_woman
+trigger_day = 89
+type = moral_choice
+location = battlefield
+message = [She's dying. Gut wound. You could harvest a quality warrior soul... or spend precious energy to heal her. She's whispering about Emily. Her daughter.]
+choices = harvest_soul, heal_soldier, walk_away
+heal_cost = 500_soul_energy
+harvest_gain = 174_soul_energy
+corruption_impact = redemption_vs_efficiency
+importance = moral_test
+
+[DIALOGUE:angel_encounter]
+npc = wounded_angel
+trigger_day = 148
+type = major_moral_choice
+location = celestial_border
+message = [The Seraphim is wounded, vulnerable. A divine soul - quality 98. Or you could heal it. It would remember. It would return that mercy later.]
+choices = harvest_divine_soul, heal_angel
+harvest_gain = 5000_soul_energy
+heal_cost = 2000_soul_energy
+corruption_impact = major
+angel_returns = true
+importance = redemption_path
+
+# ============================================================================
+# ARCHON TRIAL DIALOGUES
+# ============================================================================
+
+[DIALOGUE:trial_1_power]
+npc = keldrin
+trigger = archon_trial_1
+type = combat_trial
+message = Defeat the Seraphim in single combat. Prove your power.
+challenge = combat_trial
+strategy_hint = distributed_attack_network
+importance = archon_progression
+
+[DIALOGUE:trial_6_sacrifice]
+npc = myrith
+trigger = archon_trial_6
+type = sacrifice_trial
+message = Maya is dying. You can save her, but only by severing your connection to Thessara permanently. Your mentor, or a stranger's child?
+choice = save_maya, refuse_trial
+cost = lose_thessara_forever
+importance = ultimate_sacrifice
+
+# ============================================================================
+# ENDING DIALOGUES
+# ============================================================================
+
+[DIALOGUE:lich_transformation]
+npc = none
+trigger = corruption_100
+type = forced_ending
+message = The transformation is complete. You are no longer human. No longer constrained by mortality, emotion, or doubt. Perfect efficiency. Perfect emptiness. Forever.
+ending = lich_lord
+tone = dark
+reversible = false
+
+[DIALOGUE:resurrection_complete]
+npc = none
+trigger = revenant_path_complete
+type = ending
+message = You wake up. Actually wake up. Breathing. Heart beating. Mortal again. The memories of undeath fade like a nightmare. You have 37 years. Make them count.
+ending = revenant
+tone = hopeful
+achievement = the_second_life
+
+[DIALOGUE:reaper_eternal]
+npc = nexus
+trigger = reaper_path_complete
+type = ending
+message = Welcome, Reaper. You are now an eternal psychopomp. You will guide souls forever. You will never tire, never corrupt, never end. Is this peace or prison? Perhaps both.
+ending = reaper
+tone = bittersweet
+achievement = the_eternal_administrator
+
+[DIALOGUE:archon_to_morningstar]
+npc = keldrin
+trigger = morningstar_complete
+type = ending
+message = Impossible. You... you actually did it. You're ascending. You're becoming... what are you becoming? A new god? We'll have to make room for an eighth chair.
+ending = morningstar_success
+tone = awestruck
+achievement = the_eighth_architect
+
+[DIALOGUE:error_state]
+npc = none
+trigger = morningstar_failure
+type = bad_ending
+message = ERROR: CONSCIOUSNESS FRAGMENTATION CRITICAL. ERROR: DIVINE PROTOCOL VIOLATION. ERROR: UNDEFINED BEHAVIOR. You are neither alive nor dead, neither mortal nor divine. You are a glitch that will never resolve. Forever.
+ending = permanent_error
+tone = horror
+achievement = the_eternal_error

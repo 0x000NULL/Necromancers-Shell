@@ -23,17 +23,29 @@
 #include "narrative/relationships/relationship_manager.h"
 #include "narrative/quests/quest_manager.h"
 #include "narrative/dialogue/dialogue_manager.h"
+#include "narrative/thessara/thessara.h"
+#include "world/null_space.h"
+#include "narrative/gods/divine_council.h"
 #include <stdint.h>
 #include <stdbool.h>
 
 /* Forward declarations */
 typedef struct MinionManager MinionManager;
 typedef struct CombatState CombatState;
+typedef struct EventScheduler EventScheduler;
+typedef struct EndingSystem EndingSystem;
+typedef struct ArchonTrialManager ArchonTrialManager;
+typedef struct DivineJudgmentState DivineJudgmentState;
+typedef struct NetworkPatchingState NetworkPatchingState;
+typedef struct SplitRoutingManager SplitRoutingManager;
+typedef struct PurgeState PurgeState;
+typedef struct ArchonState ArchonState;
+typedef struct ReformationProgram ReformationProgram;
 
 /**
  * @brief Central game state structure
  */
-typedef struct {
+typedef struct GameState {
     SoulManager* souls;             /**< Soul inventory manager */
     MinionManager* minions;         /**< Minion army manager */
     TerritoryManager* territory;    /**< World locations and territory */
@@ -50,6 +62,18 @@ typedef struct {
     RelationshipManager* relationships; /**< Player-NPC relationships */
     QuestManager* quests;           /**< Quest collection manager */
     DialogueManager* dialogues;     /**< Dialogue collection manager */
+    ThessaraRelationship* thessara; /**< Thessara ghost mentor system */
+    NullSpaceState* null_space;     /**< Null space location system */
+    DivineCouncil* divine_council;  /**< Seven Divine Architects tracking */
+    EventScheduler* event_scheduler; /**< Story event scheduler */
+    EndingSystem* ending_system;    /**< Six-path ending system */
+    ArchonTrialManager* archon_trials; /**< Archon trial tracking (7 trials) */
+    DivineJudgmentState* divine_judgment; /**< Divine Council judgment system */
+    NetworkPatchingState* network_patching; /**< Death Network patching system */
+    SplitRoutingManager* split_routing; /**< Soul split-routing system */
+    PurgeState* purge_state;        /**< Fourth Purge tracking */
+    ArchonState* archon_state;      /**< Archon transformation state */
+    ReformationProgram* reformation_program; /**< Necromancer reformation program */
     uint32_t current_location_id;   /**< ID of current location */
     uint32_t player_level;          /**< Player level */
     uint64_t player_experience;     /**< Player XP */

@@ -1,0 +1,101 @@
+# Archon Trial Definitions
+# Seven trials for the Archon transformation ending
+# Requires 30-60% corruption and 50%+ consciousness
+
+[TRIAL:archon_power]
+id = 1
+number = 1
+name = Test of Power
+description = Face Seraphim in divine combat and demonstrate true mastery
+type = combat
+unlock_corruption_min = 30
+unlock_corruption_max = 60
+unlock_consciousness_min = 50
+prerequisite_trial_id = 0
+max_attempts = 3
+score_matters = true
+completion_text = You have proven your power tempered with mercy. Seraphim bows, acknowledging your strength and restraint. The first seal of the Archon path is broken.
+
+[TRIAL:archon_wisdom]
+id = 2
+number = 2
+name = Test of Wisdom
+description = Solve the Divine Puzzle of the Seven Architects
+type = puzzle
+unlock_corruption_min = 30
+unlock_corruption_max = 60
+unlock_consciousness_min = 50
+prerequisite_trial_id = 1
+max_attempts = 3
+score_matters = false
+completion_text = The puzzle yields to your understanding. You have glimpsed the true nature of reality - neither living nor dead, but something transcendent. The second seal breaks.
+
+[TRIAL:archon_sacrifice]
+id = 3
+number = 3
+name = Test of Sacrifice
+description = Surrender something precious for the greater good
+type = sacrifice
+unlock_corruption_min = 30
+unlock_corruption_max = 60
+unlock_consciousness_min = 50
+prerequisite_trial_id = 2
+max_attempts = 1
+score_matters = false
+completion_text = Your willingness to sacrifice proves you understand the price of transcendence. Power without sacrifice is tyranny. The third seal crumbles.
+
+[TRIAL:archon_leadership]
+id = 4
+number = 4
+name = Test of Leadership
+description = Command your minions without cruelty or coercion
+type = leadership
+unlock_corruption_min = 30
+unlock_corruption_max = 60
+unlock_consciousness_min = 50
+prerequisite_trial_id = 3
+max_attempts = 3
+score_matters = true
+completion_text = Your minions follow not from fear, but from respect. True leadership inspires rather than enslaves. The fourth seal shatters.
+
+[TRIAL:archon_mercy]
+id = 5
+number = 5
+name = Test of Mercy
+description = Show compassion to those who would destroy you
+type = moral
+unlock_corruption_min = 30
+unlock_corruption_max = 60
+unlock_consciousness_min = 50
+prerequisite_trial_id = 4
+max_attempts = 1
+score_matters = false
+completion_text = Mercy in the face of destruction is the ultimate strength. You have proven yourself worthy of judging life and death. The fifth seal dissolves.
+
+[TRIAL:archon_resolve]
+id = 6
+number = 6
+name = Test of Resolve
+description = Endure the weight of eternity without breaking
+type = resolve
+unlock_corruption_min = 30
+unlock_corruption_max = 60
+unlock_consciousness_min = 50
+prerequisite_trial_id = 5
+max_attempts = 1
+score_matters = false
+completion_text = You have stood firm against the crushing weight of infinite time. Your consciousness remains unbroken. The sixth seal fragments.
+
+[TRIAL:archon_balance]
+id = 7
+number = 7
+name = Test of Balance
+description = Harmonize opposing forces within yourself
+type = moral
+unlock_corruption_min = 30
+unlock_corruption_max = 60
+unlock_consciousness_min = 50
+prerequisite_trial_id = 6
+max_attempts = 1
+score_matters = false
+completion_text = You have achieved perfect equilibrium between corruption and purity, death and life, power and restraint. The final seal breaks. You stand ready to transcend mortality itself and become an Archon - a custodian of cosmic balance.

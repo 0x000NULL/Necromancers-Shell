@@ -1,0 +1,575 @@
+# Quests Data File
+# Quest definitions for Necromancer's Shell
+# Format: INI-style with [QUEST:id] sections
+
+# ============================================================================
+# MAIN STORY QUESTS
+# ============================================================================
+
+[QUEST:stabilize_consciousness]
+name = Survive Final Death
+type = main_story
+trigger = day_1
+objective = Reach 70% consciousness stability
+time_limit = 72_hours
+reward = survival
+failure = final_death
+description = Your consciousness is fragmenting. You must stabilize or face true oblivion.
+corruption_gain = 0
+difficulty = tutorial
+importance = critical
+next_quest = first_harvest
+
+[QUEST:first_harvest]
+name = The First Harvest
+type = main_story
+prerequisite = stabilize_consciousness
+objective = Harvest 5 souls from Forgotten Graveyard
+location = forgotten_graveyard
+reward = 204_soul_energy, 4_percent_consciousness
+corruption_gain = 0
+description = Learn the fundamentals of soul harvesting. The Forgotten Graveyard provides ancient corpses.
+difficulty = easy
+importance = tutorial
+next_quest = raise_first_minion
+
+[QUEST:raise_first_minion]
+name = Summon the Dead
+type = main_story
+prerequisite = first_harvest
+objective = Raise your first undead minion
+cost = 100_soul_energy
+reward = loyal_minion
+corruption_gain = 2
+description = Channel soul energy to animate the dead. Your first servant rises.
+difficulty = easy
+importance = tutorial
+next_quest = explore_network
+
+[QUEST:explore_network]
+name = Navigate the Death Network
+type = main_story
+prerequisite = raise_first_minion
+objective = Connect to 3 different locations
+reward = 500_soul_energy
+corruption_gain = 0
+description = Learn to travel through the Death Network. Each location offers different resources.
+difficulty = easy
+importance = tutorial
+next_quest = choose_path
+
+[QUEST:choose_path]
+name = Choose Your Destiny
+type = main_story
+trigger = corruption_40_or_day_100
+objective = Select one of six paths
+choices = revenant, lich_lord, reaper, archon, wraith, morningstar
+importance = determines_ending
+corruption_gate = various
+description = Your actions have led you here. Six paths diverge. Choose wisely - corruption level determines which paths remain open.
+difficulty = decision
+next_quest = varies_by_path
+
+# ============================================================================
+# REDEMPTION QUESTS - Path to Revenant
+# ============================================================================
+
+[QUEST:redemption_1_lost_soul]
+name = Return the Lost Soul
+type = redemption
+objective = Deliver merchant's soul to his family
+location = ashbrook_ruins
+reward = -2_percent_corruption
+corruption_gate = below_70
+required_for = revenant_path
+description = A merchant's soul lingers, desperate to say goodbye. You can guide him home.
+difficulty = easy
+moral_weight = positive
+next_quest = redemption_2
+
+[QUEST:redemption_2_free_minion]
+name = Free a Bound Soul
+type = redemption
+objective = Destroy powerful minion to free its soul
+cost = lose_boneclaw_minion
+reward = -2_percent_corruption
+corruption_gate = below_70
+required_for = revenant_path
+description = Your boneclaw servant was once a person. You can end its bondage and free its soul.
+difficulty = moderate
+moral_weight = sacrifice
+next_quest = redemption_3
+
+[QUEST:redemption_3_heal_soldier]
+name = The Soldier's Choice
+type = redemption
+trigger_day = 89
+objective = Save dying soldier instead of harvesting
+location = battlefield
+cost = 500_soul_energy
+reward = -2_percent_corruption
+corruption_gate = below_70
+required_for = revenant_path
+description = A wounded soldier lies dying. You could harvest a quality soul... or save a mother's life.
+difficulty = moral_choice
+moral_weight = major
+dialogue = soldier_encounter
+next_quest = redemption_4
+
+[QUEST:redemption_4_heal_angel]
+name = Heal the Enforcer
+type = redemption
+trigger_day = 148
+objective = Heal wounded angel instead of harvesting divine soul
+location = celestial_border
+cost = 2000_soul_energy
+reward = -5_percent_corruption, angel_returns_later
+corruption_gate = below_70
+required_for = revenant_path
+description = A Seraphim lies wounded. A divine soul would grant immense power... but mercy grants something greater.
+difficulty = major_sacrifice
+moral_weight = maximum
+dialogue = angel_encounter
+next_quest = redemption_5
+
+[QUEST:redemption_5_community_service]
+name = Teach, Don't Take
+type = redemption
+objective = Guide 50 newly dead souls without harvesting them
+duration = 30_days
+reward = -3_percent_corruption
+corruption_gate = below_70
+required_for = revenant_path
+description = True redemption means service. Guide souls to their destinations without taking any for yourself.
+difficulty = hard
+moral_weight = sustained_good
+next_quest = resurrection_protocol
+
+[QUEST:resurrection_protocol]
+name = Research Resurrection
+type = path_research
+prerequisite = 5_redemption_quests
+objective = Complete resurrection protocol research
+cost = 15000_soul_energy, 200_hours
+reward = revenant_path_unlocked
+corruption_gate = below_30
+description = Ancient research into returning to life. Requires massive energy and near-pure consciousness.
+difficulty = very_hard
+importance = path_unlock
+
+# ============================================================================
+# ARCHON TRIALS - Path to Revolution
+# ============================================================================
+
+[QUEST:archon_trial_1_power]
+name = Test of Power
+type = archon_trial
+trigger = become_archon_candidate
+objective = Defeat Seraphim in single combat
+strategy = distributed_attack_network
+reward = trial_complete
+difficulty = very_hard
+description = Keldrin tests your combat prowess. The Seraphim is a divine warrior - raw power won't work.
+combat_difficulty = 95
+hint = distribution_beats_concentration
+next_quest = archon_trial_2
+
+[QUEST:archon_trial_2_wisdom]
+name = Test of Wisdom
+type = archon_trial
+prerequisite = archon_trial_1
+objective = Solve the Routing Paradox
+solution = split_route_soul
+reward = trial_complete, new_routing_protocol
+difficulty = puzzle
+description = A soul must reach two destinations simultaneously. Impossible? Or is it?
+god = keldrin
+hint = quantum_superposition
+next_quest = archon_trial_3
+
+[QUEST:archon_trial_3_morality]
+name = Test of Morality
+type = archon_trial
+prerequisite = archon_trial_2
+objective = Choose between 100 lives or 50000 energy
+correct_choice = save_lives
+reward = trial_complete
+difficulty = moral_test
+description = A natural disaster threatens 100 mortals. You can save them by expending all your resources. Or let them die and harvest immense power.
+god = anara
+moral_weight = critical
+next_quest = archon_trial_4
+
+[QUEST:archon_trial_4_technical]
+name = Test of Technical Skill
+type = archon_trial
+prerequisite = archon_trial_3
+objective = Fix 17 bugs in Reincarnation Queue
+time_limit = 24_hours
+reward = trial_complete
+difficulty = technical
+description = The Reincarnation Queue has accumulated bugs over millennia. Fix them all. Prove your administrative competence.
+god = nexus
+bugs_found = 17
+improvements = 23_percent_faster, 100_percent_fairer
+next_quest = archon_trial_5
+
+[QUEST:archon_trial_5_resolve]
+name = Test of Resolve
+type = archon_trial
+prerequisite = archon_trial_4
+objective = Resist corruption for 30 days in corrupted souls chamber
+challenge = extreme_corruption_pressure
+reward = trial_complete
+difficulty = endurance
+description = You will be placed in a chamber filled with corrupted souls. Resist their influence for 30 days.
+god = theros
+corruption_pressure = 2_percent_per_day
+must_maintain = below_corruption_threshold
+next_quest = archon_trial_6
+
+[QUEST:archon_trial_6_sacrifice]
+name = Test of Sacrifice
+type = archon_trial
+prerequisite = archon_trial_5
+objective = Save Maya by severing connection to Thessara
+cost = lose_mentor_forever
+reward = trial_complete
+difficulty = ultimate_sacrifice
+description = A child named Maya is dying. You can save her, but only by severing your connection to Thessara permanently.
+god = myrith
+emotional_weight = maximum
+irreversible = true
+dialogue = trial_6_sacrifice, thessara_goodbye
+next_quest = archon_trial_7
+
+[QUEST:archon_trial_7_leadership]
+name = Test of Leadership
+type = archon_trial
+prerequisite = archon_trial_6
+objective = Reduce Regional Council corruption by 10%
+duration = 30_days
+methods = education, example, enforcement
+reward = trial_complete, archon_status
+difficulty = political
+description = Lead the Regional Council to reform. Reduce their collective corruption through teaching, example, and policy.
+god = keldrin
+council_members = 6
+starting_corruption = varies
+target_reduction = 10_percent_average
+next_quest = archon_duties
+
+# ============================================================================
+# MORNINGSTAR TRIALS - Path to Apotheosis
+# ============================================================================
+
+[QUEST:morningstar_trial_1_combat]
+name = Combat a God
+type = morningstar_trial
+trigger = attempt_impossible
+objective = Defeat or stalemate Vorathos in combat
+duration = varies
+reward = passage
+difficulty = extreme
+description = To become a god, you must fight a god. Vorathos offers himself as your opponent.
+god = vorathos
+combat_difficulty = 100
+acceptable_outcome = defeat_or_stalemate
+hint = entropy_cannot_be_destroyed
+next_quest = morningstar_trial_2
+
+[QUEST:morningstar_trial_2_identity]
+name = Acquire Kael's Fragment
+type = morningstar_trial
+prerequisite = morningstar_trial_1
+objective = Retrieve and restore First Death's soul
+location = mount_karaketh
+reward = identity_anchor
+difficulty = extreme
+description = Kael, the first mortal to die, holds the key. His soul fragment will anchor your identity during apotheosis.
+lore_importance = critical
+requires = mount_karaketh_access
+hint = first_death_understands_transformation
+next_quest = morningstar_trial_3
+
+[QUEST:morningstar_trial_3_mastery]
+name = Master All Magic
+type = morningstar_trial
+prerequisite = morningstar_trial_2
+objective = Learn divine, arcane, primal, and necromantic magic
+duration = 3_years
+reward = complete_magical_mastery
+difficulty = extreme
+description = Gods must command all forms of magic. Learn the four fundamental schools.
+schools = divine, arcane, primal, necromantic
+teachers = angels, mages, druids, necromancers
+time_investment = 1095_days
+next_quest = morningstar_trial_4
+
+[QUEST:morningstar_trial_4_balance]
+name = Achieve Perfect Balance
+type = morningstar_trial
+prerequisite = morningstar_trial_3
+objective = Reach exactly 50% corruption and maintain it
+duration = 30_days
+reward = balance_maintained
+difficulty = extreme
+description = Apotheosis requires perfect balance. Reach 50% corruption exactly and hold it for 30 days.
+margin_of_error = 0_percent
+difficulty_note = any_action_shifts_corruption
+hint = inaction_is_also_action
+next_quest = morningstar_trial_5
+
+[QUEST:morningstar_trial_5_engine]
+name = Build Apotheosis Engine
+type = morningstar_trial
+prerequisite = morningstar_trial_4
+objective = Construct divine bootstrap device
+requirements = components_from_seven_gods, 10_ancient_souls
+duration = 1_to_3_years
+reward = ascension_tool
+difficulty = extreme
+description = The Apotheosis Engine will allow you to bootstrap divine consciousness. You need components from each of the Seven Architects.
+god_components = 7
+ancient_souls = 10
+construction_time = 365_to_1095_days
+next_quest = morningstar_trial_6
+
+[QUEST:morningstar_trial_6_death]
+name = Die and Transcend
+type = morningstar_trial
+prerequisite = morningstar_trial_5
+objective = Achieve true death and reconstruct as divine
+risk = permanent_error_state_or_void
+reward = divine_consciousness
+difficulty = extreme
+description = To become a god, you must die completely and reconstruct yourself from nothing. 22 have tried. 21 failed. Azrael succeeded.
+success_rate = 1_in_23
+failure_outcomes = error_state, void, fragmentation
+point_of_no_return = true
+next_quest = morningstar_trial_7
+
+[QUEST:morningstar_trial_7_domain]
+name = Claim Your Domain
+type = morningstar_trial
+prerequisite = morningstar_trial_6
+objective = Choose and embody divine domain
+player_choice = god_of_second_chances
+reward = eighth_architect_status
+difficulty = identity
+description = Every god has a domain. What will yours be? Your choice defines your divine nature forever.
+domains = second_chances, redemption, balance, transformation, others
+permanence = eternal
+next_quest = morningstar_ending
+
+# ============================================================================
+# POLITICAL QUESTS
+# ============================================================================
+
+[QUEST:form_alliance_vorgath]
+name = Alliance with the Undying
+type = political
+trigger = vorgath_contact
+objective = Form non-aggression pact with Vorgath
+reward = safe_borders, ally_in_purge
+difficulty = diplomatic
+description = Vorgath offers alliance. He's dangerous but honorable. His power could save you in the coming purge.
+dialogue = vorgath_first_contact
+choices = accept, decline, fight, negotiate
+outcome = non_aggression_pact
+importance = major
+
+[QUEST:regional_council_formation]
+name = The Battlefield Nexus Summit
+type = political
+trigger_day = 92
+objective = Attend first Regional Council meeting
+location = battlefield_nexus
+reward = political_organization
+description = Vorgath calls the strongest necromancers together. The gods are tightening their grip. Organization is survival.
+attendees = 7_necromancers
+dialogue = regional_council_first_meeting
+importance = major
+next_quest = reformation_program
+
+[QUEST:reformation_program]
+name = Prove Ethical Necromancy
+type = political
+trigger = propose_reform
+objective = Reduce Regional Council corruption by 10%
+duration = 30_days
+methods = education, example, policy
+reward = reformation_success
+description = Prove necromancy can be ethical. Reform the Regional Council through teaching and example.
+difficulty = hard
+members_affected = 6
+starting_corruption = varies
+success_outcome = necromantic_ombudsman_position
+importance = major
+
+[QUEST:fourth_purge_response]
+name = The Fourth Purge
+type = political
+trigger_day = 387
+objective = Save marked necromancers or eliminate competition
+marked_necromancers = 347
+saveable = 183
+choices = save, eliminate, ignore
+reward_save = allies, reputation, -5_corruption
+reward_eliminate = resources, territory, +15_corruption
+description = The Fourth Purge begins. 347 necromancers are marked. You can save many of them... or profit from their deaths.
+moral_weight = critical
+importance = major
+
+# ============================================================================
+# LICH LORD QUESTS
+# ============================================================================
+
+[QUEST:lich_research]
+name = Research Lich Transformation
+type = path_research
+corruption_gate = above_50
+objective = Complete lich transformation research
+cost = 20000_soul_energy, 300_hours
+reward = lich_path_unlocked
+description = The path to immortal undeath. Perfect efficiency. Perfect emptiness.
+difficulty = hard
+corruption_accelerator = true
+next_quest = phylactery_creation
+
+[QUEST:phylactery_creation]
+name = Forge Your Phylactery
+type = lich_quest
+prerequisite = lich_research
+objective = Create phylactery to anchor your soul
+cost = 10_ancient_souls
+reward = immortality_anchor
+description = The phylactery makes you unkillable. While it exists, you can never truly die.
+difficulty = hard
+importance = lich_path
+next_quest = lich_transformation
+
+[QUEST:lich_transformation]
+name = Become Lich Lord
+type = path_completion
+prerequisite = phylactery_creation, corruption_100
+objective = Complete lich transformation
+reward = lich_lord_ending
+description = The transformation is complete. You are no longer human. Forever.
+irreversible = true
+ending = lich_lord
+
+# ============================================================================
+# REAPER QUESTS
+# ============================================================================
+
+[QUEST:reaper_research]
+name = Research Reaper Ascension
+type = path_research
+corruption_gate = 40_to_69
+objective = Complete reaper ascension research
+cost = 25000_soul_energy, 400_hours
+reward = reaper_path_unlocked
+description = Become an eternal psychopomp. Official position in Death Network administration.
+difficulty = very_hard
+next_quest = reaper_trials
+
+[QUEST:reaper_trial_guide]
+name = Guide One Thousand Souls
+type = reaper_trial
+prerequisite = reaper_research
+objective = Successfully guide 1000 souls to their destinations
+duration = varies
+reward = reaper_trial_complete
+description = Prove your competence and compassion. Guide souls without harvesting them.
+difficulty = endurance
+corruption_impact = negative
+next_quest = reaper_trial_lore
+
+[QUEST:reaper_trial_lore]
+name = Complete All Lore Research
+type = reaper_trial
+prerequisite = reaper_trial_guide
+objective = Research all historical and technical lore
+projects = 15
+cost = varies
+reward = reaper_trial_complete
+description = Reapers must understand the full history of death. Research everything.
+difficulty = comprehensive
+next_quest = reaper_ascension
+
+[QUEST:reaper_ascension]
+name = Ascend to Reaper
+type = path_completion
+prerequisite = all_reaper_trials
+objective = Undergo reaper transformation
+reward = reaper_ending
+description = Become eternal. Become psychopomp. Find purpose in endless service.
+irreversible = true
+ending = reaper
+
+# ============================================================================
+# WRAITH QUESTS
+# ============================================================================
+
+[QUEST:wraith_research]
+name = Research Self-Replication Protocol
+type = path_research
+corruption_gate = below_40
+objective = Learn consciousness distribution
+cost = 20000_soul_energy, 350_hours
+reward = wraith_path_unlocked
+description = Fragment your consciousness across thousands of nodes. Become unkillable through distribution.
+difficulty = very_hard
+hint = whisper_knows_this_path
+next_quest = fragment_creation
+
+[QUEST:fragment_creation]
+name = Create 10,000 Fragments
+type = wraith_quest
+prerequisite = wraith_research
+objective = Distribute consciousness across 10000 fragments
+duration = varies
+reward = distributed_existence
+description = Split yourself into ten thousand pieces. Each fragment is you. All fragments are you.
+difficulty = extreme
+identity_risk = high
+next_quest = wraith_transformation
+
+[QUEST:wraith_transformation]
+name = Become Wraith
+type = path_completion
+prerequisite = fragment_creation
+objective = Complete consciousness distribution
+reward = wraith_ending
+description = You are no longer singular. You are many. You are free.
+irreversible = true
+ending = wraith
+
+# ============================================================================
+# HIDDEN QUESTS
+# ============================================================================
+
+[QUEST:find_silent_sysadmin]
+name = Locate the Silent Sysadmin
+type = hidden
+trigger = archon_status
+objective = Find the third Archon who went into hiding
+reward = powerful_ally, hidden_lore
+difficulty = extreme
+description = Somewhere in the Death Network, the Silent Sysadmin still operates. Find them.
+location = unknown
+hints = scattered
+importance = optional_but_major
+
+[QUEST:azrael_legacy]
+name = Study Azrael's Ascension
+type = hidden
+trigger = research_morningstar
+objective = Learn how Azrael succeeded
+reward = morningstar_hints
+difficulty = lore_hunt
+description = Only one necromancer ever completed the Morningstar path. Study his method.
+god = azrael
+era = 1200_years_ago
+importance = morningstar_path

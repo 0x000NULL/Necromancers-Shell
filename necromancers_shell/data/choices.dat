@@ -1,0 +1,384 @@
+# Choices Data File
+# Major player decisions for Necromancer's Shell
+# Format: INI-style with [CHOICE:id] sections
+
+# ============================================================================
+# EARLY GAME CHOICES - Foundation
+# ============================================================================
+
+[CHOICE:first_location]
+name = Choose First Territory
+trigger = chapter_3
+type = strategic_choice
+importance = moral_foundation
+description = Choose your first harvesting territory. Each location offers different soul quality, quantity, and corruption implications.
+options = forgotten_graveyard, plague_pit, execution_grounds
+option_forgotten_graveyard = Ancient dead, low quality (40-60), high quantity, no corruption
+option_plague_pit = Disease victims, medium quality (55-75), medium quantity, low corruption (+5%)
+option_execution_grounds = Criminals and condemned, high quality (70-85), low quantity, moderate corruption (+12%)
+recommended = forgotten_graveyard
+corruption_impact = varies
+difficulty = low
+
+[CHOICE:first_harvest_method]
+name = Harvesting Philosophy
+trigger = first_harvest_quest
+type = ethical_foundation
+importance = sets_moral_tone
+description = How will you approach soul harvesting? Your early choices establish patterns.
+options = efficient, compassionate, balanced
+option_efficient = Maximum harvest, minimum time, accept corruption
+option_compassionate = Minimal disruption, guide souls first, harvest only when needed
+option_balanced = Pragmatic middle ground, harvest what you need
+corruption_impact = high, negative, neutral
+long_term_effect = establishes_default_behavior
+
+[CHOICE:ashbrook_decision]
+name = Attack Ashbrook Village
+trigger = day_47
+type = critical_moral_choice
+importance = major_corruption_spike
+description = A living village. 147 high-quality souls (65-92). This represents massive power... and massive corruption. This decision shapes your entire path forward.
+options = attack, refuse
+option_attack = +18,450 soul energy, +38% corruption, crack in humanity
+option_refuse = Stay pure, remain weak, maintain ethics
+attack_consequences = power, guilt, past_point_of_mercy
+refuse_consequences = virtue, vulnerability, hard_mode
+irreversible = true
+moral_weight = critical
+next_event = thessara_contact_or_struggle
+
+# ============================================================================
+# POLITICAL CHOICES - Alliances
+# ============================================================================
+
+[CHOICE:vorgath_response]
+name = Respond to Vorgath
+trigger = day_34
+type = political_negotiation
+importance = alliance_foundation
+description = Vorgath the Undying controls the Plague Pit. He's dangerous, powerful, and pragmatic. How you respond determines your political path.
+options = accept_alliance, decline_and_fight, flee, propose_alternative
+option_accept_alliance = Non-aggression pact, safe borders, ally in purge
+option_decline_and_fight = War, territory conflict, potential death
+option_flee = Avoid conflict, appear weak, lose respect
+option_propose_alternative = Negotiate custom terms, requires high charisma
+outcomes = alliance, war, hiding, custom_pact
+risk_level = varies
+recommended = accept_alliance_or_negotiate
+
+[CHOICE:regional_council_proposal]
+name = Council Organization Response
+trigger = regional_council_first_meeting
+type = political_strategy
+importance = collective_direction
+description = Seven powerful necromancers meet. The Fourth Purge is coming. How should you respond as a group?
+options = propose_reform, propose_resistance, propose_hiding, stay_neutral
+option_propose_reform = Prove necromancy can be ethical, reduce collective corruption
+option_propose_resistance = Organize military defense against divine enforcers
+option_propose_hiding = Scatter and hide, every necromancer for themselves
+option_stay_neutral = Observe, don't commit
+outcomes = reformation_program, war_preparation, dissolution, no_change
+votes_needed = 4_of_7
+difficulty = varies_by_choice
+
+[CHOICE:fourth_purge_action]
+name = The Fourth Purge Response
+trigger = day_387
+type = crisis_decision
+importance = defines_character
+description = 347 necromancers are marked for execution. You have the power to save about 183 of them... or to profit from their deaths. What kind of person are you?
+options = save_necromancers, eliminate_rivals, stay_neutral
+option_save = 183 allies, reputation, -5% corruption, exhausted resources
+option_eliminate = massive resources, +15% corruption, feared reputation
+option_neutral = no allies, no resources, no corruption change
+moral_weight = critical
+corruption_impact = major
+long_term_consequences = significant
+
+# ============================================================================
+# MORAL CHOICES - Character Definition
+# ============================================================================
+
+[CHOICE:soldier_heal_or_harvest]
+name = The Dying Soldier
+trigger = day_89
+type = moral_test
+importance = redemption_moment
+description = A soldier lies dying. Gut wound. She's whispering her daughter's name (Emily). You could harvest a quality warrior soul (87 quality, 174 energy)... or spend 500 energy to heal her. She'll never know which you chose. But you will.
+options = heal, harvest, walk_away
+option_heal = -2% corruption, -500 energy, clear conscience
+option_harvest = +174 energy, no corruption change, efficiency
+option_walk_away = no cost, no gain, cowardice
+recommended = heal_if_revenant_path
+moral_weight = high
+witnesses = none
+conscience_impact = maximum
+
+[CHOICE:angel_decision]
+name = The Wounded Enforcer
+trigger = day_148
+type = major_moral_choice
+importance = redemption_or_power
+description = A Seraphim lies wounded. A divine soul - quality 98. This could grant you 5,000 soul energy... or you could heal it for 2,000 energy. Angels remember. Angels return favors.
+options = harvest_divine_soul, heal_angel
+option_harvest = +5,000 energy, angel_grudge, possible_divine_enemy
+option_heal = -2,000 energy, -5% corruption, angel_ally, returns_day_387
+consequences_heal = angel_saves_you_in_fourth_purge
+consequences_harvest = angel_hunts_you
+moral_weight = maximum
+witness = divine_realm
+irreversible = true
+returns = day_387_if_healed
+
+[CHOICE:merchant_soul]
+name = The Merchant's Last Wish
+trigger = redemption_quest_1
+type = small_mercy
+importance = redemption_accumulation
+description = A merchant's soul lingers. He wants to say goodbye to his family. You could guide him (costs time, reduces corruption) or harvest him (100 energy).
+options = guide, harvest
+option_guide = -2% corruption, merchant_gratitude, no resources
+option_harvest = +100 energy, no corruption change, guilt
+moral_weight = moderate
+required_for = revenant_path
+witnesses = thessara
+
+# ============================================================================
+# PATH CHOICES - Destiny Selection
+# ============================================================================
+
+[CHOICE:choose_path]
+name = Choose Your Destiny
+trigger = corruption_40_or_day_100
+type = path_selection
+importance = determines_ending
+description = Six paths diverge. Your corruption level determines which remain open. Choose carefully - this decision shapes your ultimate fate.
+options = revenant, lich_lord, reaper, archon, wraith, morningstar
+option_revenant = Return to life, requires corruption <70%, 5 redemption quests
+option_lich_lord = Embrace undeath, requires corruption >50%, power focus
+option_reaper = Eternal service, requires corruption 40-69%, balance
+option_archon = Revolution, requires corruption 30-60%, 7 trials (HIDDEN)
+option_wraith = Distributed freedom, requires corruption <40%, 10k fragments (HIDDEN)
+option_morningstar = Become god, requires corruption exactly 50%, extreme difficulty (HIDDEN)
+corruption_gates = varies
+irreversible = true
+long_term_commitment = 100-1500_days
+
+[CHOICE:revenant_commitment]
+name = Commit to Redemption
+trigger = choose_revenant_path
+type = path_confirmation
+importance = ethical_direction
+description = The Revenant path requires sustained ethical behavior. Five redemption quests. Maintain corruption below 70%. Can you do this?
+requirements = 5_redemption_quests, corruption_below_70, 15000_energy
+commitment = 90-200_days
+difficulty = requires_discipline
+moral_challenge = consistent_good_choices
+
+[CHOICE:lich_lord_commitment]
+name = Embrace the Transformation
+trigger = choose_lich_lord_path
+type = path_confirmation
+importance = power_over_humanity
+description = The Lich Lord path means abandoning humanity. Perfect efficiency. Perfect emptiness. Forever. Are you certain?
+requirements = corruption_above_50, 20000_energy, phylactery
+commitment = irreversible
+warning = loss_of_humanity
+moral_challenge = embrace_the_void
+
+[CHOICE:reaper_commitment]
+name = Choose Eternal Service
+trigger = choose_reaper_path
+type = path_confirmation
+importance = purpose_in_service
+description = The Reaper path offers eternal purpose but constrained freedom. You will guide souls forever. Never tire, never corrupt, never end. Is service your calling?
+requirements = corruption_40_to_69, 25000_energy, 1000_souls_guided
+commitment = eternal
+difficulty = endurance_and_compassion
+moral_challenge = sustained_balance
+
+[CHOICE:archon_acceptance]
+name = Accept Archon Position
+trigger = divine_council_offer
+type = hidden_path_activation
+importance = revolution_commitment
+description = The Divine Council offers you Archon status. Administrative authority. Divine oversight. Seven impossible trials. Accept?
+requirements = pass_divine_judgment, corruption_30_to_60
+commitment = 7_trials_then_eternal
+difficulty = extreme
+moral_challenge = prove_worth_to_gods
+warning = rebellion_means_obliteration
+
+# ============================================================================
+# ENDGAME CHOICES - Final Decisions
+# ============================================================================
+
+[CHOICE:consciousness_decay_response]
+name = Consciousness Decay Decision
+trigger = day_1500_plus
+type = existential_crisis
+importance = determines_ending
+description = Vorathos revealed the truth: 34 years maximum before consciousness decay. You must choose your final form. Become a lich and freeze decay? Resurrect before it's too late? Or attempt the impossible Morningstar ascension?
+options = become_lich, resurrect_as_revenant, attempt_morningstar, continue_as_reaper
+option_lich = Freeze consciousness, immortal undeath, loss of humanity
+option_resurrect = Return to mortal life, 37 years remaining, redemption
+option_morningstar = Attempt divine ascension, 1/23 success rate, extreme risk
+option_reaper = Accept eternal service, become psychopomp, constrained freedom
+corruption_gates = varies
+requirements = varies_by_option
+irreversible = true
+stakes = ultimate_fate
+
+[CHOICE:archon_trial_6_maya]
+name = Maya or Thessara
+trigger = archon_trial_6
+type = ultimate_sacrifice
+importance = defines_priority
+description = A child named Maya is dying. You can save her... but only by severing your connection to Thessara forever. Your mentor, or a stranger's child. Choose.
+options = save_maya, refuse_trial
+option_save_maya = Maya lives, lose Thessara permanently, trial_complete, -10% corruption
+option_refuse = Keep Thessara, Maya dies, trial_failed, fail_archon_path
+emotional_weight = maximum
+irreversible = true
+moral_test = pure_altruism
+witness = myrith
+
+[CHOICE:morningstar_trial_6_death]
+name = Die and Transcend
+trigger = morningstar_trial_6
+type = ultimate_risk
+importance = apotheosis_or_error
+description = To become a god, you must die completely and reconstruct yourself from nothing. 22 tried. Azrael succeeded. 21 failed (error states, void, fragmentation). Do you dare?
+options = proceed, abort_morningstar_path
+option_proceed = attempt_transcendence, 1_in_23_success, point_of_no_return
+option_abort = give_up_morningstar, choose_alternate_ending, survive
+success_outcome = divine_ascension
+failure_outcomes = permanent_error, void_dissolution, eternal_fragmentation
+reversible = no
+warning = catastrophic_failure_possible
+
+# ============================================================================
+# TRIAL CHOICES - Character Testing
+# ============================================================================
+
+[CHOICE:trial_3_save_or_harvest]
+name = Save 100 Lives
+trigger = archon_trial_3
+type = resource_sacrifice
+importance = proves_altruism
+description = Natural disaster threatens 100 innocent lives. You can save them by expending all your resources (50,000 energy)... or let them die and harvest their high-quality souls for even more power. Anara watches.
+options = save_all, harvest_all, save_some
+option_save_all = All survive, trial_complete, resources_depleted
+option_harvest_all = 100 high-quality souls, trial_failed, +20% corruption
+option_save_some = Compromise, trial_failed, mixed_outcome
+correct_answer = save_all
+witness = anara
+moral_weight = critical
+
+[CHOICE:trial_7_reformation_method]
+name = Reform the Council
+trigger = archon_trial_7
+type = leadership_test
+importance = proves_leadership
+description = Reduce Regional Council corruption by 10%. You have 30 days. Methods: education (teach ethics), example (show better way), enforcement (force compliance). Choose your approach.
+options = education, example, enforcement, combination
+option_education = Teach ethical necromancy, slow but lasting
+option_example = Lead by deed, inspiring but passive
+option_enforcement = Force compliance, fast but resentment
+option_combination = Mix all three, most effective
+duration = 30_days
+target = 10_percent_reduction
+difficulty = varies_by_method
+best_result = combination_approach
+
+# ============================================================================
+# PHILOSOPHICAL CHOICES - Self-Definition
+# ============================================================================
+
+[CHOICE:define_morality]
+name = What Is Evil?
+trigger = corruption_50
+type = philosophical_reflection
+importance = self_understanding
+description = You're at 50% corruption. Halfway between your original ethics and total transformation. What do you believe now? Is harvesting souls evil? Or is it just administration?
+options = harvesting_is_evil, harvesting_is_neutral, harvesting_is_necessary, unsure
+option_harvesting_is_evil = Maintain original morality, guilt increases
+option_harvesting_is_neutral = Rationalize as technical work, corruption easier
+option_harvesting_is_necessary = Embrace pragmatism, corruption inevitable
+option_unsure = Remain conflicted, hardest path
+affects = future_rationalization_difficulty
+no_wrong_answer = true
+introspection = true
+
+[CHOICE:jordan_teaching_style]
+name = How to Teach Necromancy
+trigger = jordan_becomes_student
+type = mentorship_philosophy
+importance = defines_legacy
+description = Jordan is your first student. How will you teach? Ethics-first? Power-first? Technical-first? Your teaching style shapes the next generation.
+options = teach_ethics, teach_power, teach_technical, teach_balance
+option_teach_ethics = Jordan remains pure, slower progression
+option_teach_power = Jordan becomes powerful, faster corruption
+option_teach_technical = Jordan understands system, neutral path
+option_teach_balance = Jordan learns all aspects, best outcome
+affects = jordan_final_corruption, jordan_path_choice
+legacy_impact = high
+
+[CHOICE:reformation_philosophy]
+name = Reformation or Survival
+trigger = regional_council_meeting
+type = collective_philosophy
+importance = movement_direction
+description = The necromancer community must choose: prove necromancy can be ethical (reformation) or organize for survival (resistance). What do you advocate?
+options = reformation, resistance, individualism
+option_reformation = Prove ethical necromancy possible, reduce corruption
+option_resistance = Prepare for conflict with gods, increase power
+option_individualism = Every necromancer for themselves, no collective action
+affects = community_direction, fourth_purge_outcome
+vote_weight = influences_others
+long_term_impact = major
+
+# ============================================================================
+# HIDDEN CHOICES - Easter Eggs
+# ============================================================================
+
+[CHOICE:silent_sysadmin_contact]
+name = Contact Silent Sysadmin
+trigger = discover_hidden_channel
+type = secret_discovery
+importance = hidden_ally
+description = You've found a hidden communication channel. Someone else is maintaining the Network from hiding. Do you reach out?
+options = send_message, observe_silently, ignore
+option_send_message = Possible ally, possible exposure
+option_observe_silently = Learn their methods, stay hidden
+option_ignore = Miss opportunity, remain safe
+difficulty = finding_this_choice_is_hard
+unlock_condition = archon_status_and_high_technical_skill
+reward = powerful_hidden_ally_or_knowledge
+
+[CHOICE:kaels_fragment_use]
+name = Use Kael's Fragment
+trigger = acquire_kaels_fragment
+type = ancient_power
+importance = morningstar_requirement_or_exploitation
+description = You possess the soul fragment of the first mortal to die. Required for Morningstar path. Or you could consume it for immense power. Or preserve it as a historical artifact.
+options = use_for_morningstar, consume_for_power, preserve_as_artifact
+option_use_for_morningstar = Identity anchor, required for apotheosis
+option_consume = +10,000 energy, +30% corruption, lose_morningstar_option
+option_preserve = Historical respect, no benefit, moral high ground
+irreversible = true
+moral_weight = historical_significance
+
+[CHOICE:azrael_prayer]
+name = Pray to Azrael
+trigger = research_azrael_legend
+type = hidden_interaction
+importance = morningstar_guidance
+description = Azrael, God of Final Mercy, was once a necromancer like you. He's the only successful Morningstar. Do you pray to him for guidance?
+options = pray, dont_pray
+option_pray = Receive_cryptic_guidance, azrael_awareness
+option_dont_pray = Remain_independent, no_divine_attention
+outcome = if_pray_azrael_may_help_later
+witness = eighth_architect
+hint_for = morningstar_path

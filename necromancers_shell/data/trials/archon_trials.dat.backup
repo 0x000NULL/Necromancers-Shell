@@ -1,0 +1,101 @@
+# Archon Trial Definitions
+# Seven trials for the Archon transformation ending
+# Requires 30-60% corruption and 50%+ consciousness
+
+[TRIAL:archon_power]
+id = 1
+number = 1
+name = Test of Power
+description = Face Seraphim in divine combat and demonstrate true mastery
+type = combat
+unlock_corruption_min = 30
+unlock_corruption_max = 60
+unlock_consciousness_min = 50
+prerequisite_trial_id = 0
+max_attempts = 3
+score_matters = true
+completion_text = You have proven your power tempered with mercy. Seraphim bows, acknowledging your strength and restraint. The first seal of the Archon path is broken.
+
+[TRIAL:archon_wisdom]
+id = 2
+number = 2
+name = Test of Wisdom
+description = Solve the Routing Paradox - a soul stuck for 200 years
+type = puzzle
+unlock_corruption_min = 30
+unlock_corruption_max = 60
+unlock_consciousness_min = 50
+prerequisite_trial_id = 1
+max_attempts = 5
+score_matters = true
+completion_text = The puzzle yields to your understanding. You discovered split-routing where orthodoxy failed. Justice and mercy can coexist. The second seal breaks.
+
+[TRIAL:archon_morality]
+id = 3
+number = 3
+name = Test of Morality
+description = Choose between power and principle when it costs you everything
+type = moral
+unlock_corruption_min = 30
+unlock_corruption_max = 60
+unlock_consciousness_min = 50
+prerequisite_trial_id = 2
+max_attempts = 1
+score_matters = false
+completion_text = Your willingness to sacrifice all your power for innocent lives proves you understand the price of transcendence. Power without sacrifice is tyranny. The third seal crumbles.
+
+[TRIAL:archon_technical]
+id = 4
+number = 4
+name = Test of Technical Skill
+description = Find bugs and injustices in the Death Network source code
+type = technical
+unlock_corruption_min = 30
+unlock_corruption_max = 60
+unlock_consciousness_min = 50
+prerequisite_trial_id = 3
+max_attempts = 3
+score_matters = true
+completion_text = You found the flaws that have plagued the system for eons. Your technical mastery and ethical insight are unmatched. The fourth seal shatters.
+
+[TRIAL:archon_resolve]
+id = 5
+number = 5
+name = Test of Resolve
+description = Endure 30 days in the Chamber of Corrupted Souls without breaking
+type = resolve
+unlock_corruption_min = 30
+unlock_corruption_max = 60
+unlock_consciousness_min = 50
+prerequisite_trial_id = 4
+max_attempts = 1
+score_matters = true
+completion_text = You have stood firm against crushing corruption and constant temptation for 30 days. Your consciousness remains unbroken. The fifth seal dissolves.
+
+[TRIAL:archon_leadership]
+id = 6
+number = 6
+name = Test of Leadership
+description = Command your minions without cruelty or coercion
+type = leadership
+unlock_corruption_min = 30
+unlock_corruption_max = 60
+unlock_consciousness_min = 50
+prerequisite_trial_id = 5
+max_attempts = 3
+score_matters = true
+completion_text = Your minions follow not from fear, but from respect. True leadership inspires rather than enslaves. The sixth seal fragments.
+
+[TRIAL:archon_balance]
+id = 7
+number = 7
+name = Test of Balance
+description = Harmonize opposing forces within yourself
+type = moral
+unlock_corruption_min = 30
+unlock_corruption_max = 60
+unlock_consciousness_min = 50
+prerequisite_trial_id = 6
+max_attempts = 1
+score_matters = false
+completion_text = You have achieved perfect equilibrium between corruption and purity, death and life, power and restraint. The final seal breaks. You stand ready to transcend mortality itself and become an Archon - a custodian of cosmic balance.

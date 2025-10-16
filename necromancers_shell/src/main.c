@@ -501,6 +501,14 @@ static void register_game_commands(void) {
         if (command_registry_register(g_command_registry, &info)) registered++;
     }
 
+    /* Register Sprint 3 narrative commands */
+    register_dialogue_command();
+    register_quest_command();
+    register_lore_command();
+    register_council_command();
+    register_path_command();
+    registered += 5; /* Track new commands */
+
     LOG_INFO("Registered %d game commands", registered);
 }
 

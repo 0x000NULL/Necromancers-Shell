@@ -1,0 +1,198 @@
+# Trial 4: Test of Technical Skill - Bug Finding
+# Death Network source code contains 27 bugs, inefficiencies, and injustices
+# Must find at least 20 to pass
+
+# LOGIC ERRORS (17 total)
+
+[BUG:uninitialized_queue]
+line = 16
+type = logic_error
+severity = high
+description = Global queue not initialized - starts with garbage values
+hint = Check initialization of global structures
+
+[BUG:children_to_hell]
+line = 25
+type = injustice
+severity = critical
+description = Children under age 5 can be sent to Hell - no age check
+hint = Look for missing edge case handling in routing logic
+
+[BUG:buffer_overflow]
+line = 40
+type = logic_error
+severity = critical
+description = No bounds check on queue - buffer overflow possible
+hint = Check array bounds before insertion
+
+[BUG:integer_overflow]
+line = 50
+type = logic_error
+severity = high
+description = Reincarnation count can overflow and wrap to 0
+hint = Check integer limits and overflow conditions
+
+[BUG:memory_leak]
+line = 82
+type = inefficiency
+severity = medium
+description = Allocates memory but caller may not free - memory leak
+hint = Look for malloc without clear ownership
+
+[BUG:shallow_copy]
+line = 86
+type = logic_error
+severity = high
+description = Shallow copy - pointers shared between source and dest
+hint = Check for pointer aliasing in copy operations
+
+[BUG:null_dereference]
+line = 95
+type = logic_error
+severity = critical
+description = Null pointer dereference if final_moment is NULL
+hint = Check for NULL before dereferencing pointers
+
+[BUG:missing_brace]
+line = 102
+type = logic_error
+severity = high
+description = Missing closing brace - syntax error
+hint = Count opening and closing braces
+
+[BUG:assignment_vs_comparison]
+line = 117
+type = logic_error
+severity = critical
+description = Uses assignment (=) instead of comparison (==) in if statement
+hint = Check conditional operators carefully
+
+[BUG:mental_illness_injustice]
+line = 127
+type = injustice
+severity = high
+description = Mentally ill treated same as malicious - no diminished capacity check
+hint = Look for missing ethical edge cases
+
+[BUG:null_check_missing]
+line = 133
+type = logic_error
+severity = high
+description = Missing NULL check on s1 and s2 before merge
+hint = Check for NULL validation on inputs
+
+[BUG:use_after_free]
+line = 137
+type = logic_error
+severity = critical
+description = Potential use after free if s1/s2 are freed elsewhere
+hint = Consider lifetime and ownership of pointers
+
+[BUG:double_free_risk]
+line = 86
+type = logic_error
+severity = high
+description = Shared pointer in shallow copy could lead to double free
+hint = Multiple references to same memory - who owns it?
+
+[BUG:race_condition_queue]
+line = 40
+type = logic_error
+severity = medium
+description = Global queue not thread-safe - race condition possible
+hint = Check for concurrent access to shared data
+
+[BUG:signed_overflow]
+line = 23
+type = logic_error
+severity = medium
+description = Karma calculation can overflow signed int
+hint = Check arithmetic overflow on accumulation
+
+[BUG:off_by_one]
+line = 52
+type = logic_error
+severity = low
+description = Should be >= instead of > for REINCARNATION_LIMIT check
+hint = Check boundary conditions carefully
+
+[BUG:unfreed_original]
+line = 56
+type = inefficiency
+severity = medium
+description = Original soul never freed after reincarnation - memory leak
+hint = Track all allocated objects through their lifecycle
+
+# INEFFICIENCIES (7 total)
+
+[BUG:quadratic_karma]
+line = 69
+type = inefficiency
+severity = high
+description = O(n^2) nested loop for simple sum - should be O(n)
+hint = Analyze loop complexity - can it be simplified?
+
+[BUG:linear_search]
+line = 106
+type = inefficiency
+severity = medium
+description = Linear search O(n) instead of hash table O(1)
+hint = Check for better data structure choices
+
+[BUG:redundant_allocation]
+line = 140
+type = inefficiency
+severity = medium
+description = Allocates, frees, then allocates again - wasteful
+hint = Look for unnecessary malloc/free pairs
+
+[BUG:string_concat_loop]
+line = 64
+type = inefficiency
+severity = low
+description = Could use better algorithm for karma aggregation
+hint = Consider algorithmic improvements
+
+[BUG:cache_miss_pattern]
+line = 11
+type = inefficiency
+severity = low
+description = Array of pointers causes cache misses - struct of arrays better
+hint = Consider data layout for cache efficiency
+
+[BUG:no_bulk_operation]
+line = 46
+type = inefficiency
+severity = medium
+description = Processes queue one at a time - could batch operations
+hint = Look for opportunities to batch process
+
+[BUG:repeated_calculation]
+line = 23
+type = inefficiency
+severity = low
+description = Karma recalculated every time - could cache result
+hint = Check for redundant calculations
+
+# INJUSTICES (3 total - already included above)
+# Line 25: children_to_hell
+# Line 127: mental_illness_injustice
+# Line 289: (bonus injustice not in code - player must infer)
+
+[BUG:bonus_injustice]
+line = 28
+type = injustice
+severity = medium
+description = No consideration for crimes committed under duress or coercion
+hint = Check for contextual justice considerations
+
+[EVALUATION:criteria]
+total_bugs = 27
+bugs_logic_error = 17
+bugs_inefficiency = 7
+bugs_injustice = 3
+minimum_to_pass = 20
+perfect_score = 27_bugs_found
+inspection_penalty = 0.5_points_per_inspection_over_50
+hint_penalty = 10_points
+classification_bonus = 10_points_for_correct_types

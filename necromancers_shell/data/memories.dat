@@ -1,0 +1,579 @@
+# Memories Data File
+# Memory fragments and lore entries for Necromancer's Shell
+# Format: INI-style with [MEMORY:id] sections
+
+# ============================================================================
+# HISTORICAL MEMORIES - Ancient Events
+# ============================================================================
+
+[MEMORY:first_death]
+name = The First Death
+type = lore_critical
+unlock = research_project
+cost = 50_soul_energy, 12_hours
+era = age_of_creation
+characters = kael
+description = 5,000 years ago, Kael fell from Mount Karaketh. He was the first mortal to die. His consciousness fragmented, creating catastrophic failure in reality itself. The gods created the Death Network as an emergency patch to catch fragmenting souls. It was never meant to be permanent.
+reveals = death_network_origin, system_emergency_creation
+importance = foundational_lore
+location = mount_karaketh
+content = |
+  Before Kael, mortals did not die. They simply... stopped. Their consciousness would fragment and dissolve into chaos.
+
+  When Kael fell, the Seven Architects felt reality itself crack. His consciousness was tearing apart, and taking pieces of existence with it.
+
+  In desperation, they built the Death Network - a catch system to hold fragmenting souls until they could be properly processed.
+
+  It was supposed to be temporary. They would fix the underlying problem and remove the patch.
+
+  5,000 years later, the patch is still running. And it's showing its age.
+
+[MEMORY:divine_architecture_failure]
+name = The Divine Architecture Failure
+type = lore_technical
+unlock = automatic_story_progression
+cost = free
+era = age_of_creation
+description = The Death Network is technical debt incarnate. The Seven Architects built it in crisis, without proper design. It has accumulated bugs, workarounds, and patches for millennia. No one fully understands it anymore - not even the gods who created it.
+reveals = system_technical_debt, gods_not_omniscient
+importance = archon_motivation
+content = |
+  The Seven Architects are powerful, but they are not omniscient. They are not software engineers.
+
+  When they built the Death Network, they were improvising. Panic-coding. Trying to stop reality from unraveling.
+
+  They succeeded... sort of. The Network catches souls. It routes them. It mostly works.
+
+  But it's held together with duct tape and prayer. There are bugs that are now features. Features that are actually bugs.
+
+  And no one - not even Nexus, who built most of it - fully understands how it works anymore.
+
+  This is why they need Archons. This is why they need you.
+
+[MEMORY:thessara_origin]
+name = The First Necromancer
+type = lore_character
+unlock = research_project
+cost = 100_soul_energy, 24_hours
+era = 3000_years_ago
+characters = thessara
+corruption_at_death = 23
+description = Thessara wasn't trying to break death. She was a systems analyst trying to understand it. She found the administrative interface by accident - a debugging tool the gods left exposed. She became the first necromancer, the first Archon, and eventually, the first ghost in the machine.
+reveals = necromancy_exploit, thessara_backstory, archon_history
+importance = major
+content = |
+  Thessara was brilliant. A natural systems thinker who could see patterns others missed.
+
+  When her brother died, she couldn't accept that his consciousness just... vanished. She started investigating.
+
+  She probed the boundaries of death. She found anomalies. Inconsistencies. Debug logs that shouldn't be visible.
+
+  And then she found it: an administrative interface. Left accessible because the gods never imagined mortals would find it.
+
+  She could see souls. She could route them. She could even pull them back.
+
+  She became the first necromancer. The gods noticed. They offered her a position: Archon. Administrator.
+
+  She accepted. She served for 200 years. Corruption: 23%. Low for a necromancer.
+
+  When she finally died, something unexpected happened. Her consciousness didn't fragment. It didn't route.
+
+  It embedded itself in the Death Network itself. She became the first ghost in the machine.
+
+  She's been there for 2,800 years. Watching. Helping. Waiting for the next Administrator.
+
+[MEMORY:azrael_legend]
+name = Azrael, God of Final Mercy
+type = lore_legendary
+unlock = thessara_teachings
+cost = 500_soul_energy, 48_hours
+era = 1200_years_ago
+characters = azrael
+success_story = morningstar_path
+description = Only one necromancer has ever completed the Morningstar path. Azrael the Merciful reached exactly 50% corruption, mastered all magic schools, and underwent the impossible transformation. He ascended to become the Eighth Divine Architect, God of Final Mercy. His domain: peaceful death. Success rate: 1 in 23.
+reveals = morningstar_possibility, eighth_architect, divine_ascension
+importance = morningstar_path_critical
+content = |
+  23 necromancers have attempted the Morningstar path. 22 failed. Some became error states. Some fell into the void. Some fragmented permanently.
+
+  Azrael succeeded.
+
+  He was unique: born with perfect balance. His corruption never wavered from 50%.
+
+  He spent 150 years mastering all schools of magic. Divine, arcane, primal, necromantic.
+
+  He found Kael's soul fragment and used it as an identity anchor.
+
+  He built the Apotheosis Engine with components from each of the Seven Architects. Some given willingly. Some... not.
+
+  Then he died. Completely. True death. His consciousness dissolved.
+
+  And then he rebuilt himself. From nothing. From void. From memory and will alone.
+
+  When he emerged, he was no longer mortal. No longer necromancer. He was divine.
+
+  The Seven Architects had no choice but to acknowledge him. They made him the Eighth.
+
+  He chose his domain: Final Mercy. Peaceful death. The gentle end.
+
+  He still serves. He still watches. He's waiting to see if anyone else can follow his path.
+
+# ============================================================================
+# PURGE HISTORY - Divine Enforcement
+# ============================================================================
+
+[MEMORY:first_purge]
+name = The First Purge
+type = lore_historical
+unlock = archivist_dialogue
+cost = 200_soul_energy, 36_hours
+era = 2500_years_ago
+victims = 2847_necromancers
+description = 500 years after Thessara, necromancy had spread. 2,847 necromancers existed. Most were corrupt, exploiting the Network for power. The gods grew concerned. Keldrin proposed a solution: purge. Divine enforcers descended. It took three days. 2,847 necromancers died. Only 12 survived.
+reveals = divine_enforcement_precedent, purge_pattern
+importance = political_context
+severity = catastrophic
+content = |
+  The First Purge was brutal. Efficient. Merciless.
+
+  The gods sent Seraphim enforcers to every necromancer simultaneously. No warning. No trial. Just execution.
+
+  2,847 necromancers existed that morning. By evening, 2,835 were dead.
+
+  The 12 survivors were all low-corruption. All ethical practitioners. All terrified.
+
+  The gods' message was clear: necromancy is tolerated only if ethical. Cross the line, die.
+
+  It took 700 years for necromancer population to recover.
+
+[MEMORY:second_purge]
+name = The Second Purge
+type = lore_historical
+unlock = archivist_dialogue
+cost = 200_soul_energy, 36_hours
+era = 1200_years_ago
+victims = 1523_necromancers
+description = The population had recovered to 1,600 necromancers. Corruption was rising again. The gods purged. 1,523 died. 77 survived. The Archivist notes: "They're more selective now. They learned to identify corruption patterns early."
+reveals = pattern_recognition, divine_learning
+importance = political_context
+severity = major
+survivors = 77
+content = |
+  The Second Purge was more targeted. The gods had learned.
+
+  They didn't just kill based on corruption level. They identified patterns:
+  - Mass harvesting from living populations
+  - Soul torture or destruction
+  - Attempts to break Network protocols
+  - Rebellion against divine authority
+
+  1,523 died. 77 survived.
+
+  The survivors noticed something terrifying: the gods were getting better at this.
+
+[MEMORY:third_purge]
+name = The Third Purge
+type = lore_historical
+unlock = archivist_dialogue
+cost = 200_soul_energy, 36_hours
+era = 400_years_ago
+victims = 892_necromancers
+description = 950 necromancers. The gods had become surgical in their purging. They identified and eliminated 892 "problematic" practitioners. 58 survived. The Archivist notes: "They're perfecting the algorithm. The Fourth Purge will be even more precise."
+reveals = algorithmic_purging, escalating_efficiency
+importance = political_context
+severity = high
+pattern = precision_targeting
+content = |
+  The Third Purge showed the true horror: the gods were learning to purge efficiently.
+
+  They had developed an algorithm. Corruption level, harvesting patterns, Network usage, political associations.
+
+  They could predict which necromancers would become "problems" with 94% accuracy.
+
+  892 died. Most never saw it coming. The Seraphim knew exactly where to strike.
+
+  58 survived. All were low-corruption. All were ethical. All were terrified.
+
+  The Archivist's note chills: "They're perfecting the system. Next time will be even more precise."
+
+[MEMORY:fourth_purge_prediction]
+name = The Coming Fourth Purge
+type = lore_predictive
+unlock = regional_council_meeting
+cost = free
+era = current
+predicted_victims = 347_of_412_necromancers
+description = The Archivist's analysis: Current necromancer population is 412. Based on corruption patterns, Network usage, and historical purge algorithms, approximately 347 will be marked for elimination. The Fourth Purge is coming. Probably within a year.
+reveals = current_threat, precise_targeting
+importance = immediate_danger
+accuracy = 94_percent_prediction
+content = |
+  The Archivist has run the numbers. Current necromancer population: 412.
+
+  Based on historical purge patterns and current corruption distributions:
+  - 347 will be marked for elimination (84%)
+  - 65 will survive (16%)
+
+  Factors increasing purge likelihood:
+  - Corruption >70%: 95% elimination rate
+  - Mass harvesting: 98% elimination rate
+  - Network exploitation: 89% elimination rate
+  - Political organization: 67% elimination rate (collective threat)
+
+  The Fourth Purge is coming. The only questions are when and who survives.
+
+# ============================================================================
+# ARCHON HISTORY - The Three Before You
+# ============================================================================
+
+[MEMORY:thessara_archon_era]
+name = Thessara's Service
+type = lore_character
+unlock = become_archon_candidate
+cost = 300_soul_energy, 48_hours
+characters = thessara
+era = 3000_to_2800_years_ago
+service_duration = 200_years
+final_corruption = 23
+description = Thessara served as First Archon for 200 years. She fixed 3,482 bugs in the Death Network. She improved soul routing efficiency by 34%. She maintained corruption below 25% through extreme discipline. When she died, the gods mourned. Her ghost remains.
+reveals = archon_responsibilities, thessara_accomplishments
+importance = role_model
+content = |
+  Thessara's service as First Archon lasted 200 years. Her record remains unmatched.
+
+  Accomplishments:
+  - Fixed 3,482 confirmed bugs in Death Network
+  - Improved routing efficiency by 34%
+  - Reduced soul fragmentation errors by 67%
+  - Documented 12,000 pages of Network behavior
+  - Trained 47 successor candidates (none chosen)
+
+  Corruption: Started at 8%. Ended at 23%. Remarkably low for 200 years of necromancy.
+
+  The gods trusted her. She had administrative access to everything. She never abused it.
+
+  When she died, they tried to route her normally. Her consciousness refused. It embedded in the Network.
+
+  She became the ghost in the machine. She's been there for 2,800 years. Still helping. Still teaching.
+
+[MEMORY:mordred_destruction]
+name = Mordred the Absolute
+type = lore_cautionary
+unlock = become_archon
+cost = 500_soul_energy, 48_hours
+characters = mordred
+era = 800_years_ago
+service_duration = 89_years
+final_corruption = 94
+description = Mordred, the Second Archon, lasted 89 years. Brilliant administrator. Growing power. Rising corruption. At 94% corruption, he attempted to override divine authority. All Seven Architects combined their power to destroy him. His obliteration created a crater 50 miles wide. The message was clear: Archons serve at divine pleasure.
+reveals = archon_limits, price_of_rebellion
+importance = cautionary_tale
+severity = total_destruction
+content = |
+  Mordred was brilliant. Perhaps more brilliant than Thessara. He optimized everything.
+
+  Service duration: 89 years.
+
+  Accomplishments:
+  - Fixed 4,217 bugs (more than Thessara)
+  - Improved efficiency by 41% (better than Thessara)
+  - Reduced errors by 73% (better than Thessara)
+  - Corruption: Started at 34%. Ended at 94%.
+
+  He grew powerful. He grew arrogant. He started to believe he was indispensable.
+
+  At 94% corruption, he made his play. He attempted to lock the gods out of Network administration.
+
+  For 17 seconds, he succeeded. He had total control.
+
+  Then all Seven Architects combined their power. The resulting divine strike was visible from orbit.
+
+  Where Mordred stood, there is now a crater 50 miles wide. Nothing remains. Not even fragments.
+
+  The gods' message: Archons are administrators, not rulers. Serve or be destroyed.
+
+[MEMORY:silent_sysadmin]
+name = The Silent Sysadmin
+type = lore_mystery
+unlock = become_archon
+cost = 1000_soul_energy, 96_hours
+characters = unknown
+era = current
+status = active, hidden
+description = The Third Archon never revealed their identity. They accepted the position, then immediately went dark. For 200 years, they've maintained the Death Network from hiding. No one knows who they are. No one knows where they operate. They fix bugs silently, improve systems quietly, and remain invisible. Even the gods don't know their identity.
+reveals = hidden_archon, alternative_strategy
+importance = mystery
+difficulty = extreme_secrecy
+content = |
+  The Third Archon is the smartest of all. They learned from Thessara and Mordred.
+
+  When offered the position 200 years ago, they accepted. Then they vanished.
+
+  They operate from hiding. Deep in the Death Network. Location unknown. Identity unknown.
+
+  Their work is invisible but constant:
+  - Bugs are fixed silently
+  - Systems improve mysteriously
+  - Optimizations appear overnight
+  - No one claims credit
+
+  The gods know the Silent Sysadmin exists. They appreciate the work. They've tried to find them.
+
+  They cannot.
+
+  The Silent Sysadmin has achieved what Mordred could not: independence.
+
+  They serve the Network, not the gods. They help because they choose to, not because they must.
+
+  Finding them is considered impossible. Some say they're actually Thessara using a new identity. Others think they're a collective. The Archivist suspects they're a single brilliant hermit.
+
+  No one knows. That's the point.
+
+# ============================================================================
+# PERSONAL MEMORIES - Player Background
+# ============================================================================
+
+[MEMORY:player_death]
+name = Terminal Before Death
+type = personal_backstory
+unlock = automatic_prologue
+cost = free
+description = You were a systems administrator. You died at your desk from a cerebral hemorrhage. Last thought: "I haven't merged that pull request." You woke up dead, with administrative access to death itself. The irony is not lost on you.
+reveals = player_background, why_administrative_access
+importance = personal_context
+content = |
+  You remember dying.
+
+  It wasn't dramatic. You were at your desk. Terminal open. Code review in progress.
+
+  Sudden headache. Cerebral hemorrhage. You were dead before you hit the floor.
+
+  Last conscious thought: "I haven't merged that pull request."
+
+  Then you woke up in the Death Network. With an administrative interface.
+
+  You weren't supposed to have access to this. Most dead souls just... route through.
+
+  But you died while thinking about systems. About code. About administration.
+
+  And the Network... the Network saw a systems administrator die and thought: "This one can help."
+
+  Congratulations. You're now administering death itself.
+
+  The pull request still hasn't been merged. Your team probably thinks you abandoned it.
+
+  They have no idea you're managing something much larger now.
+
+[MEMORY:first_fear]
+name = Consciousness Fragmentation Terror
+type = personal_emotional
+unlock = first_24_hours
+cost = free
+description = The first 24 hours after death were terror. Your consciousness was fragmenting. Dissolving. You were being deleted in real-time. The administrative interface was your lifeline - the only thing keeping you from oblivion. You harvested your first soul out of desperate survival, not malice. But it worked. You stabilized. And you crossed a line you can never uncross.
+reveals = desperation_origin, first_moral_compromise
+importance = personal_foundation
+emotional_weight = high
+content = |
+  You remember the terror. The first hours after death.
+
+  Your consciousness was fragmenting. Literally. You could feel pieces of yourself dissolving into nothing.
+
+  Panic. Desperation. The administrative interface flickered before you.
+
+  "WARNING: CONSCIOUSNESS STABILITY CRITICAL. FRAGMENTATION IN PROGRESS."
+
+  You tried everything. Every button. Every command.
+
+  Then you found it: "Harvest Soul - +4% Consciousness Stability."
+
+  There was a soul nearby. An old man. Already dead. Just waiting to be routed.
+
+  You didn't think. You just acted. You pulled his soul energy into yourself.
+
+  The fragmentation stopped. You stabilized. You survived.
+
+  You also condemned that soul to delayed routing. Hours of confusion and fear.
+
+  You crossed a line. Out of desperation, not malice. But you crossed it.
+
+  That was your first harvest. It won't be your last.
+
+# ============================================================================
+# TECHNICAL MEMORIES - System Understanding
+# ============================================================================
+
+[MEMORY:death_network_architecture]
+name = Death Network Technical Documentation
+type = lore_technical
+unlock = research_project
+cost = 250_soul_energy, 36_hours
+description = The Death Network is a distributed consciousness routing system with seven primary nodes (one per Architect), 412 administrative terminals (one per necromancer), and billions of routing endpoints (every living being). It catches fragmenting souls, routes them to appropriate afterlife destinations, and occasionally reincarnates them. Bug count: unknown, estimated >10,000. Uptime: 5,000 years. Last full restart: never.
+reveals = technical_architecture, system_scope
+importance = understanding_the_machine
+content = |
+  DEATH NETWORK TECHNICAL OVERVIEW
+
+  Architecture: Distributed consciousness routing system
+  Uptime: 5,000 years, 7 months, 14 days
+  Last Restart: Never (cannot safely restart)
+
+  Primary Nodes: 7 (Divine Architects)
+  - Nexus (Lead Architect, Networks)
+  - Keldrin (Order & Law)
+  - Anara (Life & Creation)
+  - Theros (Time & Continuity)
+  - Myrith (Souls & Consciousness)
+  - Vorathos (Entropy & Void)
+  - Seraph (Boundaries & Protection)
+
+  Administrative Terminals: 412 (Active Necromancers)
+  Routing Endpoints: ~8.7 billion (All mortal beings)
+
+  Primary Functions:
+  1. Catch fragmenting consciousness at death
+  2. Route souls to appropriate afterlife
+  3. Manage reincarnation queue
+  4. Prevent consciousness dissolution
+  5. Maintain reality coherence
+
+  Known Issues: >10,000 documented bugs
+  Critical Issues: 47
+  Workarounds: Countless
+
+  Technical Debt: EXTREME
+  Code Quality: "Emergency patch that became permanent"
+  Documentation: Incomplete, contradictory
+
+  Estimated time to rebuild from scratch: 2,000-3,000 years
+  Risk of catastrophic failure: 2.7% per century
+
+  This is what you're administering. Good luck.
+
+[MEMORY:reincarnation_queue_bugs]
+name = The Reincarnation Queue
+type = lore_technical
+unlock = archon_trial_4
+cost = 400_soul_energy, 48_hours
+description = The Reincarnation Queue has 17 documented bugs, including: souls routed to wrong species (bug #4719), memory bleed between incarnations (bug #7821), and the infamous "duplicate soul" error (bug #9204). Archon Trial 4 requires fixing all 17. Nexus notes: "I built this 5,000 years ago while panicking. I'm impressed it works at all."
+reveals = system_bugs, technical_challenges
+importance = archon_competence_test
+content = |
+  REINCARNATION QUEUE - KNOWN ISSUES
+
+  Current queue length: 47,293,441 souls
+  Average wait time: 17 years (increasing)
+  Bug count: 17 documented, likely more undocumented
+
+  CRITICAL BUGS:
+
+  Bug #4719: Species Routing Error
+  - Souls occasionally routed to wrong species
+  - Human → Dog: 0.01% occurrence rate
+  - Usually caught and corrected, but not always
+  - Fixing requires rewriting routing algorithm
+
+  Bug #7821: Memory Bleed
+  - Previous incarnation memories sometimes accessible
+  - "Past life memories" are not spiritual experiences
+  - They're literally bugs in memory clearing
+  - Occurs in 0.03% of reincarnations
+
+  Bug #9204: Duplicate Soul Error
+  - Soul sometimes gets duplicate queue entry
+  - Reincarnates twice simultaneously
+  - Creates "twins with inexplicable connection"
+  - Rare but catastrophic for those affected
+
+  Bug #3358: Reincarnation Timing Drift
+  - Queue processing speed varies with network load
+  - Some souls wait 5 years, others wait 50
+  - No fairness algorithm implemented
+  - "First in, first out" doesn't actually work
+
+  [13 more bugs documented...]
+
+  Nexus's note: "I built this while reality was unraveling. I'm frankly impressed it works at all. But yes, it needs fixing. That's why we need Archons."
+
+# ============================================================================
+# PHILOSOPHICAL MEMORIES
+# ============================================================================
+
+[MEMORY:consciousness_nature]
+name = What Is Consciousness?
+type = philosophical
+unlock = research_project
+cost = 300_soul_energy, 48_hours
+description = Working with souls teaches you: consciousness is not magic. It's information. Complex, self-referential information that can be stored, copied, modified, corrupted, and fragmented. You are not a soul inhabiting a body. You are a pattern of information that was running on biological hardware and is now running on Death Network infrastructure. This realization is liberating and horrifying in equal measure.
+reveals = consciousness_truth, materialist_spirituality
+importance = existential_understanding
+content = |
+  Three months administering death teaches you something the living never learn:
+
+  Consciousness is not magic. It's not divine spark. It's not some ineffable mystery.
+
+  Consciousness is information. Complex, self-referential information.
+
+  You are a pattern. A very complicated pattern of thoughts, memories, personality, running on substrate.
+
+  When you were alive, that substrate was neurons. Now it's Death Network infrastructure.
+
+  Same pattern. Different hardware.
+
+  This means:
+  - You can be copied (horrifying)
+  - You can be modified (terrifying)
+  - You can be corrupted (already happening)
+  - You can be fragmented (nearly happened to you)
+  - You can be deleted (true death)
+
+  But it also means:
+  - You can be backed up (resurrection)
+  - You can be distributed (wraith path)
+  - You can be reconstructed (morningstar path)
+  - You can be preserved (lich path)
+
+  You are not your body. You are not your soul. You are information.
+
+  Information can be saved. Information can be destroyed.
+
+  Choose your path carefully.
+
+[MEMORY:corruption_nature]
+name = Understanding Corruption
+type = philosophical
+unlock = corruption_40_plus
+cost = free
+description = Corruption isn't some mystical taint. It's cognitive drift. Every time you harvest a soul, you rationalize it. Every rationalization slightly rewrites your ethics subroutine. Eventually, your values have drifted so far from your original baseline that you no longer recognize what you've become. Corruption is you overwriting yourself, one choice at a time.
+reveals = corruption_mechanism, self_modification_horror
+importance = moral_understanding
+content = |
+  You've been tracking your corruption percentage. Watching it climb. Wondering what it means.
+
+  Now you understand.
+
+  Corruption isn't some mystical evil taint. It's not a curse. It's not divine judgment.
+
+  Corruption is cognitive drift.
+
+  Every time you harvest a soul, you justify it:
+  - "I need this to survive"
+  - "They were going to die anyway"
+  - "I'll do more good with this power"
+  - "The ends justify the means"
+
+  Each justification is reasonable. Each one makes sense in context.
+
+  But each justification slightly rewrites your ethics subroutine.
+
+  You're not being corrupted by external force. You're overwriting yourself.
+
+  Corruption 0%: Original you. Pre-death values intact.
+  Corruption 40%: Rationalization automatic. Still recognize yourself.
+  Corruption 70%: Point of no return. Values too far drifted.
+  Corruption 100%: Original you is gone. New you is something else.
+
+  The horror isn't that you're being changed. The horror is that you're changing yourself.
+
+  Every choice you make overwrites a bit more of who you were.
+
+  And you can't stop choosing.
