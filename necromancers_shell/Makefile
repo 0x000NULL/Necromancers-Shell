@@ -83,7 +83,7 @@ TARGET_DEBUG := $(BUILD_DIR)/necromancer_shell_debug
 .DEFAULT_GOAL := release
 
 # Build modes
-.PHONY: all debug release clean test valgrind help version
+.PHONY: all debug release clean test valgrind coverage help version
 
 all: debug release
 
@@ -166,6 +166,43 @@ valgrind: debug
 	         $(TARGET_DEBUG)
 	@echo "Valgrind output written to valgrind-out.txt"
 
+# Code coverage
+coverage: CFLAGS += -g -O0 --coverage
+coverage: LDFLAGS += --coverage
+coverage: clean
+	@echo "Building with coverage instrumentation..."
+	@$(MAKE) $(TEST_BIN) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)"
+	@echo "Running tests to collect coverage data..."
+	@for test in $(TEST_BIN); do \
+		echo "Running $$test..."; \
+		$$test || exit 1; \
+	done
+	@echo "Generating coverage report..."
+	@mkdir -p coverage_html
+	@lcov --capture --directory $(BUILD_DIR) --output-file coverage.info --rc branch_coverage=1 --ignore-errors inconsistent,mismatch 2>&1 | grep -v "^lcov: WARNING:" || \
+		(echo "lcov not found, using gcov only" && find $(BUILD_DIR) -name "*.gcda" -exec gcov {} \;)
+	@if command -v lcov >/dev/null 2>&1 && [ -f coverage.info ]; then \
+		lcov --remove coverage.info '/usr/*' '*/tests/*' --output-file coverage.info --rc branch_coverage=1 --ignore-errors inconsistent,unused; \
+		lcov --list coverage.info --rc branch_coverage=1 | head -40; \
+		if command -v genhtml >/dev/null 2>&1; then \
+			genhtml coverage.info --output-directory coverage_html --rc branch_coverage=1 --ignore-errors inconsistent,source 2>&1 | grep -v "^genhtml: WARNING:"; \
+			echo ""; \
+			echo "========================================"; \
+			echo "Coverage report generated!"; \
+			echo "HTML report: coverage_html/index.html"; \
+			echo ""; \
+			echo "View with:"; \
+			echo "  xdg-open coverage_html/index.html    # Linux"; \
+			echo "  open coverage_html/index.html        # macOS"; \
+			echo "  python3 -m http.server -d coverage_html  # Web server"; \
+			echo "========================================"; \
+		else \
+			echo "Install genhtml (part of lcov package) to generate HTML reports"; \
+		fi; \
+	fi
+	@echo ""
+	@echo "Run 'python3 scripts/coverage_report.py' for detailed category breakdown"
+
 # Profiling
 profile: CFLAGS += -pg
 profile: $(TARGET)
@@ -186,6 +223,11 @@ clean:
 	rm -rf $(BUILD_DIR)
 	rm -f $(VERSION_HEADER)
 	rm -f valgrind-out.txt gmon.out profile.txt
+	rm -f coverage.info
+	rm -rf coverage_html
+	find . -name "*.gcov" -delete 2>/dev/null || true
+	find . -name "*.gcda" -delete 2>/dev/null || true
+	find . -name "*.gcno" -delete 2>/dev/null || true
 ifeq ($(PLATFORM),WINDOWS)
 	rm -f *.exe
 endif
@@ -209,6 +251,7 @@ help:
 	@echo "  make debug        - Build debug version with sanitizers"
 	@echo "  make release      - Build optimized release version"
 	@echo "  make test         - Build and run all tests"
+	@echo "  make coverage     - Generate code coverage report (requires lcov)"
 	@echo "  make valgrind     - Run with valgrind memory checker"
 	@echo "  make profile      - Build with profiling, run, and generate profile"
 	@echo "  make analyze      - Run static analysis (cppcheck)"
