@@ -49,8 +49,8 @@ WisdomTrialState* wisdom_trial_create(void) {
     state->stuck_years = 200;
 
     /* Default soul data (will be overwritten by data file) */
-    strncpy(state->soul_id, "soldier_penance_001", sizeof(state->soul_id) - 1);
-    strncpy(state->soul_name, "Marcus Valerius", sizeof(state->soul_name) - 1);
+    snprintf(state->soul_id, sizeof(state->soul_id), "%s", "soldier_penance_001");
+    snprintf(state->soul_name, sizeof(state->soul_name), "%s", "Marcus Valerius");
 
     return state;
 }
@@ -89,14 +89,12 @@ bool wisdom_trial_start(WisdomTrialState* state, const char* filepath) {
 
         if (soul_id_val) {
             const char* soul_id = data_value_get_string(soul_id_val, "soldier_penance_001");
-            strncpy(state->soul_id, soul_id, sizeof(state->soul_id) - 1);
-            state->soul_id[sizeof(state->soul_id) - 1] = '\0';
+            snprintf(state->soul_id, sizeof(state->soul_id), "%s", soul_id);
         }
 
         if (soul_name_val) {
             const char* soul_name = data_value_get_string(soul_name_val, "Marcus Valerius");
-            strncpy(state->soul_name, soul_name, sizeof(state->soul_name) - 1);
-            state->soul_name[sizeof(state->soul_name) - 1] = '\0';
+            snprintf(state->soul_name, sizeof(state->soul_name), "%s", soul_name);
         }
 
         if (stuck_years_val) {

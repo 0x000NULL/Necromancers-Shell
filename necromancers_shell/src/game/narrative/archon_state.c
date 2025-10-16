@@ -44,10 +44,8 @@ ArchonState* archon_state_create(void) {
         state->privileges[i].privilege = PRIVILEGE_DATA[i].privilege;
         state->privileges[i].level_required = PRIVILEGE_DATA[i].level_required;
         state->privileges[i].unlocked = false;
-        strncpy(state->privileges[i].name, PRIVILEGE_DATA[i].name,
-               sizeof(state->privileges[i].name) - 1);
-        strncpy(state->privileges[i].description, PRIVILEGE_DATA[i].description,
-               sizeof(state->privileges[i].description) - 1);
+        snprintf(state->privileges[i].name, sizeof(state->privileges[i].name), "%s", PRIVILEGE_DATA[i].name);
+        snprintf(state->privileges[i].description, sizeof(state->privileges[i].description), "%s", PRIVILEGE_DATA[i].description);
     }
 
     return state;

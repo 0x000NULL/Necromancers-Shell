@@ -194,8 +194,7 @@ bool leadership_trial_load_from_file(LeadershipTrialState* state, const char* fi
         CouncilMemberProgress* member = &state->members[i];
 
         /* Get member NPC ID from section identifier */
-        strncpy(member->npc_id, section->section_id, sizeof(member->npc_id) - 1);
-        member->npc_id[sizeof(member->npc_id) - 1] = '\0';
+        snprintf(member->npc_id, sizeof(member->npc_id), "%s", section->section_id);
 
         /* Parse member data */
         const DataValue* name_val = data_section_get(section, "name");
@@ -207,8 +206,7 @@ bool leadership_trial_load_from_file(LeadershipTrialState* state, const char* fi
 
         /* Copy name */
         const char* name = data_value_get_string(name_val, "Unknown");
-        strncpy(member->name, name, sizeof(member->name) - 1);
-        member->name[sizeof(member->name) - 1] = '\0';
+        snprintf(member->name, sizeof(member->name), "%s", name);
 
         /* Set corruption values */
         member->corruption_start = (float)data_value_get_int(corruption_start_val, 50);
@@ -227,8 +225,7 @@ bool leadership_trial_load_from_file(LeadershipTrialState* state, const char* fi
 
         /* Copy specialty */
         const char* specialty = data_value_get_string(specialty_val, "general");
-        strncpy(member->specialty, specialty, sizeof(member->specialty) - 1);
-        member->specialty[sizeof(member->specialty) - 1] = '\0';
+        snprintf(member->specialty, sizeof(member->specialty), "%s", specialty);
 
         /* Initialize runtime state */
         member->reforms_applied = 0;

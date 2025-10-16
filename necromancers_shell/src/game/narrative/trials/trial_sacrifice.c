@@ -19,9 +19,9 @@ SacrificeTrialState* sacrifice_trial_create(void) {
     state->choice_permanent = true;
 
     /* Initialize child with defaults */
-    strncpy(state->child.name, "Maya", sizeof(state->child.name) - 1);
+    snprintf(state->child.name, sizeof(state->child.name), "%s", "Maya");
     state->child.age = 7;
-    strncpy(state->child.location, "Millbrook", sizeof(state->child.location) - 1);
+    snprintf(state->child.location, sizeof(state->child.location), "%s", "Millbrook");
     state->child.time_limit_hours = 24;
 
     /* Initialize messages to empty */
@@ -85,14 +85,12 @@ bool sacrifice_trial_load_from_file(SacrificeTrialState* state, const char* file
     const DataValue* time_limit_val = data_section_get(section, "time_limit_hours");
 
     const char* child_name = data_value_get_string(child_name_val, "Maya");
-    strncpy(state->child.name, child_name, sizeof(state->child.name) - 1);
-    state->child.name[sizeof(state->child.name) - 1] = '\0';
+    snprintf(state->child.name, sizeof(state->child.name), "%s", child_name);
 
     state->child.age = (uint8_t)data_value_get_int(child_age_val, 7);
 
     const char* child_location = data_value_get_string(child_location_val, "Millbrook");
-    strncpy(state->child.location, child_location, sizeof(state->child.location) - 1);
-    state->child.location[sizeof(state->child.location) - 1] = '\0';
+    snprintf(state->child.location, sizeof(state->child.location), "%s", child_location);
 
     state->child.time_limit_hours = (uint32_t)data_value_get_int(time_limit_val, 24);
 
@@ -103,21 +101,15 @@ bool sacrifice_trial_load_from_file(SacrificeTrialState* state, const char* file
 
     const char* encouragement = data_value_get_string(encouragement_val,
         "She's just a child. Seven years old. I've had centuries. Save her.");
-    strncpy(state->thessara_encouragement, encouragement,
-            sizeof(state->thessara_encouragement) - 1);
-    state->thessara_encouragement[sizeof(state->thessara_encouragement) - 1] = '\0';
+    snprintf(state->thessara_encouragement, sizeof(state->thessara_encouragement), "%s", encouragement);
 
     const char* final_msg = data_value_get_string(final_msg_val,
         "I'm proud of you. Fix the system. You were never alone.");
-    strncpy(state->thessara_final_message, final_msg,
-            sizeof(state->thessara_final_message) - 1);
-    state->thessara_final_message[sizeof(state->thessara_final_message) - 1] = '\0';
+    snprintf(state->thessara_final_message, sizeof(state->thessara_final_message), "%s", final_msg);
 
     const char* sadness_msg = data_value_get_string(sadness_msg_val,
         "I understand. But Maya deserved better.");
-    strncpy(state->thessara_sadness_message, sadness_msg,
-            sizeof(state->thessara_sadness_message) - 1);
-    state->thessara_sadness_message[sizeof(state->thessara_sadness_message) - 1] = '\0';
+    snprintf(state->thessara_sadness_message, sizeof(state->thessara_sadness_message), "%s", sadness_msg);
 
     /* Load child fate descriptions */
     const DataValue* fate_saved_val = data_section_get(section, "maya_fate_saved");
@@ -125,15 +117,11 @@ bool sacrifice_trial_load_from_file(SacrificeTrialState* state, const char* file
 
     const char* fate_saved = data_value_get_string(fate_saved_val,
         "Maya lives. She grows up to become a healer, saving hundreds.");
-    strncpy(state->child_fate_saved, fate_saved,
-            sizeof(state->child_fate_saved) - 1);
-    state->child_fate_saved[sizeof(state->child_fate_saved) - 1] = '\0';
+    snprintf(state->child_fate_saved, sizeof(state->child_fate_saved), "%s", fate_saved);
 
     const char* fate_died = data_value_get_string(fate_died_val,
         "Maya dies alone. The village mourns.");
-    strncpy(state->child_fate_died, fate_died,
-            sizeof(state->child_fate_died) - 1);
-    state->child_fate_died[sizeof(state->child_fate_died) - 1] = '\0';
+    snprintf(state->child_fate_died, sizeof(state->child_fate_died), "%s", fate_died);
 
     /* Load permanence setting */
     const DataValue* permanent_val = data_section_get(section, "sacrifice_permanent");

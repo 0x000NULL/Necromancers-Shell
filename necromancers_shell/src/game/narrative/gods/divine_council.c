@@ -164,24 +164,18 @@ bool divine_council_pass_judgment(DivineCouncil* council, uint8_t player_corrupt
     if (council->votes_death >= 4) {
         /* Majority vote death (4+ of 7) */
         council->verdict = VERDICT_IMMEDIATE_DEATH;
-        strncpy(council->verdict_text,
-                "The Council has spoken. Your crimes against the natural order warrant "
-                "immediate dissolution. Your consciousness will be fragmented beyond recovery.",
-                sizeof(council->verdict_text) - 1);
+        snprintf(council->verdict_text, sizeof(council->verdict_text), "%s", "The Council has spoken. Your crimes against the natural order warrant "
+                "immediate dissolution. Your consciousness will be fragmented beyond recovery.");
     } else if (council->votes_purge >= 4) {
         /* Majority vote purge */
         council->verdict = VERDICT_PURGE;
-        strncpy(council->verdict_text,
-                "The Council finds you guilty of necromantic excess. You are condemned to "
-                "face the Fourth Purge. Your fate rests with the enforcers.",
-                sizeof(council->verdict_text) - 1);
+        snprintf(council->verdict_text, sizeof(council->verdict_text), "%s", "The Council finds you guilty of necromantic excess. You are condemned to "
+                "face the Fourth Purge. Your fate rests with the enforcers.");
     } else if (council->votes_amnesty >= 4) {
         /* Majority vote amnesty */
         council->verdict = VERDICT_AMNESTY;
-        strncpy(council->verdict_text,
-                "The Council acknowledges your restraint and purpose. Full amnesty is granted. "
-                "You may continue your work without divine interference.",
-                sizeof(council->verdict_text) - 1);
+        snprintf(council->verdict_text, sizeof(council->verdict_text), "%s", "The Council acknowledges your restraint and purpose. Full amnesty is granted. "
+                "You may continue your work without divine interference.");
 
         /* Grant amnesty from all gods */
         for (size_t i = 0; i < council->god_count; i++) {

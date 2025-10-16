@@ -7,6 +7,7 @@
 
 #include "divine_council.h"
 #include "god.h"
+#include <stdio.h>
 #include <string.h>
 
 /**
@@ -29,15 +30,13 @@ DivineCouncil* divine_favor_initialize_council(void) {
         divine_council_destroy(council);
         return NULL;
     }
-    strncpy(anara->title, "Weaver of Existence", sizeof(anara->title) - 1);
+    snprintf(anara->title, sizeof(anara->title), "%s", "Weaver of Existence");
     strncpy(anara->description,
             "Anara is the goddess of life, growth, and creation. She opposes necromancy "
             "as a perversion of the natural cycle, viewing the undead as abominations. "
             "Gaining her favor requires restraint and respect for life.",
             sizeof(anara->description) - 1);
-    strncpy(anara->manifestation,
-            "Manifests as radiant light with life energy visibly flowing around her",
-            sizeof(anara->manifestation) - 1);
+    snprintf(anara->manifestation, sizeof(anara->manifestation), "%s", "Manifests as radiant light with life energy visibly flowing around her");
     strncpy(anara->personality,
             "Compassionate but stern, protective of all living things, quick to anger at life's desecration",
             sizeof(anara->personality) - 1);
@@ -56,15 +55,13 @@ DivineCouncil* divine_favor_initialize_council(void) {
         divine_council_destroy(council);
         return NULL;
     }
-    strncpy(keldrin->title, "The Lawgiver", sizeof(keldrin->title) - 1);
+    snprintf(keldrin->title, sizeof(keldrin->title), "%s", "The Lawgiver");
     strncpy(keldrin->description,
             "Keldrin governs law, structure, and cosmic order. He views necromancy as "
             "a violation of natural laws but can be swayed by logical arguments and "
             "adherence to strict rules. Favors those who follow protocols.",
             sizeof(keldrin->description) - 1);
-    strncpy(keldrin->manifestation,
-            "Appears as crystalline geometric patterns forming a humanoid shape",
-            sizeof(keldrin->manifestation) - 1);
+    snprintf(keldrin->manifestation, sizeof(keldrin->manifestation), "%s", "Appears as crystalline geometric patterns forming a humanoid shape");
     strncpy(keldrin->personality,
             "Logical, systematic, values rules over emotions, can be reasoned with through structure",
             sizeof(keldrin->personality) - 1);
@@ -83,7 +80,7 @@ DivineCouncil* divine_favor_initialize_council(void) {
         divine_council_destroy(council);
         return NULL;
     }
-    strncpy(theros->title, "Keeper of Eternity", sizeof(theros->title) - 1);
+    snprintf(theros->title, sizeof(theros->title), "%s", "Keeper of Eternity");
     strncpy(theros->description,
             "Theros controls time and eternity. He sees all timelines simultaneously "
             "and is mostly neutral toward necromancy, viewing it as one possible path. "
@@ -110,15 +107,13 @@ DivineCouncil* divine_favor_initialize_council(void) {
         divine_council_destroy(council);
         return NULL;
     }
-    strncpy(myrith->title, "Shepherd of Consciousness", sizeof(myrith->title) - 1);
+    snprintf(myrith->title, sizeof(myrith->title), "%s", "Shepherd of Consciousness");
     strncpy(myrith->description,
             "Myrith governs souls, consciousness, and identity. She understands the "
             "complexity of soul manipulation and can be sympathetic to careful "
             "necromancy. Abhors soul destruction and forced binding.",
             sizeof(myrith->description) - 1);
-    strncpy(myrith->manifestation,
-            "Appears as thousands of glowing soul fragments coalescing into a female form",
-            sizeof(myrith->manifestation) - 1);
+    snprintf(myrith->manifestation, sizeof(myrith->manifestation), "%s", "Appears as thousands of glowing soul fragments coalescing into a female form");
     strncpy(myrith->personality,
             "Empathetic, protective of individual consciousness, values consent and preservation",
             sizeof(myrith->personality) - 1);
@@ -137,7 +132,7 @@ DivineCouncil* divine_favor_initialize_council(void) {
         divine_council_destroy(council);
         return NULL;
     }
-    strncpy(vorathos->title, "Lord of the Void", sizeof(vorathos->title) - 1);
+    snprintf(vorathos->title, sizeof(vorathos->title), "%s", "Lord of the Void");
     strncpy(vorathos->description,
             "Vorathos embodies entropy, decay, and the void between existence. He is "
             "fascinated by necromancy as it embraces death and decay. The most likely "
@@ -164,7 +159,7 @@ DivineCouncil* divine_favor_initialize_council(void) {
         divine_council_destroy(council);
         return NULL;
     }
-    strncpy(seraph->title, "Guardian of Thresholds", sizeof(seraph->title) - 1);
+    snprintf(seraph->title, sizeof(seraph->title), "%s", "Guardian of Thresholds");
     strncpy(seraph->description,
             "Seraph maintains boundaries between life and death, reality and void. She "
             "views necromancy as boundary violation but respects those who maintain "
@@ -191,7 +186,7 @@ DivineCouncil* divine_favor_initialize_council(void) {
         divine_council_destroy(council);
         return NULL;
     }
-    strncpy(nexus->title, "Architect of Connections", sizeof(nexus->title) - 1);
+    snprintf(nexus->title, sizeof(nexus->title), "%s", "Architect of Connections");
     strncpy(nexus->description,
             "Nexus governs connections, systems, and the Death Network itself. He "
             "appreciates the technical elegance of necromancy and understands its "

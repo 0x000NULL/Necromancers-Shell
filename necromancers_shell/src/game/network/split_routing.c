@@ -86,8 +86,7 @@ int split_routing_create_route(SplitRoutingManager* manager, int soul_id,
     SplitRoutedSoul* route = &manager->routes[manager->route_count];
     route->route_id = manager->next_route_id++;
     route->soul_id = soul_id;
-    strncpy(route->soul_name, soul_name, sizeof(route->soul_name) - 1);
-    route->soul_name[sizeof(route->soul_name) - 1] = '\0';
+    snprintf(route->soul_name, sizeof(route->soul_name), "%s", soul_name);
 
     /* Set up fragments */
     route->fragment_count = count;

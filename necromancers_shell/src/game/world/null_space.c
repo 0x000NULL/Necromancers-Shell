@@ -4,6 +4,7 @@
  */
 
 #include "null_space.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -129,8 +130,7 @@ bool null_space_exit(NullSpaceState* null_space, const char* notes) {
         visit->duration_hours = null_space->subjective_hours;
 
         if (notes) {
-            strncpy(visit->notes, notes, sizeof(visit->notes) - 1);
-            visit->notes[sizeof(visit->notes) - 1] = '\0';
+            snprintf(visit->notes, sizeof(visit->notes), "%s", notes);
         } else {
             visit->notes[0] = '\0';
         }

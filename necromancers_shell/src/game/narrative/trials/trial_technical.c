@@ -295,12 +295,10 @@ bool technical_trial_start(TechnicalTrialState* state, const char* filepath) {
 
         /* Copy strings */
         const char* desc = data_value_get_string(desc_val, "");
-        strncpy(bug->description, desc, sizeof(bug->description) - 1);
-        bug->description[sizeof(bug->description) - 1] = '\0';
+        snprintf(bug->description, sizeof(bug->description), "%s", desc);
 
         const char* hint = data_value_get_string(hint_val, "");
-        strncpy(bug->hint, hint, sizeof(bug->hint) - 1);
-        bug->hint[sizeof(bug->hint) - 1] = '\0';
+        snprintf(bug->hint, sizeof(bug->hint), "%s", hint);
 
         bug->discovered = false;
         bug->reported_correctly = false;

@@ -66,7 +66,7 @@ ResolveTrialState* resolve_trial_create(void) {
     state->thessara_help_amount = -5;
     state->trial_failed = false;
 
-    strncpy(state->location, "Chamber of Corrupted Souls", sizeof(state->location) - 1);
+    snprintf(state->location, sizeof(state->location), "%s", "Chamber of Corrupted Souls");
 
     return state;
 }
@@ -124,8 +124,7 @@ bool resolve_trial_start(ResolveTrialState* state,
 
         if (location_val) {
             const char* location = data_value_get_string(location_val, "Chamber of Corrupted Souls");
-            strncpy(state->location, location, sizeof(state->location) - 1);
-            state->location[sizeof(state->location) - 1] = '\0';
+            snprintf(state->location, sizeof(state->location), "%s", location);
         }
 
         if (daily_increase_val) {

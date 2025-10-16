@@ -1,4 +1,5 @@
 #include "god.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -47,10 +48,8 @@ God* god_create(const char* id, const char* name, GodDomain domain) {
     }
 
     /* Initialize identity */
-    strncpy(god->id, id, sizeof(god->id) - 1);
-    god->id[sizeof(god->id) - 1] = '\0';
-    strncpy(god->name, name, sizeof(god->name) - 1);
-    god->name[sizeof(god->name) - 1] = '\0';
+    snprintf(god->id, sizeof(god->id), "%s", id);
+    snprintf(god->name, sizeof(god->name), "%s", name);
     god->title[0] = '\0';
     god->description[0] = '\0';
 
