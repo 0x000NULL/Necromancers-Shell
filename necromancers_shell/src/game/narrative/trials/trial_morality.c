@@ -22,7 +22,7 @@ MoralityTrialState* morality_trial_create(void) {
     state->choice_is_final = false;
 
     /* Default values (will be overwritten by data file) */
-    strncpy(state->village_name, "Ashford", sizeof(state->village_name) - 1);
+    snprintf(state->village_name, sizeof(state->village_name), "%s", "Ashford");
     state->population = 100;
     state->children_count = 23;
     state->save_cost_energy = -1; /* -1 means "all" */
@@ -80,8 +80,7 @@ bool morality_trial_start(MoralityTrialState* state, const char* filepath) {
         /* Parse values */
         if (village_name_val) {
             const char* village_name = data_value_get_string(village_name_val, "Ashford");
-            strncpy(state->village_name, village_name, sizeof(state->village_name) - 1);
-            state->village_name[sizeof(state->village_name) - 1] = '\0';
+            snprintf(state->village_name, sizeof(state->village_name), "%s", village_name);
         }
 
         if (population_val) {
@@ -126,26 +125,22 @@ bool morality_trial_start(MoralityTrialState* state, const char* filepath) {
         /* Load god reactions */
         if (anara_save_val) {
             const char* reaction = data_value_get_string(anara_save_val, "");
-            strncpy(state->anara_reaction_save, reaction, sizeof(state->anara_reaction_save) - 1);
-            state->anara_reaction_save[sizeof(state->anara_reaction_save) - 1] = '\0';
+            snprintf(state->anara_reaction_save, sizeof(state->anara_reaction_save), "%s", reaction);
         }
 
         if (anara_harvest_val) {
             const char* reaction = data_value_get_string(anara_harvest_val, "");
-            strncpy(state->anara_reaction_harvest, reaction, sizeof(state->anara_reaction_harvest) - 1);
-            state->anara_reaction_harvest[sizeof(state->anara_reaction_harvest) - 1] = '\0';
+            snprintf(state->anara_reaction_harvest, sizeof(state->anara_reaction_harvest), "%s", reaction);
         }
 
         if (thalor_save_val) {
             const char* reaction = data_value_get_string(thalor_save_val, "");
-            strncpy(state->thalor_reaction_save, reaction, sizeof(state->thalor_reaction_save) - 1);
-            state->thalor_reaction_save[sizeof(state->thalor_reaction_save) - 1] = '\0';
+            snprintf(state->thalor_reaction_save, sizeof(state->thalor_reaction_save), "%s", reaction);
         }
 
         if (thalor_harvest_val) {
             const char* reaction = data_value_get_string(thalor_harvest_val, "");
-            strncpy(state->thalor_reaction_harvest, reaction, sizeof(state->thalor_reaction_harvest) - 1);
-            state->thalor_reaction_harvest[sizeof(state->thalor_reaction_harvest) - 1] = '\0';
+            snprintf(state->thalor_reaction_harvest, sizeof(state->thalor_reaction_harvest), "%s", reaction);
         }
     }
 

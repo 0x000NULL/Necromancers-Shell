@@ -366,9 +366,7 @@ bool event_scheduler_set_flag(EventScheduler* scheduler, const char* flag_name) 
         return false;
     }
 
-    strncpy(scheduler->flags[scheduler->flag_count].name, flag_name,
-            sizeof(scheduler->flags[scheduler->flag_count].name) - 1);
-    scheduler->flags[scheduler->flag_count].name[sizeof(scheduler->flags[scheduler->flag_count].name) - 1] = '\0';
+    snprintf(scheduler->flags[scheduler->flag_count].name, sizeof(scheduler->flags[scheduler->flag_count].name), "%s", flag_name);
     scheduler->flags[scheduler->flag_count].set = true;
     scheduler->flag_count++;
 

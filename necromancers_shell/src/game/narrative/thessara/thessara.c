@@ -1,4 +1,5 @@
 #include "thessara.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -133,10 +134,8 @@ bool thessara_transfer_knowledge(ThessaraRelationship* thessara, KnowledgeType t
     /* Create new transfer record */
     KnowledgeTransfer* transfer = &thessara->transfers[thessara->transfer_count];
     transfer->type = type;
-    strncpy(transfer->id, id, sizeof(transfer->id) - 1);
-    transfer->id[sizeof(transfer->id) - 1] = '\0';
-    strncpy(transfer->description, description, sizeof(transfer->description) - 1);
-    transfer->description[sizeof(transfer->description) - 1] = '\0';
+    snprintf(transfer->id, sizeof(transfer->id), "%s", id);
+    snprintf(transfer->description, sizeof(transfer->description), "%s", description);
     transfer->day_transferred = day;
 
     thessara->transfer_count++;

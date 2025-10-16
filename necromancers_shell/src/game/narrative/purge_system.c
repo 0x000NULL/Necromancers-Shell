@@ -80,8 +80,7 @@ bool purge_system_initialize(PurgeState* state) {
             enforcer->hp = ENFORCER_ROSTER[i].hp;
             enforcer->attack = ENFORCER_ROSTER[i].attack;
             enforcer->defense = ENFORCER_ROSTER[i].defense;
-            strncpy(enforcer->specialty, ENFORCER_ROSTER[i].specialty,
-                   sizeof(enforcer->specialty) - 1);
+            snprintf(enforcer->specialty, sizeof(enforcer->specialty), "%s", ENFORCER_ROSTER[i].specialty);
             enforcer->deployed = false;
         }
     }

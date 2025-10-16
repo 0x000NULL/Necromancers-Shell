@@ -127,16 +127,13 @@ bool archon_trial_load_from_file(ArchonTrialManager* manager, const char* filepa
 
         /* Copy strings safely */
         const char* name = data_value_get_string(name_val, "Unknown Trial");
-        strncpy(trial->name, name, sizeof(trial->name) - 1);
-        trial->name[sizeof(trial->name) - 1] = '\0';
+        snprintf(trial->name, sizeof(trial->name), "%s", name);
 
         const char* desc = data_value_get_string(desc_val, "");
-        strncpy(trial->description, desc, sizeof(trial->description) - 1);
-        trial->description[sizeof(trial->description) - 1] = '\0';
+        snprintf(trial->description, sizeof(trial->description), "%s", desc);
 
         const char* completion = data_value_get_string(completion_val, "Trial completed.");
-        strncpy(trial->completion_text, completion, sizeof(trial->completion_text) - 1);
-        trial->completion_text[sizeof(trial->completion_text) - 1] = '\0';
+        snprintf(trial->completion_text, sizeof(trial->completion_text), "%s", completion);
 
         /* Parse trial type */
         const char* type_str = data_value_get_string(type_val, "combat");

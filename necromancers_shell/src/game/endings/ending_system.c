@@ -8,6 +8,7 @@
 #include "../resources/corruption.h"
 #include "../resources/consciousness.h"
 #include "../../utils/logger.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -29,10 +30,9 @@ static void init_endings(EndingSystem* system) {
         .unlocked = false,
         .chosen = false
     };
-    strncpy(system->endings[0].name, "Revenant Route", sizeof(system->endings[0].name) - 1);
-    strncpy(system->endings[0].description, "Return to Dust - Resurrect and reclaim mortality",
-            sizeof(system->endings[0].description) - 1);
-    strncpy(system->endings[0].achievement, "The Second Life", sizeof(system->endings[0].achievement) - 1);
+    snprintf(system->endings[0].name, sizeof(system->endings[0].name), "%s", "Revenant Route");
+    snprintf(system->endings[0].description, sizeof(system->endings[0].description), "%s", "Return to Dust - Resurrect and reclaim mortality");
+    snprintf(system->endings[0].achievement, sizeof(system->endings[0].achievement), "%s", "The Second Life");
 
     /* Ending 2: Lich Lord - Eternal undeath */
     system->endings[1] = (Ending){
@@ -48,10 +48,10 @@ static void init_endings(EndingSystem* system) {
         .unlocked = false,
         .chosen = false
     };
-    strncpy(system->endings[1].name, "Lich Lord Route", sizeof(system->endings[1].name) - 1);
+    snprintf(system->endings[1].name, sizeof(system->endings[1].name), "%s", "Lich Lord Route");
     strncpy(system->endings[1].description, "Eternal Optimization - Embrace perfect, emotionless undeath",
             sizeof(system->endings[1].description) - 1);
-    strncpy(system->endings[1].achievement, "The Perfect Machine", sizeof(system->endings[1].achievement) - 1);
+    snprintf(system->endings[1].achievement, sizeof(system->endings[1].achievement), "%s", "The Perfect Machine");
 
     /* Ending 3: Reaper - Eternal service */
     system->endings[2] = (Ending){
@@ -67,10 +67,9 @@ static void init_endings(EndingSystem* system) {
         .unlocked = false,
         .chosen = false
     };
-    strncpy(system->endings[2].name, "Reaper Route", sizeof(system->endings[2].name) - 1);
-    strncpy(system->endings[2].description, "Service Without End - Eternal purpose in guiding souls",
-            sizeof(system->endings[2].description) - 1);
-    strncpy(system->endings[2].achievement, "The Eternal Administrator", sizeof(system->endings[2].achievement) - 1);
+    snprintf(system->endings[2].name, sizeof(system->endings[2].name), "%s", "Reaper Route");
+    snprintf(system->endings[2].description, sizeof(system->endings[2].description), "%s", "Service Without End - Eternal purpose in guiding souls");
+    snprintf(system->endings[2].achievement, sizeof(system->endings[2].achievement), "%s", "The Eternal Administrator");
 
     /* Ending 4: Archon/Morningstar - Become a god */
     system->endings[3] = (Ending){
@@ -86,10 +85,9 @@ static void init_endings(EndingSystem* system) {
         .unlocked = false,
         .chosen = false
     };
-    strncpy(system->endings[3].name, "Archon/Morningstar Route", sizeof(system->endings[3].name) - 1);
-    strncpy(system->endings[3].description, "The Revolutionary - Ascend to godhood and reform reality",
-            sizeof(system->endings[3].description) - 1);
-    strncpy(system->endings[3].achievement, "The Eighth Architect", sizeof(system->endings[3].achievement) - 1);
+    snprintf(system->endings[3].name, sizeof(system->endings[3].name), "%s", "Archon/Morningstar Route");
+    snprintf(system->endings[3].description, sizeof(system->endings[3].description), "%s", "The Revolutionary - Ascend to godhood and reform reality");
+    snprintf(system->endings[3].achievement, sizeof(system->endings[3].achievement), "%s", "The Eighth Architect");
 
     /* Ending 5: Wraith - Distributed consciousness */
     system->endings[4] = (Ending){
@@ -105,10 +103,9 @@ static void init_endings(EndingSystem* system) {
         .unlocked = false,
         .chosen = false
     };
-    strncpy(system->endings[4].name, "Wraith Route", sizeof(system->endings[4].name) - 1);
-    strncpy(system->endings[4].description, "Freedom in Fragments - Disperse into distributed consciousness",
-            sizeof(system->endings[4].description) - 1);
-    strncpy(system->endings[4].achievement, "The Distributed Consciousness", sizeof(system->endings[4].achievement) - 1);
+    snprintf(system->endings[4].name, sizeof(system->endings[4].name), "%s", "Wraith Route");
+    snprintf(system->endings[4].description, sizeof(system->endings[4].description), "%s", "Freedom in Fragments - Disperse into distributed consciousness");
+    snprintf(system->endings[4].achievement, sizeof(system->endings[4].achievement), "%s", "The Distributed Consciousness");
 
     /* Ending 6: Error - Failed Morningstar */
     system->endings[5] = (Ending){
@@ -124,10 +121,10 @@ static void init_endings(EndingSystem* system) {
         .unlocked = false,
         .chosen = false
     };
-    strncpy(system->endings[5].name, "Error Route", sizeof(system->endings[5].name) - 1);
+    snprintf(system->endings[5].name, sizeof(system->endings[5].name), "%s", "Error Route");
     strncpy(system->endings[5].description, "The Glitch That Remains - Failed transcendence, eternal error state",
             sizeof(system->endings[5].description) - 1);
-    strncpy(system->endings[5].achievement, "The Eternal Error", sizeof(system->endings[5].achievement) - 1);
+    snprintf(system->endings[5].achievement, sizeof(system->endings[5].achievement), "%s", "The Eternal Error");
 }
 
 EndingSystem* ending_system_create(void) {

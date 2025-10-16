@@ -11,6 +11,7 @@
 #include "../resources/corruption.h"
 #include "../resources/resources.h"
 #include "../../utils/logger.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -75,9 +76,8 @@ bool ashbrook_register_event(EventScheduler* scheduler, GameState* state) {
         .max_day = 0
     };
 
-    strncpy(event.name, "Ashbrook Discovery", sizeof(event.name) - 1);
-    strncpy(event.description, "The village of Ashbrook presents a terrible choice",
-            sizeof(event.description) - 1);
+    snprintf(event.name, sizeof(event.name), "%s", "Ashbrook Discovery");
+    snprintf(event.description, sizeof(event.description), "%s", "The village of Ashbrook presents a terrible choice");
 
     bool success = event_scheduler_register(scheduler, event);
     if (success) {
