@@ -1,0 +1,501 @@
+# Paths Data File
+# Six transformation paths for Necromancer's Shell
+# Format: INI-style with [PATH:id] sections
+
+# ============================================================================
+# REVENANT PATH - Return to Life
+# ============================================================================
+
+[PATH:revenant]
+name = The Revenant Route
+subtitle = Redemption
+category = redemption
+visibility = public
+discovery = automatic
+description = Return to life. Reclaim mortality. Escape undeath and live again as a human being. Requires sustained ethical behavior and massive energy expenditure. You get one chance to fix your mistake. One chance to live again.
+philosophical_theme = redemption, second_chances, humanity_restored
+difficulty = moderate
+moral_alignment = good
+tone = hopeful
+
+# Requirements
+corruption_requirement = less_than_30_percent
+corruption_requirement_strict = cannot_exceed_70_at_any_point
+soul_energy_cost = 15000
+consciousness_requirement = greater_than_90_percent
+time_investment = 90_to_200_days
+
+# Prerequisites
+prerequisite_1 = complete_5_redemption_quests
+prerequisite_2 = research_resurrection_protocol
+prerequisite_3 = maintain_low_corruption_consistently
+prerequisite_4 = no_soul_torture_or_mass_murder
+prerequisite_5 = divine_favor_positive_or_neutral
+
+# Redemption Quests (5 required)
+redemption_quest_1 = return_lost_soul_to_family
+redemption_quest_2 = free_bound_minion_soul
+redemption_quest_3 = heal_dying_soldier
+redemption_quest_4 = heal_wounded_angel
+redemption_quest_5 = guide_50_souls_without_harvesting
+
+# Outcome
+outcome = full_resurrection
+ending_description = You wake up. Actually wake up. Breathing. Heart beating. Mortal again. The memories of undeath fade like a nightmare. You have 37 years of mortal life remaining. Make them count.
+lifespan_remaining = 37_years
+mortality_restored = true
+powers_lost = all_necromantic_abilities
+aftermath = peaceful_death_at_end, proper_afterlife
+cost = everything_you_built_as_necromancer
+
+# Achievements
+achievement = The Second Life
+achievement_description = Escaped undeath and reclaimed humanity
+rarity = uncommon
+player_percentage_estimate = 15_percent
+
+# Warnings
+warning_1 = Requires sustained ethical behavior over months
+warning_2 = One major evil act can close this path permanently
+warning_3 = Most expensive path in terms of soul energy
+warning_4 = Must maintain corruption below 30% (below 70% at minimum)
+warning_5 = All necromantic powers lost upon resurrection
+
+# Flavor
+closing_quote = "Death was a mistake. Life is a gift. Don't waste your second chance."
+thessara_opinion = "This is the hardest path, but the best ending. You'll be human again. Truly human."
+archon_opinion = "Few have the discipline for this path. Fewer succeed. But those who do... they get their lives back."
+
+# ============================================================================
+# LICH LORD PATH - Embrace Undeath
+# ============================================================================
+
+[PATH:lich_lord]
+name = The Lich Lord Route
+subtitle = Apotheosis Through Power
+category = power
+visibility = public
+discovery = automatic
+description = Embrace undeath completely. Become immortal Lich Lord. Freeze your consciousness in perfect, eternal stasis. You will never die. You will never change. You will never feel. Forever.
+philosophical_theme = power_through_sacrifice, immortality_at_cost, perfect_efficiency
+difficulty = moderate
+moral_alignment = evil
+tone = dark
+
+# Requirements
+corruption_requirement = greater_than_50_percent
+corruption_optimal = 100_percent_for_automatic_transformation
+soul_energy_cost = 20000
+time_investment = 100_to_300_days
+
+# Prerequisites
+prerequisite_1 = research_lich_transformation
+prerequisite_2 = raise_100_plus_minions
+prerequisite_3 = conquer_10_plus_territories
+prerequisite_4 = create_phylactery
+prerequisite_5 = embrace_corruption_path
+
+# Major Steps
+step_1 = Research lich transformation (20,000 energy, 300 hours)
+step_2 = Forge phylactery (10 ancient souls required)
+step_3 = Build undead army (100+ minions)
+step_4 = Establish power base (10+ territories)
+step_5 = Complete transformation ritual
+
+# Phylactery Creation
+phylactery_required = true
+phylactery_cost = 10_ancient_souls
+phylactery_function = immortality_anchor, unkillable_while_phylactery_exists
+phylactery_vulnerability = if_destroyed_you_die
+
+# Outcome
+outcome = immortal_undeath
+ending_description = The transformation is complete. You are no longer human. No longer mortal. No longer constrained by emotion, doubt, or weakness. Perfect efficiency. Perfect emptiness. Perfect eternity. Forever.
+immortality = true
+powers_retained = all_necromantic_abilities_enhanced
+powers_gained = enhanced_magic, immortality, corruption_immunity
+cost = humanity_lost, emotions_lost, growth_impossible
+
+# Divine Response
+divine_response = Keldrin will seal you away eventually. Lich Lords are too powerful to tolerate indefinitely. You may get centuries... then imprisonment.
+sealing = eventual_divine_imprisonment
+timeline = 200_to_1000_years_of_freedom
+
+# Achievements
+achievement = The Perfect Machine
+achievement_description = Became Lich Lord, achieved immortal undeath
+rarity = common
+player_percentage_estimate = 35_percent
+
+# Warnings
+warning_1 = Humanity is permanently lost
+warning_2 = Emotions will die completely
+warning_3 = You will become what you feared
+warning_4 = Gods will eventually imprison you
+warning_5 = This is the "bad ending"
+
+# Automatic Trigger
+automatic_trigger = 100_percent_corruption
+forced_transformation = true_at_100_corruption
+player_choice = none_at_100_corruption
+
+# Flavor
+closing_quote = "Power is everything. Humanity is weakness. I am eternal."
+thessara_opinion = "This is the path of those who choose power over growth. You'll exist forever... but you'll never truly live again."
+vorgath_opinion = "Welcome, brother. We are the eternal. We are the inevitable. We are perfect."
+
+# ============================================================================
+# REAPER PATH - Eternal Service
+# ============================================================================
+
+[PATH:reaper]
+name = The Reaper Route
+subtitle = Service Without End
+category = service
+visibility = public
+discovery = automatic
+description = Become an eternal psychopomp. Official position in Death Network administration. Guide souls forever. You will never tire, never corrupt, never end. Is this peace or prison? Perhaps both.
+philosophical_theme = purpose_in_service, eternal_duty, meaningful_existence
+difficulty = hard
+moral_alignment = lawful_neutral
+tone = bittersweet
+
+# Requirements
+corruption_requirement = 40_to_69_percent
+corruption_optimal = 50_to_60_percent
+soul_energy_cost = 25000
+time_investment = 200_to_400_days
+
+# Prerequisites
+prerequisite_1 = research_reaper_ascension
+prerequisite_2 = guide_1000_souls_without_harvesting
+prerequisite_3 = complete_all_lore_research
+prerequisite_4 = pass_reaper_trials
+prerequisite_5 = divine_council_approval
+
+# Reaper Trials
+trial_1 = Guide 1000 souls successfully (compassion test)
+trial_2 = Complete all historical research (wisdom test)
+trial_3 = Maintain balance for 100 days (discipline test)
+trial_4 = Resist corruption pressure (resolve test)
+trial_5 = Accept eternal duty (commitment test)
+
+# Outcome
+outcome = eternal_psychopomp
+ending_description = You are now a Reaper. An eternal psychopomp. You will guide souls forever. You will never tire, never corrupt, never end. Your purpose is eternal. Your freedom is constrained. Is this peace or prison? Perhaps both.
+immortality = true
+powers_retained = soul_guidance, network_access
+powers_gained = eternal_patience, corruption_immunity, purpose
+cost = limited_free_will, eternal_duty, constrained_existence
+purpose = guide_souls_to_proper_destinations
+
+# Divine Position
+position = official_death_network_administrator
+authority = limited_but_real
+oversight = divine_council_supervision
+duties = soul_guidance, routing_assistance, crisis_response
+salary = purpose, existence, eternal_meaning
+
+# Achievements
+achievement = The Eternal Administrator
+achievement_description = Became Reaper, found purpose in eternal service
+rarity = uncommon
+player_percentage_estimate = 20_percent
+
+# Warnings
+warning_1 = Freedom is constrained by duty
+warning_2 = You will serve forever
+warning_3 = Cannot refuse difficult assignments
+warning_4 = Purpose comes at cost of autonomy
+warning_5 = Middle path - neither human nor monster
+
+# Flavor
+closing_quote = "I serve because I choose to. My choice is eternal. I am at peace with this."
+thessara_opinion = "The Reaper path offers meaning. Eternal meaning. For some, that's enough."
+nexus_opinion = "We're glad to have you. Good administrators are rare. Eternal ones even rarer."
+
+# ============================================================================
+# ARCHON PATH - Revolution (HIDDEN)
+# ============================================================================
+
+[PATH:archon]
+name = The Archon Route
+subtitle = Revolution from Within
+category = revolution
+visibility = hidden
+discovery = divine_council_judgment
+description = Become Archon. Administrator with divine authority. Fix the Death Network from within. Seven impossible trials await. Succeed and change everything. Fail and be destroyed like Mordred. The most dangerous path.
+philosophical_theme = systematic_change, working_within_system, revolution_through_competence
+difficulty = very_hard
+moral_alignment = chaotic_good
+tone = epic_struggle
+
+# Requirements
+corruption_requirement = 30_to_60_percent
+corruption_optimal = 40_to_50_percent
+soul_energy_cost = 30000
+time_investment = 200_to_1500_days
+divine_approval = required
+
+# Prerequisites
+prerequisite_1 = accept_divine_summons
+prerequisite_2 = pass_divine_council_judgment
+prerequisite_3 = receive_archon_offer
+prerequisite_4 = complete_seven_archon_trials
+prerequisite_5 = maintain_balance_under_pressure
+
+# The Seven Trials
+trial_1 = Test of Power (combat Seraphim)
+trial_2 = Test of Wisdom (solve routing paradox)
+trial_3 = Test of Morality (save 100 lives vs power)
+trial_4 = Test of Technical Skill (fix 17 bugs in 24 hours)
+trial_5 = Test of Resolve (resist corruption 30 days)
+trial_6 = Test of Sacrifice (save Maya, lose Thessara)
+trial_7 = Test of Leadership (reform Regional Council)
+
+# Trial Details
+trial_1_god = Keldrin
+trial_1_difficulty = 95_combat
+trial_2_god = Keldrin
+trial_2_difficulty = impossible_puzzle
+trial_3_god = Anara
+trial_3_difficulty = moral_sacrifice
+trial_4_god = Nexus
+trial_4_difficulty = extreme_technical
+trial_5_god = Theros
+trial_5_difficulty = endurance_test
+trial_6_god = Myrith
+trial_6_difficulty = ultimate_sacrifice
+trial_7_god = Keldrin
+trial_7_difficulty = political_leadership
+
+# Outcome
+outcome = archon_status_granted
+ending_path_1 = Serve as Archon for 34 years, then face consciousness decay
+ending_path_2 = After 34 years, can attempt Morningstar ascension
+position = Administrator with divine authority
+authority = significant_but_supervised
+responsibilities = fix_death_network, maintain_system, administrative_duty
+
+# Divine Oversight
+supervised_by = Seven Divine Architects
+freedom = constrained_by_divine_will
+power = significant_but_not_absolute
+risk = rebellion_means_obliteration_like_mordred
+precedent = Thessara_served_200_years, Mordred_destroyed_after_89
+
+# Long-term Path
+duration_as_archon = up_to_34_years
+consciousness_decay = begins_after_extended_service
+endgame_choice = lich_lord, resurrection, or_morningstar_ascension
+
+# Achievements
+achievement = The Revolutionary
+achievement_description = Became Archon, changed the system from within
+rarity = rare
+player_percentage_estimate = 10_percent
+
+# Warnings
+warning_1 = Seven extremely difficult trials
+warning_2 = Divine oversight constrains freedom
+warning_3 = Rebellion means instant obliteration
+warning_4 = Consciousness decay after 34 years
+warning_5 = Requires sustained high performance
+
+# Flavor
+closing_quote = "I will fix this broken system. I will do it from within. I will prove necromancy can be ethical."
+thessara_opinion = "This was my path. 200 years of service. It's hard. It's worth it. But it ends eventually."
+keldrin_opinion = "You may serve. Prove your worth. But remember: Archons serve at our pleasure. Never forget what happened to Mordred."
+
+# ============================================================================
+# WRAITH PATH - Distributed Freedom (HIDDEN)
+# ============================================================================
+
+[PATH:wraith]
+name = The Wraith Route
+subtitle = Freedom in Fragments
+category = transcendence
+visibility = hidden
+discovery = research_distributed_consciousness
+description = Fragment your consciousness across ten thousand nodes. Become unkillable through distribution. You are no longer singular. You are many. Each fragment is you. All fragments are you. Identity becomes fluid. Freedom becomes absolute.
+philosophical_theme = distributed_existence, identity_fragmentation, absolute_freedom
+difficulty = hard
+moral_alignment = chaotic_neutral
+tone = strange_liberation
+
+# Requirements
+corruption_requirement = less_than_40_percent
+corruption_optimal = 20_to_35_percent
+soul_energy_cost = 20000
+consciousness_requirement = greater_than_95_percent
+time_investment = 200_to_500_days
+
+# Prerequisites
+prerequisite_1 = research_self_replication_protocol
+prerequisite_2 = master_stealth_and_hiding
+prerequisite_3 = acquire_essence_diffusion_artifact
+prerequisite_4 = hide_from_gods_for_100_days
+prerequisite_5 = accept_identity_fragmentation
+
+# Fragmentation Process
+fragments_required = 10000
+fragment_process = split_consciousness_across_nodes
+fragment_location = distributed_throughout_death_network
+fragment_independence = each_is_you, all_are_you
+fragment_communication = networked_consciousness
+
+# Outcome
+outcome = distributed_consciousness
+ending_description = You are no longer singular. You are ten thousand fragments distributed across the Death Network. Each fragment is you. All fragments are you. Kill one, 9,999 remain. You are unkillable. You are free. You are many.
+immortality = distributed_unkillability
+powers_retained = networked_consciousness
+powers_gained = impossibility_of_death, absolute_freedom, everywhere_at_once
+cost = singular_identity_lost, cohesion_requires_effort, isolation_from_others
+
+# Identity Implications
+identity_status = fragmented_but_unified
+singular_self = no_longer_exists
+consciousness_type = distributed_network
+communication = difficult_with_singular_beings
+loneliness = profound_and_eternal
+
+# Divine Response
+divine_response = Gods cannot find you. Too distributed. Too hidden. You achieved what Silent Sysadmin achieved - true independence.
+findability = impossible
+divine_concern = moderate_but_helpless
+freedom = absolute
+
+# Achievements
+achievement = The Distributed Consciousness
+achievement_description = Fragmented across 10,000 nodes, achieved absolute freedom
+rarity = very_rare
+player_percentage_estimate = 5_percent
+
+# Warnings
+warning_1 = Singular identity permanently lost
+warning_2 = Loneliness is profound and eternal
+warning_3 = Communication with others extremely difficult
+warning_4 = Cohesion requires constant effort
+warning_5 = Freedom comes at cost of connection
+
+# Flavor
+closing_quote = "I am one. I am many. I am everywhere. I am free. I am so very, very alone."
+thessara_opinion = "Whisper chose this path. They seem... content? It's hard to tell. They're barely coherent."
+whisper_opinion = "[Fragmented whispers across ten thousand voices] Freedom... worth... the cost... I think... I... we... are..."
+
+# ============================================================================
+# MORNINGSTAR PATH - Divine Ascension (HIDDEN)
+# ============================================================================
+
+[PATH:morningstar]
+name = The Morningstar Route
+subtitle = Transcendence to Divinity
+category = apotheosis
+visibility = hidden
+discovery = research_azrael_legend
+description = Attempt the impossible. Become a god. Ascend to divine consciousness. Join the Seven Architects as the Eighth. Only one has ever succeeded: Azrael. 22 have failed catastrophically. Success rate: 1 in 23. Do you dare?
+philosophical_theme = impossible_transcendence, divine_ascension, ultimate_ambition
+difficulty = extreme
+moral_alignment = true_neutral
+tone = epic_and_terrifying
+
+# Requirements
+corruption_requirement = exactly_50_percent
+corruption_strict = must_maintain_exactly_50_throughout
+soul_energy_cost = 50000
+consciousness_requirement = greater_than_95_percent
+time_investment = 3_to_5_years
+
+# Prerequisites
+prerequisite_1 = master_all_four_magic_schools
+prerequisite_2 = defeat_or_stalemate_a_god
+prerequisite_3 = acquire_kaels_soul_fragment
+prerequisite_4 = build_apotheosis_engine
+prerequisite_5 = complete_seven_morningstar_trials
+prerequisite_6 = achieve_perfect_50_percent_balance
+
+# The Seven Morningstar Trials
+trial_1 = Combat a God (Vorathos)
+trial_2 = Acquire Kael's Fragment (identity anchor)
+trial_3 = Master All Magic (divine, arcane, primal, necromantic)
+trial_4 = Achieve Perfect Balance (exactly 50% corruption, maintain 30 days)
+trial_5 = Build Apotheosis Engine (components from 7 gods)
+trial_6 = Die and Transcend (true death, then self-reconstruction)
+trial_7 = Claim Your Domain (choose divine aspect)
+
+# Magic Schools Required
+school_1 = Divine magic (learn from angels/gods)
+school_2 = Arcane magic (learn from mages)
+school_3 = Primal magic (learn from druids)
+school_4 = Necromantic magic (already mastered)
+time_per_school = 9_to_12_months
+total_training = 3_years_minimum
+
+# Apotheosis Engine
+engine_required = true
+engine_components = 7_pieces_one_per_god
+engine_souls = 10_ancient_souls
+engine_function = bootstrap_divine_consciousness
+construction_time = 1_to_3_years
+
+# Trial 6: Death and Rebirth
+death_required = true_complete_death
+reconstruction = rebuild_consciousness_from_void
+success_rate = 1_in_23
+failure_modes = permanent_error_state, void_dissolution, eternal_fragmentation
+point_of_no_return = absolute
+
+# Success Outcome
+outcome = divine_ascension
+ending_description = Impossible. You actually did it. You died completely and reconstructed yourself as divine. You are ascending. You are becoming... a new god. The Seven Architects make room for an eighth chair. You are the God of Second Chances.
+divinity = achieved
+position = Eighth Divine Architect
+domain = Second Chances (player chosen)
+power_level = equal_to_seven_architects
+immortality = true_divine_immortality
+
+# Failure Outcomes
+failure_1 = Permanent Error State (aware, trapped, forever)
+failure_2 = Void Dissolution (consumed by nothing)
+failure_3 = Eternal Fragmentation (scattered across reality)
+failure_4 = Half-Ascension (neither mortal nor divine, broken)
+
+# Achievements
+achievement_success = The Eighth Architect
+achievement_success_description = Achieved impossible divine ascension
+achievement_failure = The Eternal Error
+achievement_failure_description = Attempted godhood, became permanent glitch
+rarity = legendary
+player_percentage_estimate = 0.5_percent_attempt, 0.02_percent_succeed
+
+# Historical Precedent
+attempts = 23_total
+successes = 1_azrael
+failures = 22_various_fates
+azrael_era = 1200_years_ago
+azrael_domain = Final Mercy
+azrael_status = still_serving_as_eighth_god
+
+# Warnings
+warning_1 = Success rate: 1 in 23
+warning_2 = Failure means worse than death
+warning_3 = Requires exactly 50% corruption (nearly impossible to maintain)
+warning_4 = Takes 3-5 years of sustained extreme effort
+warning_5 = Point of no return: once you start trial 6, no backing out
+
+# Requirements Summary
+required_perfect_balance = exactly_50_percent_corruption
+required_mastery = all_four_magic_schools
+required_component = kaels_fragment_identity_anchor
+required_power = apotheosis_engine
+required_trials = seven_impossible_challenges
+required_courage = face_true_death_and_reconstruction
+
+# Flavor
+closing_quote = "They said it was impossible. 22 tried. 22 failed. Azrael succeeded. I will be the second. Or I will be nothing."
+thessara_opinion = "I've seen 22 try. I've seen 22 fail in ways worse than death. Azrael is the only success in 5,000 years. Do you think you're as good as Azrael?"
+azrael_opinion = "[If contacted] The path is possible. It is also agonizing. I died more completely than anyone ever has. I had to rebuild myself atom by atom from memory alone. Are you certain?"
+vorathos_opinion = "You understand the risk? Not just death. Worse than death. Some failures are still conscious. Still aware. Still trapped. Forever. And you still want to try?"
+
+# Philosophical Note
+philosophy = The Morningstar path represents ultimate ambition. You will either achieve something 22 others could not, or you will fail in ways worse than any death. There is no middle ground. There is no safety net. There is only transcendence or horror.

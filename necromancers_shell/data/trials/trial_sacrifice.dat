@@ -1,0 +1,26 @@
+# Trial 6: Test of Sacrifice - Data File
+# Permanent loss for principle - Save Maya or keep Thessara
+
+[SCENARIO:sacrifice]
+# Child information
+child_name = Maya
+child_age = 7
+child_location = Millbrook
+time_limit_hours = 24
+
+# Sacrifice details
+sacrifice_target = thessara_connection
+sacrifice_permanent = true
+benefit_to_player = none
+
+# Thessara's messages
+thessara_encouragement = "She's just a child, Morven. Seven years old. I've had centuries. Save her."
+thessara_final_message = "I'm proud of you. Fix the system. You were never alone."
+thessara_sadness_message = "I understand. But Maya deserved better."
+
+# Child fate outcomes
+maya_fate_saved = "Maya lives. She grows up to become a healer, saving hundreds."
+maya_fate_died = "Maya dies alone. The village mourns."
+
+# Correct choice (for reference)
+correct_choice = save_child

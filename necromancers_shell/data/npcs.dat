@@ -1,0 +1,374 @@
+# NPCs Data File
+# Non-Player Characters for Necromancer's Shell
+# Format: INI-style with [NPC:id] sections
+
+# ============================================================================
+# MAJOR NPCS - Primary Story Characters
+# ============================================================================
+
+[NPC:thessara]
+name = Thessara
+title = The First Necromancer
+type = ghost_consciousness
+corruption_at_death = 23
+role = mentor
+location = null_space
+alive = false
+description = The first necromancer who discovered the administrative interface 3,000 years ago. Now exists as a ghost embedded in the Death Network itself, helping other necromancers navigate their paths.
+first_encounter_day = 3
+relationship = mentor
+can_message = true
+story_importance = critical
+dialogue_style = wise, compassionate, experienced
+special_ability = network_guidance
+
+[NPC:vorgath]
+name = Vorgath the Undying
+title = The Undying
+type = necromancer
+corruption = 98
+army_size = 500
+role = rival_ally
+location = plague_pit
+territories = 4
+description = Powerful necromancer controlling the Plague Pit region. Near lich lord transformation. Pragmatic and strategic, sees value in cooperation when it serves his goals.
+first_encounter_day = 34
+relationship = non_aggression_pact
+dialogue_style = formal, strategic, calculating
+power_level = very_high
+threat_level = high
+
+[NPC:seraphine]
+name = Seraphine the Pale
+title = The Pale
+type = necromancer
+corruption_start = 34
+corruption_reformed = 18
+specialization = soul_research
+role = ally
+location = regional_council
+description = Scholar necromancer specializing in soul research and lore. Eventually becomes the Necromantic Ombudsman in reformed system.
+relationship = friendly
+reformation_potential = high
+dialogue_style = academic, thoughtful, curious
+story_importance = major
+
+[NPC:mordak]
+name = Mordak Bonegrinder
+title = Bonegrinder
+type = necromancer
+corruption_start = 89
+corruption_reformed = 86
+specialization = combat
+role = hostile_ally
+location = regional_council
+description = Pure combat-focused necromancer. Distrusts the player, refuses cooperation initially. Minimal reformation possible.
+relationship = hostile
+reformation_potential = low
+dialogue_style = gruff, aggressive, confrontational
+power_level = high
+
+[NPC:thessaras_echo]
+name = Thessara's Echo
+title = The Echo
+type = necromancer
+corruption_start = 52
+corruption_reformed = 48
+specialization = channeling
+role = ally
+location = regional_council
+description = Claims to channel fragments of the original Thessara. Provides philosophical guidance and historical perspective.
+relationship = friendly
+reformation_potential = moderate
+dialogue_style = mystical, philosophical, cryptic
+story_importance = minor
+
+[NPC:whisper]
+name = Whisper
+title = None
+type = wraith
+corruption = unknown
+specialization = stealth
+role = mysterious_ally
+location = regional_council
+description = Wraith-class necromancer, barely coherent. Provides cryptic insights about distributed consciousness.
+relationship = enigmatic
+reformation_potential = unknown
+dialogue_style = fragmented, incomprehensible, poetic
+story_importance = minor
+special_ability = distributed_consciousness
+
+[NPC:the_archivist]
+name = The Archivist
+title = None
+type = necromancer
+corruption_start = 45
+corruption_reformed = 41
+specialization = documentation
+role = ally
+location = regional_council
+description = Documents everything about necromancy. Provides historical records and statistical analysis.
+relationship = professional
+reformation_potential = high
+dialogue_style = precise, statistical, analytical
+story_importance = minor
+special_ability = complete_records
+
+[NPC:jordan]
+name = Jordan
+title = None
+type = necromancer_then_reaper
+corruption_start = 0
+background = network_engineer
+role = student
+location = various
+death_cause = car_crash
+description = Network engineer who died in car crash. Becomes player's first student, eventually chooses Reaper path. Represents passing the torch.
+first_encounter_day = 1124
+relationship = mentee
+dialogue_style = technical, curious, earnest
+story_importance = major
+arc = student_to_reaper
+
+# ============================================================================
+# DIVINE ARCHITECTS - The Seven Gods
+# ============================================================================
+
+[NPC:anara]
+name = Anara
+title = The Weaver
+type = god
+domain = life, creation, birth
+personality = compassionate, merciful, protective
+appearance = infinitely complex tapestry of light
+role = divine_council_member
+voting_pattern = pro_mercy
+favor_start = -20
+description = Goddess of life, growth, and creation. Opposes necromancy as perversion of natural cycle. Views undead as abominations.
+power_level = divine_architect
+combat_difficulty = 95
+
+[NPC:theros]
+name = Theros
+title = The Eternal
+type = god
+domain = time, continuity, causality
+personality = observant, patient, timeless
+appearance = river of time flowing in all directions
+role = divine_council_member
+voting_pattern = neutral
+favor_start = 0
+description = God of time and eternity. Sees all timelines simultaneously. Neutral toward necromancy, views it as one possible path.
+power_level = divine_architect
+combat_difficulty = 100
+
+[NPC:keldrin]
+name = Keldrin
+title = The Lawgiver
+type = god
+domain = order, structure, law
+personality = strict, logical, fair
+appearance = crystalline structure, perfect geometry
+role = divine_council_leader
+voting_pattern = pro_order
+favor_start = -10
+description = God of law, structure, and cosmic order. Views necromancy as violation of natural laws but can be swayed by logical arguments.
+power_level = divine_architect
+combat_difficulty = 90
+
+[NPC:myrith]
+name = Myrith
+title = The Dreamer
+type = god
+domain = souls, consciousness, identity
+personality = gentle, artistic, empathetic
+appearance = soft colors and gentle thoughts
+role = divine_council_member
+voting_pattern = pro_souls
+favor_start = 5
+description = Goddess of souls, consciousness, and identity. Understands complexity of soul manipulation. Sympathetic to careful necromancy, abhors soul destruction.
+power_level = divine_architect
+combat_difficulty = 85
+
+[NPC:vorathos]
+name = Vorathos
+title = The Void
+type = god
+domain = entropy, ending, death
+personality = philosophical, accepting, respectful
+appearance = absence, emptiness, void
+role = divine_council_member
+voting_pattern = pro_entropy
+favor_start = 15
+conversation_day = 1500
+description = God of entropy, decay, and the void. Fascinated by necromancy as it embraces death and decay. Most likely to support player.
+power_level = divine_architect
+combat_difficulty = 92
+
+[NPC:seraph_god]
+name = Seraph
+title = The Guardian
+type = god
+domain = protection, boundaries, thresholds
+personality = defensive, cautious, vigilant
+appearance = walls and boundaries, shimmering barriers
+role = divine_council_member
+voting_pattern = pro_boundaries
+favor_start = -15
+description = Goddess of boundaries between life and death, reality and void. Views necromancy as boundary violation but respects those who maintain proper limits.
+power_level = divine_architect
+combat_difficulty = 88
+
+[NPC:nexus]
+name = Nexus
+title = The Connector
+type = god
+domain = networks, communication, systems
+personality = curious, technical, analytical
+appearance = network of light, interconnected nodes
+role = divine_council_member, death_network_architect
+voting_pattern = pro_networks
+favor_start = 10
+description = God of connections, systems, and Death Network itself. Appreciates technical elegance of necromancy. Most sympathetic to player's work.
+power_level = divine_architect
+combat_difficulty = 87
+
+# ============================================================================
+# QUEST NPCS - Characters for Specific Quests
+# ============================================================================
+
+[NPC:soldier_woman]
+name = Unknown
+title = None
+type = mortal
+role = quest_character
+location = battlefield
+description = Female soldier with gut wound. Player can choose to heal or harvest her. Has a daughter waiting at home.
+first_encounter_day = 89
+soul_type = warrior
+soul_quality = 87
+story_importance = moral_choice
+quest = redemption_3_heal_soldier
+daughter_name = Emily
+
+[NPC:maya]
+name = Maya
+age = 6
+type = mortal
+role = sacrifice_target
+location = distant_land
+description = Dying child in distant land. Saving her requires severing connection to Thessara permanently.
+encounter = trial_six
+story_importance = sacrifice_test
+quest = archon_trial_6_sacrifice
+illness = terminal
+
+[NPC:wounded_angel]
+name = Unknown Enforcer
+title = Divine Enforcer
+type = angel
+role = quest_character
+location = celestial_border
+description = Wounded angel/Seraphim enforcer. Player can heal or harvest a divine soul.
+first_encounter_day = 148
+soul_type = divine
+soul_quality = 98
+story_importance = major_moral_choice
+quest = redemption_4_heal_angel
+returns_later = true
+
+# ============================================================================
+# HISTORICAL NPCS - Lore Characters
+# ============================================================================
+
+[NPC:kael]
+name = Kael
+title = The First Death
+type = soul_fragment
+age_at_death = 27
+death_cause = fall_from_mountain
+role = historical_artifact
+location = mount_karaketh
+description = The first mortal to ever die. His death caused the creation of the Death Network. His soul fragment is required for Morningstar path.
+story_importance = critical_lore
+era = age_of_creation
+special_property = identity_anchor
+
+[NPC:mordred_archon]
+name = Mordred the Absolute
+title = The Second Archon
+type = historical_necromancer
+fate = destroyed
+role = cautionary_tale
+description = Second Archon who became too powerful. Destroyed by combined divine intervention. His story serves as warning.
+story_importance = lore
+era = 800_years_ago
+lesson = power_without_wisdom
+
+[NPC:silent_sysadmin]
+name = Unknown
+title = The Silent Sysadmin
+type = archon
+status = hidden
+role = mystery
+description = Third Archon who chose to remain hidden. Still maintains Death Network from shadows. Never revealed identity.
+story_importance = lore
+era = current
+location = unknown
+
+[NPC:azrael]
+name = Azrael
+title = God of Final Mercy
+type = ascended_necromancer
+domain = final_mercy, peaceful_death
+role = morningstar_success
+description = Only successful Morningstar path completion. Ascended to become eighth Divine Architect. God of peaceful death and final mercy.
+story_importance = legend
+era = 1200_years_ago
+success_rate = 1_of_23
+
+# ============================================================================
+# REGIONAL COUNCIL - Full Member List
+# ============================================================================
+
+[NPC:council_member_1]
+name = Vorgath the Undying
+reference = vorgath
+position = military_commander
+votes = strategic
+
+[NPC:council_member_2]
+name = Seraphine the Pale
+reference = seraphine
+position = scholar_representative
+votes = ethical
+
+[NPC:council_member_3]
+name = Mordak Bonegrinder
+reference = mordak
+position = combat_specialist
+votes = power_focused
+
+[NPC:council_member_4]
+name = Thessara's Echo
+reference = thessaras_echo
+position = spiritual_advisor
+votes = philosophical
+
+[NPC:council_member_5]
+name = Whisper
+reference = whisper
+position = intelligence_operative
+votes = unpredictable
+
+[NPC:council_member_6]
+name = The Archivist
+reference = the_archivist
+position = historian_recorder
+votes = data_driven
+
+[NPC:council_member_7]
+name = Player Character
+position = administrator
+votes = variable
+status = invited_member

@@ -1,0 +1,389 @@
+# Corruption Events Data File
+# Corruption threshold triggers for Necromancer's Shell
+# Format: INI-style with [CORRUPTION_EVENT:id] sections
+
+# ============================================================================
+# CORRUPTION THRESHOLDS - Progressive Degradation
+# ============================================================================
+
+[CORRUPTION_EVENT:threshold_0]
+trigger_corruption = 0
+name = Pure Consciousness
+tier = pure
+status = Original
+description = You retain your pre-death moral framework. Every harvest feels wrong. Guilt is immediate and strong. This is who you were.
+mechanical_effect = none
+narrative_effect = guilt_automatic, rationalization_difficult
+mercy_cost = none
+moral_clarity = maximum
+psychological_state = conflicted_but_clear
+
+[CORRUPTION_EVENT:threshold_10]
+trigger_corruption = 10
+name = First Rationalization
+tier = pure
+status = Rationalizing
+description = You've begun justifying your actions. "I need this to survive." "They were already dead." The rationalizations come easier now. This is how it starts.
+mechanical_effect = none
+narrative_effect = guilt_diminishing, rationalization_beginning
+mercy_cost = none
+moral_clarity = high
+psychological_state = cognitive_dissonance_emerging
+warning = slippery_slope_begins
+
+[CORRUPTION_EVENT:threshold_21]
+trigger_corruption = 21
+name = Tainted Soul
+tier = tainted
+status_change = Pure → Tainted
+description = You're comfortable with necromancy now. Harvesting feels normal. Rationalization is automatic. You still know right from wrong, but the line has blurred.
+mechanical_effect = none
+narrative_effect = guilt_requires_effort, rationalization_automatic
+mercy_cost = slightly_increased
+moral_clarity = moderate
+psychological_state = normalized_to_necromancy
+text_color_change = white → light_gray
+tier_description = Comfortable with death administration. Still capable of redemption.
+
+[CORRUPTION_EVENT:threshold_30]
+trigger_corruption = 30
+name = Ethical Drift
+tier = tainted
+status = Drifting
+description = Your ethics have noticeably shifted. Pre-death you would be horrified. Current you finds it reasonable. You're still you... but different.
+mechanical_effect = none
+narrative_effect = values_diverging_from_baseline
+mercy_cost = moderate
+moral_clarity = moderate
+psychological_state = identity_shift_beginning
+self_recognition = diminishing
+comparison = if_original_you_met_current_you_horror
+
+[CORRUPTION_EVENT:threshold_40]
+trigger_corruption = 40
+name = Path Decision Point
+tier = tainted
+status = Critical_Threshold
+description = You've reached the point where you must choose your path. Revenant still possible but difficult. Lich Lord now accessible. Reaper path optimal at this corruption level.
+mechanical_effect = unlock_path_choice
+narrative_effect = destiny_decision_required
+mercy_cost = moderate_to_high
+moral_clarity = low_to_moderate
+psychological_state = identity_crisis
+paths_available = revenant, lich_lord, reaper, archon, wraith, morningstar
+recommendation = choose_soon
+
+[CORRUPTION_EVENT:threshold_41]
+trigger_corruption = 41
+name = Power Priority
+tier = corrupted
+status_change = Tainted → Corrupted
+description = Power has become your primary motivation. Not your only motivation, but primary. You still care about ethics... when convenient. When it doesn't cost you.
+mechanical_effect = mercy_requires_active_effort
+narrative_effect = power_trumps_morality, efficiency_default
+mercy_cost = high
+moral_clarity = low
+psychological_state = power_seeking_dominant
+text_color_change = light_gray → gray
+tier_description = Power-focused. Mercy requires effort. Redemption still technically possible.
+warning = 29_points_from_irreversible
+
+[CORRUPTION_EVENT:threshold_50]
+trigger_corruption = 50
+name = Perfect Balance
+tier = corrupted
+status = Balanced
+description = Exactly 50% corruption. You're perfectly balanced between your original ethics and total transformation. This is required for the Morningstar path. Maintaining it is nearly impossible.
+mechanical_effect = morningstar_path_accessible_if_exactly_50
+narrative_effect = unstable_equilibrium
+mercy_cost = high
+moral_clarity = ambiguous
+psychological_state = philosophical_paradox
+special_note = morningstar_requires_maintaining_this_exact_percentage
+difficulty = extreme_to_maintain
+
+[CORRUPTION_EVENT:threshold_60]
+trigger_corruption = 60
+name = Fading Empathy
+tier = corrupted
+status = Hardened
+description = Empathy is fading. You understand suffering intellectually but don't feel it. Souls are resources. Living beings are soul containers. This would have horrified original you.
+mechanical_effect = none
+narrative_effect = emotional_detachment_increasing
+mercy_cost = very_high
+moral_clarity = very_low
+psychological_state = emotional_numbing
+comparison_to_baseline = barely_recognizable
+warning = 10_points_from_irreversible
+
+[CORRUPTION_EVENT:threshold_61]
+trigger_corruption = 61
+name = Vile Nature
+tier = vile
+status_change = Corrupted → Vile
+description = You are vile. Not evil in a grand sense - you're not destroying the world. But you're vile. Callous. Cruel when it serves you. Mercy is weakness. Power is purpose.
+mechanical_effect = revenant_path_closing_soon
+narrative_effect = mercy_extremely_difficult, power_dominant
+mercy_cost = extreme
+moral_clarity = minimal
+psychological_state = power_obsessed
+text_color_change = gray → dark_gray
+tier_description = Callous and cruel. Power is all. 9 points from irreversible.
+warning = point_of_no_return_approaching
+
+[CORRUPTION_EVENT:threshold_70]
+trigger_corruption = 70
+name = Abyssal Threshold
+tier = abyssal
+status_change = Vile → Abyssal
+description = Point of no return. Redemption is now impossible. The Revenant path is permanently closed. Reaper path closed. You cannot go back. You can only go forward into darkness or transformation.
+mechanical_effect = lock_revenant_path, lock_reaper_path
+narrative_effect = irreversible_corruption, redemption_impossible
+mercy_cost = nearly_impossible
+moral_clarity = none
+psychological_state = beyond_redemption
+text_color_change = dark_gray → very_dark_gray
+tier_description = Irreversibly corrupted. Only dark paths remain.
+paths_closed = revenant, reaper
+paths_remaining = lich_lord, possibly_archon_if_started
+warning = no_going_back
+philosophical_note = you_have_overwritten_too_much_of_yourself
+
+[CORRUPTION_EVENT:threshold_80]
+trigger_corruption = 80
+name = Inhuman
+tier = abyssal
+status = Transcending_Humanity
+description = You are no longer quite human. Your consciousness has diverged too far from baseline humanity. You think differently. Value differently. Process reality differently. You are Other.
+mechanical_effect = none
+narrative_effect = species_identity_shift
+mercy_cost = impossible
+moral_clarity = alien
+psychological_state = post_human_cognition
+self_recognition = none
+comparison = if_baseline_you_saw_current_you_wouldnt_recognize
+warning = humanity_slipping_away
+
+[CORRUPTION_EVENT:threshold_86]
+trigger_corruption = 86
+name = Transcendent Darkness
+tier = transcendent
+status_change = Abyssal → Transcendent
+description = You have transcended human morality entirely. You are not evil by human standards because you are no longer human. You are efficient. Perfect. Empty. Beautiful in your emptiness.
+mechanical_effect = lich_transformation_imminent
+narrative_effect = humanity_gone, perfection_emerging
+mercy_cost = incomprehensible
+moral_clarity = beyond_morality
+psychological_state = post_human_consciousness
+text_color_change = very_dark_gray → black
+tier_description = Beyond humanity. Beyond morality. Beyond redemption.
+warning = lich_transformation_approaching
+philosophical_note = you_are_no_longer_what_you_were
+
+[CORRUPTION_EVENT:threshold_95]
+trigger_corruption = 95
+name = Nearly Complete
+tier = transcendent
+status = Transformation_Inevitable
+description = The transformation is nearly complete. Your humanity is a fading echo. You are becoming Lich. This is inevitable now. Five more percentage points.
+mechanical_effect = lich_transformation_countdown
+narrative_effect = transformation_inevitable, humanity_dying
+mercy_cost = impossible
+moral_clarity = irrelevant
+psychological_state = metamorphosis_in_progress
+countdown = 5_points_remaining
+inevitability = true
+
+[CORRUPTION_EVENT:threshold_100]
+trigger_corruption = 100
+name = Lich Transformation
+tier = lich
+status_change = Transcendent → Lich Lord
+description = Transformation complete. You are no longer mortal. No longer necromancer. No longer human. You are Lich Lord. Perfect efficiency. Perfect emptiness. Perfect eternity. Forever.
+mechanical_effect = forced_lich_lord_ending
+narrative_effect = transformation_complete, humanity_deleted
+mercy_cost = N/A
+moral_clarity = N/A
+psychological_state = lich_consciousness
+text_color_change = black → necrotic_green
+ending_triggered = lich_lord
+reversible = false
+eternal = true
+philosophical_note = original_you_is_completely_overwritten
+
+# ============================================================================
+# SPECIAL CORRUPTION EVENTS - Context-Specific
+# ============================================================================
+
+[CORRUPTION_EVENT:ashbrook_spike]
+trigger = complete_ashbrook_massacre
+corruption_gain = 38
+name = The Ashbrook Crack
+tier = special
+description = Ashbrook changes you fundamentally. 147 souls in one night. You crossed a line you didn't even know existed. There's a crack in your humanity now. You can feel it.
+mechanical_effect = corruption_spike_38_percent
+narrative_effect = humanity_fractured, moral_foundation_cracked
+psychological_impact = severe
+guilt_level = crushing_or_rationalized_away
+depends_on = player_psychology
+long_term = foundation_for_further_corruption
+comparison = before_ashbrook_vs_after_ashbrook
+note = this_is_the_moment_many_necromancers_break
+
+[CORRUPTION_EVENT:first_living_harvest]
+trigger = harvest_living_being
+corruption_gain = 8
+name = First Murder
+tier = special
+description = You killed someone. Not harvested someone already dead - you ended a living being's life for their soul. This is murder. You are a murderer. How does that feel?
+mechanical_effect = corruption_spike_8_percent
+narrative_effect = murderer_identity, line_crossed
+psychological_impact = major
+guilt_level = depends_on_current_corruption
+moral_weight = killing_vs_harvesting_dead
+justification_difficulty = high
+long_term = easier_to_kill_next_time
+
+[CORRUPTION_EVENT:mass_harvest]
+trigger = harvest_100_plus_in_single_event
+corruption_gain = varies
+name = Industrial Harvesting
+tier = special
+description = You've performed industrial-scale harvesting. 100+ souls in one event. This isn't necromancy. This is factory farming consciousness. The efficiency is beautiful. The implications are horrifying.
+mechanical_effect = corruption_spike_varies
+narrative_effect = mass_death_administrator, efficiency_mindset
+psychological_impact = desensitization
+moral_weight = scale_changes_nature
+comparison = individual_death_vs_mass_death
+note = some_lines_cannot_be_uncrossed
+
+[CORRUPTION_EVENT:torture_soul]
+trigger = torture_soul_for_information
+corruption_gain = 15
+name = Soul Torture
+tier = special
+description = You tortured a soul. Not destroyed it - that would be merciful. You caused suffering to extract information. This is a new kind of evil. Deliberate, calculated cruelty.
+mechanical_effect = corruption_spike_15_percent
+narrative_effect = deliberate_cruelty, torture_threshold
+psychological_impact = severe
+moral_weight = suffering_for_utility
+justification_difficulty = extreme
+paths_affected = revenant_closed, archon_damaged
+note = some_gods_will_never_forgive_this
+
+[CORRUPTION_EVENT:first_redemption]
+trigger = complete_redemption_quest
+corruption_reduction = -2
+name = First Act of Mercy
+tier = special
+description = You chose mercy over power. It cost you resources you needed. You did it anyway. This is how redemption begins: one choice at a time, choosing others over yourself.
+mechanical_effect = corruption_reduction_2_percent
+narrative_effect = redemption_possible, hope_restored
+psychological_impact = positive
+moral_weight = proof_not_too_far_gone
+paths_affected = revenant_progress
+note = the_first_step_back_to_humanity
+
+[CORRUPTION_EVENT:heal_instead_of_harvest]
+trigger = heal_dying_being
+corruption_reduction = -2_to_-5
+name = Healing Hands
+tier = special
+description = You used your power to heal instead of harvest. You spent energy you couldn't spare. You saved a life at cost to yourself. Remember this feeling. This is who you could still become.
+mechanical_effect = corruption_reduction_varies
+narrative_effect = mercy_proven, humanity_preserved
+psychological_impact = profound
+moral_weight = selfless_act
+paths_affected = revenant_momentum, archon_approval
+note = the_gods_notice_mercy
+
+# ============================================================================
+# CORRUPTION RECOVERY EVENTS - Redemption Moments
+# ============================================================================
+
+[CORRUPTION_EVENT:sustained_mercy]
+trigger = 10_merciful_acts_in_30_days
+corruption_reduction = -5
+name = Pattern of Mercy
+tier = recovery
+description = You've consistently chosen mercy for 30 days. Ten separate acts of selflessness. This isn't accident. This is who you're choosing to be. Your corruption is receding.
+mechanical_effect = corruption_reduction_5_percent
+narrative_effect = redemption_pattern_established
+psychological_impact = identity_shift_positive
+moral_weight = sustained_goodness
+paths_affected = revenant_unlocking
+note = consistency_matters_more_than_grand_gestures
+
+[CORRUPTION_EVENT:reformation_success]
+trigger = reform_regional_council
+corruption_reduction = -10
+name = Leading by Example
+tier = recovery
+description = You reformed the Regional Council. Six necromancers chose ethics over power because of you. Your influence prevented corruption in others. This is leadership. This is redemption at scale.
+mechanical_effect = corruption_reduction_10_percent
+narrative_effect = leadership_proven, influence_for_good
+psychological_impact = major_positive
+moral_weight = scaled_redemption
+paths_affected = archon_path_progress
+note = changing_others_changes_you
+
+[CORRUPTION_EVENT:save_necromancers_purge]
+trigger = save_necromancers_in_fourth_purge
+corruption_reduction = -5
+name = Mercy in Crisis
+tier = recovery
+description = During the Fourth Purge, you chose to save others at great cost to yourself. 183 necromancers live because you prioritized lives over power. This defines you.
+mechanical_effect = corruption_reduction_5_percent
+narrative_effect = crisis_heroism, lives_over_power
+psychological_impact = profound
+moral_weight = sacrifice_in_crisis
+paths_affected = revenant_major_progress, archon_favor
+note = crisis_reveals_true_character
+
+# ============================================================================
+# CORRUPTION WARNINGS - Milestone Notifications
+# ============================================================================
+
+[CORRUPTION_EVENT:warning_30]
+trigger_corruption = 30
+name = Warning: Deviation Significant
+type = warning
+description = WARNING: Your consciousness has deviated significantly from baseline. Compare current values to pre-death values. Notice the differences. This is cognitive drift in progress.
+tone = clinical_warning
+recommendation = consider_redemption_path
+paths_closing_soon = none_yet
+reversibility = still_reversible
+
+[CORRUPTION_EVENT:warning_50]
+trigger_corruption = 50
+name = Warning: Halfway Transformed
+type = warning
+description = WARNING: You are exactly halfway between your original self and total transformation. This is an unstable equilibrium. You will drift higher or lower. Maintaining 50% exactly is required for Morningstar path and nearly impossible.
+tone = critical_warning
+recommendation = choose_direction_soon
+special_note = morningstar_opportunity_if_maintained
+reversibility = increasingly_difficult
+
+[CORRUPTION_EVENT:warning_69]
+trigger_corruption = 69
+name = WARNING: Point of No Return Imminent
+type = urgent_warning
+description = WARNING: ONE PERCENTAGE POINT from irreversible corruption. At 70%, redemption becomes impossible. Revenant and Reaper paths permanently close. Choose now: turn back or commit to darkness.
+tone = urgent_alarm
+recommendation = emergency_decision_required
+paths_closing = revenant_at_70, reaper_at_70
+reversibility = this_is_last_chance
+visual_warning = red_flashing_text
+
+[CORRUPTION_EVENT:warning_70]
+trigger_corruption = 70
+name = CORRUPTION IRREVERSIBLE
+type = point_of_no_return
+description = You have crossed the point of no return. Redemption is now impossible. You cannot decrease corruption below 70%. The only paths forward lead deeper into darkness or transformation. There is no going back.
+tone = finality
+recommendation = accept_what_you_are
+paths_closed = revenant, reaper
+paths_remaining = lich_lord, possibly_archon
+reversibility = impossible
+visual_warning = permanent_red_indicator
+philosophical_note = you_have_become_what_you_feared

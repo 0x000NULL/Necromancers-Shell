@@ -5,6 +5,8 @@
 
 #include "game_state.h"
 #include "minions/minion_manager.h"
+#include "events/event_scheduler.h"
+#include "endings/ending_system.h"
 #include "../data/data_loader.h"
 #include "../data/location_data.h"
 #include "../utils/logger.h"
@@ -286,6 +288,170 @@ GameState* game_state_create(void) {
         return NULL;
     }
 
+    /* Initialize Thessara ghost system */
+    state->thessara = thessara_create();
+    if (!state->thessara) {
+        LOG_ERROR("Failed to create Thessara system");
+        dialogue_manager_destroy(state->dialogues);
+        quest_manager_destroy(state->quests);
+        relationship_manager_destroy(state->relationships);
+        npc_manager_destroy(state->npcs);
+        memory_manager_destroy(state->memories);
+        minion_manager_destroy(state->minions);
+        death_network_destroy(state->death_network);
+        territory_status_destroy(state->territory_status);
+        world_map_destroy(state->world_map);
+        location_graph_destroy(state->location_graph);
+        territory_manager_destroy(state->territory);
+        soul_manager_destroy(state->souls);
+        free(state);
+        return NULL;
+    }
+
+    /* Initialize null space location system */
+    state->null_space = null_space_create();
+    if (!state->null_space) {
+        LOG_ERROR("Failed to create null space system");
+        thessara_destroy(state->thessara);
+        dialogue_manager_destroy(state->dialogues);
+        quest_manager_destroy(state->quests);
+        relationship_manager_destroy(state->relationships);
+        npc_manager_destroy(state->npcs);
+        memory_manager_destroy(state->memories);
+        minion_manager_destroy(state->minions);
+        death_network_destroy(state->death_network);
+        territory_status_destroy(state->territory_status);
+        world_map_destroy(state->world_map);
+        location_graph_destroy(state->location_graph);
+        territory_manager_destroy(state->territory);
+        soul_manager_destroy(state->souls);
+        free(state);
+        return NULL;
+    }
+
+    /* Initialize Divine Council (Seven Architects) */
+    extern DivineCouncil* divine_favor_initialize_council(void);
+    state->divine_council = divine_favor_initialize_council();
+    if (!state->divine_council) {
+        LOG_ERROR("Failed to create Divine Council");
+        null_space_destroy(state->null_space);
+        thessara_destroy(state->thessara);
+        dialogue_manager_destroy(state->dialogues);
+        quest_manager_destroy(state->quests);
+        relationship_manager_destroy(state->relationships);
+        npc_manager_destroy(state->npcs);
+        memory_manager_destroy(state->memories);
+        minion_manager_destroy(state->minions);
+        death_network_destroy(state->death_network);
+        territory_status_destroy(state->territory_status);
+        world_map_destroy(state->world_map);
+        location_graph_destroy(state->location_graph);
+        territory_manager_destroy(state->territory);
+        soul_manager_destroy(state->souls);
+        free(state);
+        return NULL;
+    }
+
+    /* Initialize event scheduler */
+    state->event_scheduler = event_scheduler_create();
+    if (!state->event_scheduler) {
+        LOG_ERROR("Failed to create event scheduler");
+        dialogue_manager_destroy(state->dialogues);
+        quest_manager_destroy(state->quests);
+        relationship_manager_destroy(state->relationships);
+        npc_manager_destroy(state->npcs);
+        memory_manager_destroy(state->memories);
+        minion_manager_destroy(state->minions);
+        death_network_destroy(state->death_network);
+        territory_status_destroy(state->territory_status);
+        world_map_destroy(state->world_map);
+        location_graph_destroy(state->location_graph);
+        territory_manager_destroy(state->territory);
+        soul_manager_destroy(state->souls);
+        free(state);
+        return NULL;
+    }
+
+    /* TODO: Load events from data/events.dat */
+    /* event_scheduler_load_from_file(state->event_scheduler, "data/events.dat"); */
+
+    /* Initialize ending system */
+    state->ending_system = ending_system_create();
+    if (!state->ending_system) {
+        LOG_ERROR("Failed to create ending system");
+        event_scheduler_destroy(state->event_scheduler);
+        dialogue_manager_destroy(state->dialogues);
+        quest_manager_destroy(state->quests);
+        relationship_manager_destroy(state->relationships);
+        npc_manager_destroy(state->npcs);
+        memory_manager_destroy(state->memories);
+        minion_manager_destroy(state->minions);
+        death_network_destroy(state->death_network);
+        territory_status_destroy(state->territory_status);
+        world_map_destroy(state->world_map);
+        location_graph_destroy(state->location_graph);
+        territory_manager_destroy(state->territory);
+        soul_manager_destroy(state->souls);
+        free(state);
+        return NULL;
+    }
+
+    /* Initialize Archon trial system */
+    extern ArchonTrialManager* archon_trial_manager_create(void);
+    extern bool archon_trial_load_from_file(ArchonTrialManager*, const char*);
+    state->archon_trials = archon_trial_manager_create();
+    if (!state->archon_trials) {
+        LOG_ERROR("Failed to create Archon trial manager");
+        ending_system_destroy(state->ending_system);
+        event_scheduler_destroy(state->event_scheduler);
+        dialogue_manager_destroy(state->dialogues);
+        quest_manager_destroy(state->quests);
+        relationship_manager_destroy(state->relationships);
+        npc_manager_destroy(state->npcs);
+        memory_manager_destroy(state->memories);
+        minion_manager_destroy(state->minions);
+        death_network_destroy(state->death_network);
+        territory_status_destroy(state->territory_status);
+        world_map_destroy(state->world_map);
+        location_graph_destroy(state->location_graph);
+        territory_manager_destroy(state->territory);
+        soul_manager_destroy(state->souls);
+        free(state);
+        return NULL;
+    }
+
+    /* Load trial definitions from data file */
+    if (!archon_trial_load_from_file(state->archon_trials,
+                                      "data/trials/archon_trials.dat")) {
+        LOG_WARN("Failed to load Archon trials from data file");
+    } else {
+        LOG_INFO("Loaded Archon trial definitions successfully");
+    }
+
+    /* Initialize Week 35-37 Archon Path systems */
+    extern DivineJudgmentState* divine_judgment_create(void);
+    extern NetworkPatchingState* network_patching_create(void);
+    extern SplitRoutingManager* split_routing_manager_create(void);
+    extern PurgeState* purge_system_create(void);
+    extern ArchonState* archon_state_create(void);
+    extern ReformationProgram* reformation_program_create(void);
+
+    state->divine_judgment = divine_judgment_create();
+    state->network_patching = network_patching_create();
+    state->split_routing = split_routing_manager_create();
+    state->purge_state = purge_system_create();
+    state->archon_state = archon_state_create();
+    state->reformation_program = reformation_program_create();
+
+    if (!state->divine_judgment || !state->network_patching ||
+        !state->split_routing || !state->purge_state ||
+        !state->archon_state || !state->reformation_program) {
+        LOG_ERROR("Failed to create Archon Path systems");
+        /* Cleanup will be handled by game_state_destroy */
+    } else {
+        LOG_INFO("Archon Path systems initialized successfully");
+    }
+
     LOG_INFO("Narrative systems initialized successfully");
 
     /* Initialize resources */
@@ -330,6 +496,30 @@ void game_state_destroy(GameState* state) {
     }
 
     /* Destroy narrative systems */
+    extern void archon_trial_manager_destroy(ArchonTrialManager*);
+    extern void divine_judgment_destroy(DivineJudgmentState*);
+    extern void network_patching_destroy(NetworkPatchingState*);
+    extern void split_routing_manager_destroy(SplitRoutingManager*);
+    extern void purge_system_destroy(PurgeState*);
+    extern void archon_state_destroy(ArchonState*);
+    extern void reformation_program_destroy(ReformationProgram*);
+
+    reformation_program_destroy(state->reformation_program);
+    archon_state_destroy(state->archon_state);
+    purge_system_destroy(state->purge_state);
+    split_routing_manager_destroy(state->split_routing);
+    network_patching_destroy(state->network_patching);
+    divine_judgment_destroy(state->divine_judgment);
+    archon_trial_manager_destroy(state->archon_trials);
+    ending_system_destroy(state->ending_system);
+    event_scheduler_destroy(state->event_scheduler);
+
+    /* Destroy divine council */
+    extern void divine_council_destroy(DivineCouncil*);
+    divine_council_destroy(state->divine_council);
+
+    null_space_destroy(state->null_space);
+    thessara_destroy(state->thessara);
     dialogue_manager_destroy(state->dialogues);
     quest_manager_destroy(state->quests);
     relationship_manager_destroy(state->relationships);
@@ -435,6 +625,14 @@ void game_state_advance_time(GameState* state, uint32_t hours) {
     /* Update Death Network (regenerate corpses, decay signatures, random events) */
     if (state->death_network) {
         death_network_update(state->death_network, hours);
+    }
+
+    /* Check for triggered events */
+    if (state->event_scheduler) {
+        uint32_t triggered = event_scheduler_check_triggers(state->event_scheduler, state);
+        if (triggered > 0) {
+            LOG_INFO("Triggered %u event(s) on day %u", triggered, state->resources.day_count);
+        }
     }
 
     LOG_DEBUG("Advanced time by %u hours (mana regen: %u)", hours, mana_regen);

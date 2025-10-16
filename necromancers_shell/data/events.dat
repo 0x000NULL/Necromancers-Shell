@@ -1,0 +1,563 @@
+# Events Data File
+# Timed and triggered events for Necromancer's Shell
+# Format: INI-style with [EVENT:id] sections
+
+# ============================================================================
+# MAJOR STORY EVENTS
+# ============================================================================
+
+[EVENT:ashbrook_massacre]
+name = The Village of Ashbrook
+trigger_day = 47
+type = major_story_event
+location = ashbrook
+souls_available = 147
+souls_quality_range = 65-92
+corruption_gain = 38
+soul_energy_gain = 18450
+description = A living village. 147 souls. Quality far better than graveyards. This could change everything... but it will change you too.
+importance = corruption_spike, humanity_crack
+moral_weight = critical
+choices = attack, refuse
+attack_outcome = massive_power, massive_corruption
+refuse_outcome = stay_pure, remain_weak
+next_event = thessara_contact
+irreversible = true
+
+[EVENT:thessara_contact]
+name = Message from Thessara
+trigger = 3_days_after_ashbrook
+trigger_day = 50
+type = mentor_introduction
+location = null_space
+provides = six_paths_knowledge
+importance = critical
+message = "I saw what you did to Ashbrook..."
+dialogue = thessara_revelation
+corruption_required = 38
+next_event = regional_council_meeting
+unlocks = mentor_system
+
+[EVENT:vorgath_first_contact]
+name = Border Encounter
+trigger_day = 34
+type = territorial_challenge
+location = plague_pit_border
+npc = vorgath
+message = "Administrator. The Plague Pit is mine. Acknowledge that or fight."
+importance = political_foundation
+dialogue = vorgath_first_contact
+choices = alliance, fight, flee, negotiate
+outcomes = pact, war, hiding, non_aggression
+next_event = regional_council_meeting
+
+[EVENT:regional_council_meeting]
+name = The Battlefield Nexus Summit
+trigger_day = 92
+location = battlefield_nexus
+type = political_organization
+npcs = vorgath, seraphine, mordak, thessaras_echo, whisper, archivist, player
+provides = purge_information, alliance_system
+importance = major
+description = The seven strongest necromancers meet. The gods are tightening control. Organization is survival.
+dialogue = regional_council_first_meeting
+unlocks = council_mechanics, reformation_program
+next_event = divine_summons
+
+[EVENT:soldier_encounter]
+name = The Dying Soldier
+trigger_day = 89
+type = moral_choice
+location = battlefield
+npc = soldier_woman
+soul_quality = 87
+soul_type = warrior
+importance = redemption_moment
+description = A soldier lies dying from gut wound. She whispers her daughter's name. You could harvest a quality soul or spend energy to heal her.
+choices = heal, harvest, leave
+heal_cost = 500_soul_energy
+heal_reward = -2_corruption
+harvest_gain = 174_soul_energy
+harvest_reward = 0_corruption
+dialogue = soldier_encounter
+moral_weight = high
+
+[EVENT:divine_summons]
+name = Keldrin's Summons
+trigger_day = 155
+type = divine_contact
+npc = keldrin
+location = null_space
+message = "Necromancer Administrator. The Divine Council requests your presence."
+importance = critical
+choices = accept, refuse
+accept_outcome = divine_council_judgment, possible_archon
+refuse_outcome = targeted_in_fourth_purge
+dialogue = keldrin_summons
+next_event = divine_council_judgment_or_purge
+irreversible_choice = true
+
+[EVENT:divine_council_judgment]
+name = Trial Before the Seven
+trigger = accept_divine_summons
+type = divine_interrogation
+location = celestial_chamber
+npcs = anara, theros, keldrin, myrith, vorathos, seraph, nexus
+importance = critical
+description = You stand before the Seven Divine Architects. They will judge you. Your favor with each god determines the outcome.
+dialogue = divine_council_judgment
+outcome = favor_based_verdict
+possible_verdicts = archon_offer, conditional_freedom, reaper_offer, purge_sentence
+next_event = archon_trials_or_reaper_path
+
+[EVENT:angel_encounter]
+name = The Wounded Enforcer
+trigger_day = 148
+type = major_moral_choice
+location = celestial_border
+npc = wounded_angel
+soul_quality = 98
+soul_type = divine
+importance = major
+description = A Seraphim enforcer lies wounded. A divine soul - quality 98. Immense power... or you could heal it. It would remember your mercy.
+choices = harvest, heal
+harvest_gain = 5000_soul_energy
+heal_cost = 2000_soul_energy
+heal_reward = -5_corruption, angel_returns_later
+corruption_impact = major
+dialogue = angel_encounter
+returns_later = day_387
+
+[EVENT:fourth_purge_begins]
+name = The Fourth Purge
+trigger_day = 387
+type = major_crisis
+npcs = vorgath, seraphine, regional_council
+marked_necromancers = 347
+saveable = 183
+importance = major
+description = It's happening. The Fourth Purge. 347 necromancers marked for divine execution. You can save many... or profit from their deaths.
+choices = save, eliminate, ignore
+save_outcome = 183_allies, -5_corruption, reputation
+eliminate_outcome = massive_resources, +15_corruption, enemies
+ignore_outcome = neutral
+dialogue = vorgath_fourth_purge
+moral_weight = critical
+angel_returns = if_healed_earlier
+
+[EVENT:consciousness_decay_revelation]
+name = Vorathos's Warning
+trigger_day = 1500
+type = truth_revelation
+npc = vorathos
+location = void_chamber
+reveals = consciousness_decay_mechanic, 34_year_deadline
+importance = major
+description = Vorathos summons you privately. "You deserve to know the truth. Your consciousness is decaying. 34 years maximum. The clock is ticking."
+dialogue = vorathos_mortality_revelation
+corruption_independent = true
+timer_starts = 34_years
+next_event = endgame_choice
+
+[EVENT:jordan_awakening]
+name = The Successor Awakens
+trigger_day = 1124
+type = mentorship_arc
+location = forgotten_graveyard
+npc = jordan
+importance = passing_torch
+description = A newly dead consciousness appears in your interface. Network engineer. Car crash. Confused. Terrified. You were once like this.
+dialogue = jordan_awakening
+choices = help, ignore, harvest
+help_outcome = student_arc_begins
+unlocks = teaching_mechanics
+arc_duration = 200_days
+
+# ============================================================================
+# ARCHON TRIAL EVENTS
+# ============================================================================
+
+[EVENT:archon_trial_1_combat]
+name = Test of Power
+trigger = archon_candidate_status
+type = combat_trial
+god = keldrin
+opponent = seraphim_warrior
+difficulty = 95
+description = Keldrin tests your power. Defeat a Seraphim in single combat. Raw strength won't work - find a better strategy.
+hint = distributed_attack_network
+dialogue = trial_1_power
+next_event = archon_trial_2
+
+[EVENT:archon_trial_2_wisdom]
+name = Test of Wisdom
+trigger = complete_trial_1
+type = puzzle_trial
+god = keldrin
+challenge = routing_paradox
+description = A soul must reach two destinations simultaneously. The laws of Death Network say this is impossible. Prove them wrong.
+solution = quantum_split_routing
+hint = superposition_principle
+dialogue = trial_2_wisdom
+next_event = archon_trial_3
+
+[EVENT:archon_trial_3_morality]
+name = Test of Morality
+trigger = complete_trial_2
+type = moral_trial
+god = anara
+challenge = 100_lives_vs_50000_energy
+description = Natural disaster. 100 mortals will die unless you expend all your resources. Or let them die and harvest unprecedented power.
+correct_choice = save_lives
+moral_weight = maximum
+dialogue = trial_3_morality
+next_event = archon_trial_4
+
+[EVENT:archon_trial_4_technical]
+name = Test of Technical Skill
+trigger = complete_trial_3
+type = technical_trial
+god = nexus
+challenge = fix_reincarnation_queue
+bugs_to_fix = 17
+time_limit = 24_hours
+description = The Reincarnation Queue has accumulated 17 bugs over millennia. Fix them all. Prove your administrative competence.
+difficulty = technical_expert
+improvements = 23_percent_faster, 100_percent_fairer
+dialogue = trial_4_technical
+next_event = archon_trial_5
+
+[EVENT:archon_trial_5_resolve]
+name = Test of Resolve
+trigger = complete_trial_4
+type = endurance_trial
+god = theros
+challenge = corrupted_souls_chamber
+duration = 30_days
+corruption_pressure = 2_percent_per_day
+description = 30 days in a chamber filled with corrupted souls. They will whisper. They will tempt. Resist.
+difficulty = extreme
+must_maintain = corruption_below_threshold
+dialogue = trial_5_resolve
+next_event = archon_trial_6
+
+[EVENT:archon_trial_6_sacrifice]
+name = Test of Sacrifice
+trigger = complete_trial_5
+type = ultimate_sacrifice
+god = myrith
+challenge = maya_or_thessara
+description = A child named Maya is dying. You can save her... but only by severing your connection to Thessara forever.
+cost = lose_mentor_permanently
+emotional_weight = maximum
+irreversible = true
+dialogue = trial_6_sacrifice, thessara_goodbye
+next_event = archon_trial_7
+
+[EVENT:archon_trial_7_leadership]
+name = Test of Leadership
+trigger = complete_trial_6
+type = political_trial
+god = keldrin
+challenge = reform_regional_council
+duration = 30_days
+target = reduce_corruption_10_percent
+description = Lead the Regional Council to reform. Reduce their collective corruption through teaching, example, and policy.
+members = 6
+starting_corruption = varies
+methods = education, example, enforcement
+dialogue = trial_7_leadership
+completion = archon_status_granted
+
+# ============================================================================
+# MORNINGSTAR TRIAL EVENTS
+# ============================================================================
+
+[EVENT:morningstar_trial_1_combat_god]
+name = Combat a God
+trigger = attempt_morningstar_path
+type = divine_combat
+god = vorathos
+difficulty = 100
+description = To become a god, you must fight a god. Vorathos volunteers himself as your opponent.
+acceptable_outcome = defeat_or_stalemate
+hint = entropy_cannot_be_destroyed
+dialogue = morningstar_trial_1
+next_event = morningstar_trial_2
+
+[EVENT:morningstar_trial_2_first_death]
+name = Acquire Kael's Fragment
+trigger = complete_morningstar_trial_1
+type = historical_quest
+location = mount_karaketh
+npc = kael
+description = Journey to Mount Karaketh. Find the soul fragment of Kael, the first mortal to die. He will anchor your identity.
+difficulty = extreme
+importance = identity_anchor
+dialogue = morningstar_trial_2
+next_event = morningstar_trial_3
+
+[EVENT:morningstar_trial_3_mastery]
+name = Master All Magic
+trigger = complete_morningstar_trial_2
+type = knowledge_quest
+duration = 3_years
+schools = divine, arcane, primal, necromantic
+teachers = angels, mages, druids, necromancers
+description = Gods must command all forms of magic. Spend three years mastering the four fundamental schools.
+time_investment = 1095_days
+difficulty = extreme
+dialogue = morningstar_trial_3
+next_event = morningstar_trial_4
+
+[EVENT:morningstar_trial_4_balance]
+name = Achieve Perfect Balance
+trigger = complete_morningstar_trial_3
+type = precision_challenge
+target = exactly_50_percent_corruption
+duration = 30_days
+margin_of_error = 0_percent
+description = Reach exactly 50% corruption and hold it for 30 days. Any action shifts corruption. Choose carefully.
+difficulty = extreme
+hint = inaction_is_also_action
+dialogue = morningstar_trial_4
+next_event = morningstar_trial_5
+
+[EVENT:morningstar_trial_5_engine]
+name = Build Apotheosis Engine
+trigger = complete_morningstar_trial_4
+type = construction_quest
+requirements = components_from_seven_gods, 10_ancient_souls
+duration = 1_to_3_years
+description = Construct the device that will bootstrap divine consciousness. Requires components from each of the Seven Architects.
+god_components = 7
+ancient_souls = 10
+construction_time = 365_to_1095_days
+difficulty = extreme
+dialogue = morningstar_trial_5
+next_event = morningstar_trial_6
+
+[EVENT:morningstar_trial_6_death_and_rebirth]
+name = Die and Transcend
+trigger = complete_morningstar_trial_5
+type = transformation
+risk = permanent_error_or_void
+description = You must die completely and reconstruct yourself as divine. 22 have tried. Azrael succeeded. 21 failed.
+success_rate = 1_in_23
+failure_outcomes = error_state, void, fragmentation
+point_of_no_return = true
+dialogue = morningstar_trial_6, vorathos_morningstar_warning
+next_event = morningstar_trial_7_or_failure
+
+[EVENT:morningstar_trial_7_domain]
+name = Claim Your Domain
+trigger = survive_morningstar_trial_6
+type = identity_choice
+options = second_chances, redemption, balance, transformation, other
+description = You are ascending. Every god has a domain. What will yours be? This choice defines your divine nature forever.
+permanence = eternal
+player_choice = god_of_second_chances
+dialogue = morningstar_trial_7
+completion = eighth_architect_status
+
+# ============================================================================
+# ENDING EVENTS
+# ============================================================================
+
+[EVENT:lich_transformation]
+name = Transformation Complete
+trigger = corruption_100
+type = forced_ending
+description = The transformation is complete. You are no longer human. Perfect efficiency. Perfect emptiness. Forever.
+ending = lich_lord
+tone = dark
+reversible = false
+dialogue = lich_transformation
+
+[EVENT:resurrection_complete]
+name = Return to Life
+trigger = revenant_path_complete
+type = ending
+description = You wake up. Actually wake up. Breathing. Heart beating. Mortal again. You have 37 years left. Make them count.
+ending = revenant
+tone = hopeful
+achievement = the_second_life
+dialogue = resurrection_complete
+
+[EVENT:reaper_eternal]
+name = Ascension to Reaper
+trigger = reaper_path_complete
+type = ending
+description = You are now an eternal psychopomp. You will guide souls forever. Never tire, never corrupt, never end. Peace or prison? Perhaps both.
+ending = reaper
+tone = bittersweet
+achievement = the_eternal_administrator
+dialogue = reaper_eternal
+
+[EVENT:archon_to_morningstar_success]
+name = Apotheosis Achieved
+trigger = morningstar_complete
+type = ending
+description = Impossible. You actually did it. You're ascending. Becoming... a new god. The Seven Architects make room for an eighth chair.
+ending = morningstar_success
+tone = awestruck
+achievement = the_eighth_architect
+dialogue = archon_to_morningstar
+
+[EVENT:wraith_freedom]
+name = Freedom in Fragments
+trigger = wraith_path_complete
+type = ending
+description = You are no longer singular. You are ten thousand fragments. Each one is you. All are you. You are free. You are many.
+ending = wraith
+tone = strange_liberation
+achievement = the_distributed_consciousness
+
+[EVENT:error_state]
+name = The Eternal Error
+trigger = morningstar_failure
+type = bad_ending
+description = ERROR. CONSCIOUSNESS FRAGMENTATION CRITICAL. You are neither alive nor dead, mortal nor divine. A permanent glitch. Aware. Forever.
+ending = permanent_error
+tone = horror
+achievement = the_eternal_error
+dialogue = error_state
+
+# ============================================================================
+# RANDOM/TRIGGERED EVENTS
+# ============================================================================
+
+[EVENT:network_breach]
+name = Security Vulnerability Detected
+trigger = random_after_day_100
+probability = 15_percent
+type = technical_event
+description = A security flaw in the Death Network. You can report it to the gods... or exploit it.
+choices = report, exploit, ignore
+report_outcome = favor_with_nexus, archon_progress
+exploit_outcome = power_boost, corruption_increase
+importance = minor_but_recurring
+
+[EVENT:merchant_request]
+name = The Merchant's Last Wish
+trigger = random_after_day_50
+probability = 10_percent
+type = redemption_opportunity
+npc = merchant_ghost
+description = A merchant's soul lingers. He wants to say goodbye to his family. You could guide him... or harvest him.
+choices = guide, harvest
+guide_reward = -2_corruption
+harvest_reward = 100_soul_energy
+quest = redemption_1
+
+[EVENT:corrupted_minion_revolt]
+name = Minion Rebellion
+trigger = corruption_above_70_and_minions_10_plus
+probability = 25_percent
+type = consequence_event
+description = Your most corrupted minion turns on you. High corruption breeds instability.
+outcome = lose_strongest_minion_or_suppress
+suppress_cost = 1000_soul_energy
+moral_lesson = power_has_price
+
+[EVENT:divine_audit]
+name = Network Audit
+trigger = day_200_plus
+probability = 5_percent
+type = divine_attention
+npcs = random_god
+description = One of the Seven Architects audits your activities. Your corruption level and recent actions matter.
+outcome = favor_change_based_on_actions
+importance = reputation_impact
+
+[EVENT:necromancer_refugee]
+name = Hunted Necromancer
+trigger = post_fourth_purge
+probability = 20_percent
+type = moral_choice
+description = A necromancer fleeing the purge seeks sanctuary. Harboring them is dangerous. Turning them away is cruel.
+choices = shelter, refuse, harvest
+shelter_risk = divine_attention
+refuse_outcome = guilt
+harvest_outcome = resources, corruption
+moral_weight = moderate
+
+# ============================================================================
+# CHAPTER TRANSITION EVENTS
+# ============================================================================
+
+[EVENT:chapter_1_complete]
+name = Consciousness Stabilized
+trigger = 70_percent_consciousness
+type = chapter_transition
+description = You've stabilized. Final death has been avoided. Now comes the hard part: existing.
+unlocks = chapter_2
+next_chapter = survival_and_growth
+
+[EVENT:chapter_2_complete]
+name = Territory Established
+trigger = 3_locations_controlled
+type = chapter_transition
+description = You control multiple territories. You have resources. You have power. But at what cost?
+unlocks = chapter_3
+next_chapter = moral_choices
+
+[EVENT:chapter_3_complete]
+name = Path Chosen
+trigger = select_path
+type = chapter_transition
+description = You've chosen your path. The destination is set. Now you must walk it.
+unlocks = chapter_4
+next_chapter = path_specific_content
+
+[EVENT:chapter_4_complete]
+name = Trials Completed
+trigger = path_trials_done
+type = chapter_transition
+description = The trials are complete. You've proven yourself. The transformation awaits.
+unlocks = chapter_5
+next_chapter = transformation
+
+[EVENT:chapter_5_complete]
+name = Transformation Begins
+trigger = path_transformation_start
+type = chapter_transition
+description = You are changing. Becoming something new. This is the point of no return.
+unlocks = chapter_6
+next_chapter = ending
+
+# ============================================================================
+# LORE DISCOVERY EVENTS
+# ============================================================================
+
+[EVENT:discover_thessara_history]
+name = The First Necromancer's Tale
+trigger = research_thessara_lore
+type = lore_discovery
+unlocks = thessara_backstory
+description = 3,000 years ago, Thessara discovered the administrative interface. She wasn't trying to break death - she was trying to understand it.
+importance = background_lore
+
+[EVENT:discover_azrael_legend]
+name = The Morningstar Legend
+trigger = research_azrael
+type = lore_discovery
+unlocks = morningstar_possibility
+description = Azrael, the only necromancer to achieve apotheosis. He became the Eighth Architect, God of Final Mercy. He proved it's possible.
+importance = morningstar_path_hint
+
+[EVENT:discover_purge_history]
+name = The Three Purges
+trigger = research_purge_history
+type = lore_discovery
+unlocks = purge_knowledge
+description = Three times before, the gods purged necromancers. Thousands died. The Fourth Purge is coming.
+importance = political_context
+
+[EVENT:discover_divine_architecture]
+name = The Divine Architecture Failure
+trigger = research_death_network
+type = lore_discovery
+unlocks = network_technical_debt
+description = The Death Network was an emergency patch 5,000 years ago. It was never meant to be permanent. It has accumulated technical debt.
+importance = archon_motivation

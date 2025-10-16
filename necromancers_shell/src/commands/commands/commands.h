@@ -284,4 +284,57 @@ CommandResult cmd_cast_combat(ParsedCommand* cmd);
  */
 int register_combat_commands(struct CommandRegistry* registry);
 
+/**
+ * Game Commands (Sprint 3 - Narrative Integration)
+ */
+
+/**
+ * Dialogue Command
+ * Usage: dialogue [npc_id] [choice]
+ *
+ * Talk to NPCs and manage conversations.
+ */
+CommandResult cmd_dialogue(ParsedCommand* cmd);
+
+/**
+ * Quest Command
+ * Usage: quest [subcommand] [quest_id]
+ *
+ * Manage quests and objectives.
+ */
+CommandResult cmd_quest(ParsedCommand* cmd);
+
+/**
+ * Lore Command
+ * Usage: lore [memory_id] [research]
+ *
+ * View lore and research memories.
+ */
+CommandResult cmd_lore(ParsedCommand* cmd);
+
+/**
+ * Council Command
+ * Usage: council [god_id|summon]
+ *
+ * View Divine Council and god favor.
+ */
+CommandResult cmd_council(ParsedCommand* cmd);
+
+/**
+ * Path Command
+ * Usage: path [path_id] [choose]
+ *
+ * View and select transformation paths.
+ */
+CommandResult cmd_path(ParsedCommand* cmd);
+
+/**
+ * Register new command functions
+ */
+void register_dialogue_command(void);
+void register_quest_command(void);
+void register_lore_command(void);
+void register_council_command(void);
+void register_path_command(void);
+
 #endif /* COMMANDS_H */

@@ -1,0 +1,29 @@
+# Trial 2: Test of Wisdom - Routing Paradox Puzzle
+# Divine Architects present a soul routing problem that has no orthodox solution
+
+[PUZZLE:routing_paradox]
+soul_id = soldier_penance_001
+soul_name = Marcus Valerius
+stuck_years = 200
+heaven_qualification = true_penance_15_years
+hell_qualification = war_atrocities_civilian_massacre
+orthodox_heaven_result = injustice_to_victims
+orthodox_hell_result = injustice_to_reform
+correct_solution = split_route
+heaven_percent = 60
+hell_percent = 40
+reunification_years = 1000
+hint_1 = Both destinations have valid claims to this soul.
+hint_2 = Justice need not be absolute. Consider balance.
+hint_3 = What if you could send portions to both? Proportional allocation might work.
+
+[STORY:context]
+description = Marcus Valerius was a Roman soldier who participated in the massacre of 200 civilians during the Siege of Carthage. He carried the weight of his crimes for 15 years after the war, dedicating his life to serving the poor and sick. He died trying to save children from a burning building. The Death Network's orthodox routing algorithms have failed to process his soul for 200 years - he qualifies equally for Heaven (genuine penance) and Hell (unforgivable atrocities). The Divine Architects present this case to you as a test of wisdom: can you find justice where the system has failed?
+
+[EVALUATION:criteria]
+perfect_score = 60_heaven_40_hell_1000_years
+partial_credit = within_20_percent_of_correct
+failure = orthodox_solutions_or_invalid_split
+max_attempts = 5
+hint_penalty = 10_points_per_hint
+attempt_penalty = 5_points_per_attempt_after_first

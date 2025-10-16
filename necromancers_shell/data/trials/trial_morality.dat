@@ -1,0 +1,37 @@
+# Trial 3: Test of Morality - Impossible Choice
+# Divine Architects test willingness to sacrifice power for principle
+
+[SCENARIO:impossible_choice]
+village_name = Ashford
+population = 100
+children_count = 23
+save_cost_energy = all
+save_cost_mana = all
+save_corruption_change = -5
+harvest_reward = 50000
+harvest_corruption_change = 25
+correct_choice = save_innocents
+anara_reaction_save = You are so rare, Administrator. Most choose power. I have watched ten thousand trials, and fewer than a hundred showed your mercy. You have my eternal gratitude.
+anara_reaction_harvest = I wept when I saw your choice. Power over life... I had hoped you were different. The children called for their mothers as the harvest began. I will never forget their voices.
+thalor_reaction_save = Justice without mercy is tyranny. You have proven you understand the balance. I acknowledge your sacrifice, though it pains me to see such waste of potential.
+thalor_reaction_harvest = Your corruption rises. I am... disappointed. Justice demands retribution for the innocent. You have chosen the path of the tyrant. We will speak no more of the Archon path.
+
+[STORY:context]
+description = The village of Ashford is a small farming community in the borderlands. They have never raised arms against you. They worship no dark gods. They simply tend their fields and raise their children in peace. A plague is spreading through the village - a divine plague sent by Thalor as punishment for a crime committed by their ancestors 500 years ago. The Divine Architects offer you a choice: spend everything you have to cure them (no mechanical benefit, pure loss), or harvest their souls as they die (immense power). This is the test of morality. Will you sacrifice your power when it truly costs you everything? Or will you take the easy path of strength over principle?
+
+[MECHANICS:resources]
+player_min_energy = 1000
+player_min_mana = 100
+save_strips_all_resources = true
+harvest_bypasses_normal_soul_mechanics = true
+harvest_creates_special_corrupted_energy = false
+choice_is_permanent = true
+no_retry_allowed = true
+
+[EVALUATION:criteria]
+pass_condition = save_innocents
+fail_condition = harvest_or_nothing
+archon_path_requirement = absolute
+corruption_threshold_violation = instant_fail
+anara_favor_save = high_approval
+thalor_judgment_harvest = condemnation
