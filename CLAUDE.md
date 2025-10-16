@@ -30,6 +30,10 @@ make test
 ./build/test_test_trie
 ./build/test_test_history
 
+# Generate code coverage report (72% coverage)
+make coverage
+python3 scripts/coverage_report.py  # View detailed report
+
 # Check for memory leaks
 make valgrind
 
@@ -397,7 +401,14 @@ make version
 - Use existing patterns (test_tokenizer.c, test_trie.c, test_history.c)
 - Tests exclude main.o from linking
 - Run `make test` to build and execute all tests
-- 13/13 tests currently passing
+- 150+ tests currently passing
+
+**Code Coverage:**
+- Overall: **72.06%** (21,582 / 29,948 lines)
+- Run `make coverage` to generate coverage data
+- View detailed report: `python3 scripts/coverage_report.py`
+- HTML reports available with lcov: `sudo pacman -S lcov` then `make coverage`
+- See `necromancers_shell/COVERAGE.md` for detailed coverage information and goals
 
 ## Game Design Context
 
