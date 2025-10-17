@@ -421,12 +421,6 @@ void test_ending_names_and_descriptions(void) {
     assert(strcmp(wraith->name, "Wraith Route") == 0);
     assert(strcmp(wraith->achievement, "The Distributed Consciousness") == 0);
 
-    /* Check Error ending */
-    const Ending* error = ending_system_get_ending(system, ENDING_ERROR);
-    assert(error != NULL);
-    assert(strcmp(error->name, "Error Route") == 0);
-    assert(strcmp(error->achievement, "The Eternal Error") == 0);
-
     ending_system_destroy(system);
 
     printf("PASS\n");

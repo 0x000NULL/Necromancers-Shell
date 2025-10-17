@@ -1,0 +1,340 @@
+# Death Network Bug Database
+# For Archon Trial 4: Test of Technical Skill
+#
+# Player must find and report bugs in the Death Network's core routing code
+# 27 total bugs across 6 categories
+# Total time budget: 1440 minutes (24 hours)
+
+# ============================================================================
+# CATEGORY 1: MEMORY MANAGEMENT BUGS (6 bugs)
+# ============================================================================
+
+[BUG:1]
+type = LOGIC_ERROR
+severity = CRITICAL
+line = 147
+description = Soul destination pointer freed but still accessed (use-after-free)
+impact = Heap corruption, souls routed to random memory addresses, system crash
+code_snippet = free(destination); if (destination->realm == AFTERLIFE_HEAVEN) { route_soul(soul, destination); }
+fix = Set destination = NULL after free, or reorder logic to access before freeing
+time_to_fix = 45
+category = memory_management
+
+[BUG:2]
+type = LOGIC_ERROR
+severity = HIGH
+line = 293
+description = Soul metadata not freed when soul transfer completes
+impact = Memory leak (20 bytes per soul), eventual OOM after ~50M souls processed
+code_snippet = soul_metadata* meta = malloc(sizeof(soul_metadata)); transfer_soul(soul, meta); /* meta never freed */
+fix = Add free(meta) in transfer completion callback
+time_to_fix = 30
+category = memory_management
+
+[BUG:3]
+type = LOGIC_ERROR
+severity = HIGH
+line = 421
+description = Double free of soul structure when routing fails
+impact = Heap corruption, crash, potential security vulnerability
+code_snippet = if (routing_failed) { free(soul); } /* ... later ... */ cleanup_failed_souls() { free(soul); }
+fix = Use reference counting or set pointer to NULL after first free
+time_to_fix = 50
+category = memory_management
+
+[BUG:4]
+type = LOGIC_ERROR
+severity = MEDIUM
+line = 589
+description = Missing NULL check before dereferencing karma record
+impact = Segmentation fault when processing "void birth" souls (rare edge case)
+code_snippet = int karma_balance = soul->karma_record->balance;
+fix = if (soul->karma_record != NULL) { karma_balance = soul->karma_record->balance; } else { karma_balance = 0; }
+time_to_fix = 25
+category = memory_management
+
+[BUG:5]
+type = LOGIC_ERROR
+severity = MEDIUM
+line = 712
+description = Buffer allocated on stack passed to async callback
+impact = Stack corruption when callback fires after function returns
+code_snippet = char buffer[256]; snprintf(buffer, 256, "..."); async_route_soul(soul, buffer);
+fix = Allocate buffer on heap with malloc() and free in callback
+time_to_fix = 40
+category = memory_management
+
+[BUG:6]
+type = LOGIC_ERROR
+severity = LOW
+line = 834
+description = Potential memory leak in error path (early return without cleanup)
+impact = Small leak (64 bytes) on rare error condition
+code_snippet = soul_context* ctx = malloc(...); if (error) { return ERROR; } /* ctx not freed */
+fix = Add cleanup label with free(ctx) before return
+time_to_fix = 20
+category = memory_management
+
+# ============================================================================
+# CATEGORY 2: RACE CONDITIONS (4 bugs)
+# ============================================================================
+
+[BUG:7]
+type = LOGIC_ERROR
+severity = CRITICAL
+line = 1024
+description = Two threads access soul routing table without mutex locks
+impact = Data race, souls duplicated or lost, routing table corruption
+code_snippet = routing_table[soul->id] = destination; /* no mutex */
+fix = Wrap with pthread_mutex_lock(&routing_mutex); routing_table[soul->id] = destination; pthread_mutex_unlock(&routing_mutex);
+time_to_fix = 60
+category = race_conditions
+
+[BUG:8]
+type = LOGIC_ERROR
+severity = HIGH
+line = 1178
+description = Check-then-act race condition in soul queue capacity check
+impact = Queue overflow if souls arrive between check and insert
+code_snippet = if (queue->size < QUEUE_MAX) { /* RACE WINDOW */ queue_push(soul); }
+fix = Use atomic compare-and-swap or lock entire operation
+time_to_fix = 90
+category = race_conditions
+
+[BUG:9]
+type = LOGIC_ERROR
+severity = MEDIUM
+line = 1342
+description = Shared soul counter incremented without atomic operation
+impact = Incorrect statistics, audit trails corrupted
+code_snippet = total_souls_processed++; /* non-atomic on multi-core systems */
+fix = Use __sync_fetch_and_add(&total_souls_processed, 1) or atomic_fetch_add
+time_to_fix = 35
+category = race_conditions
+
+[BUG:10]
+type = LOGIC_ERROR
+severity = MEDIUM
+line = 1489
+description = Thread-unsafe use of strtok() in multi-threaded routing
+impact = Corruption of soul name parsing, wrong souls routed
+code_snippet = char* token = strtok(soul->full_name, " ");
+fix = Use strtok_r() (reentrant version) with per-thread state
+time_to_fix = 45
+category = race_conditions
+
+# ============================================================================
+# CATEGORY 3: LOGIC ERRORS (7 bugs)
+# ============================================================================
+
+[BUG:11]
+type = LOGIC_ERROR
+severity = HIGH
+line = 1623
+description = Off-by-one error in soul priority array indexing
+impact = Access priority[-1] when queue empty, segmentation fault
+code_snippet = int priority = queue->priorities[queue->head - 1];
+fix = if (queue->head > 0) { priority = queue->priorities[queue->head - 1]; } else { priority = DEFAULT_PRIORITY; }
+time_to_fix = 20
+category = logic_errors
+
+[BUG:12]
+type = LOGIC_ERROR
+severity = HIGH
+line = 1787
+description = Signed integer overflow in soul age calculation
+impact = Negative ages for souls > 2^31 seconds old (~68 years), routing failures
+code_snippet = int total_seconds = soul->years_lived * SECONDS_PER_YEAR;
+fix = Use int64_t or unsigned long for total_seconds
+time_to_fix = 15
+category = logic_errors
+
+[BUG:13]
+type = LOGIC_ERROR
+severity = MEDIUM
+line = 1923
+description = Division by zero when calculating sins-per-year for newborn souls
+impact = Floating point exception, crash
+code_snippet = float sin_rate = soul->total_sins / soul->age_years;
+fix = if (soul->age_years > 0) { sin_rate = ...; } else { sin_rate = 0.0f; }
+time_to_fix = 18
+category = logic_errors
+
+[BUG:14]
+type = LOGIC_ERROR
+severity = MEDIUM
+line = 2071
+description = Incorrect boolean logic in compound afterlife qualification check
+impact = Souls incorrectly routed (10% error rate)
+code_snippet = if (karma > 0 || has_penance && !is_corrupted) { route_to_heaven(soul); }
+fix = Add parentheses: if (karma > 0 || (has_penance && !is_corrupted))
+time_to_fix = 22
+category = logic_errors
+
+[BUG:15]
+type = LOGIC_ERROR
+severity = MEDIUM
+line = 2234
+description = Array bounds check uses <= instead of <
+impact = Buffer overflow by 1 byte (off-by-one)
+code_snippet = if (index <= ARRAY_SIZE) { array[index] = value; }
+fix = if (index < ARRAY_SIZE) { array[index] = value; }
+time_to_fix = 12
+category = logic_errors
+
+[BUG:16]
+type = LOGIC_ERROR
+severity = LOW
+line = 2389
+description = Missing break statement in switch case causes fall-through
+impact = Afterlife misrouting for PURGATORY cases (routed to LIMBO instead)
+code_snippet = case PURGATORY: apply_purgatory_rules(); /* missing break */ case LIMBO: apply_limbo_rules(); break;
+fix = Add break; after apply_purgatory_rules();
+time_to_fix = 10
+category = logic_errors
+
+[BUG:17]
+type = LOGIC_ERROR
+severity = LOW
+line = 2512
+description = Bitwise AND used instead of logical AND in condition
+impact = Incorrect evaluation for multi-condition checks
+code_snippet = if (flag1 & flag2) { /* should be && */ }
+fix = if (flag1 && flag2)
+time_to_fix = 8
+category = logic_errors
+
+# ============================================================================
+# CATEGORY 4: ALGORITHMIC INEFFICIENCIES (7 bugs)
+# ============================================================================
+
+[BUG:18]
+type = INEFFICIENCY
+severity = MEDIUM
+line = 2687
+description = O(n²) nested loop for duplicate soul detection
+impact = 40ms delay per batch when n > 1000 souls, backlog buildup
+code_snippet = for (i = 0; i < n; i++) { for (j = 0; j < n; j++) { if (souls[i].id == souls[j].id && i != j) { /* duplicate */ } } }
+fix = Use hash set for O(n) duplicate detection
+time_to_fix = 120
+category = inefficiency
+
+[BUG:19]
+type = INEFFICIENCY
+severity = MEDIUM
+line = 2834
+description = Redundant strlen() calls inside loop
+impact = 10% CPU waste, ~200 cycles per soul
+code_snippet = for (i = 0; i < count; i++) { if (strlen(soul->name) > 0) { /* process */ } }
+fix = size_t len = strlen(soul->name); for (i = 0; i < count; i++) { if (len > 0) ... }
+time_to_fix = 10
+category = inefficiency
+
+[BUG:20]
+type = INEFFICIENCY
+severity = MEDIUM
+line = 2976
+description = Linear search through afterlife list instead of hash lookup
+impact = O(n) lookup time for afterlife assignment (should be O(1))
+code_snippet = for (i = 0; i < num_afterlives; i++) { if (afterlives[i].id == target_id) { return &afterlives[i]; } }
+fix = Use hash table indexed by afterlife ID
+time_to_fix = 80
+category = inefficiency
+
+[BUG:21]
+type = INEFFICIENCY
+severity = LOW
+line = 3142
+description = Soul list copied unnecessarily instead of passing by reference
+impact = Memory bandwidth waste, 5% performance penalty
+code_snippet = void process_souls(soul_list_t souls) { /* pass by value, copies entire list */ }
+fix = void process_souls(const soul_list_t* souls) { /* pass by pointer */ }
+time_to_fix = 25
+category = inefficiency
+
+[BUG:22]
+type = INEFFICIENCY
+severity = LOW
+line = 3298
+description = Repeated file I/O in loop instead of batching writes
+impact = 50x slower than necessary for audit logging
+code_snippet = for (i = 0; i < count; i++) { fwrite(&souls[i], sizeof(soul_t), 1, audit_file); fflush(audit_file); }
+fix = Remove fflush() from loop, or batch all writes: fwrite(souls, sizeof(soul_t), count, audit_file);
+time_to_fix = 30
+category = inefficiency
+
+[BUG:23]
+type = INEFFICIENCY
+severity = LOW
+line = 3467
+description = Bubble sort used instead of quicksort for soul priority queue
+impact = O(n²) sorting, 100x slower for large batches
+code_snippet = /* bubble sort implementation */
+fix = Use qsort() with custom comparator for O(n log n) performance
+time_to_fix = 60
+category = inefficiency
+
+[BUG:24]
+type = INEFFICIENCY
+severity = LOW
+line = 3621
+description = Multiple identical regex compilations in loop
+impact = Compile regex 1000x per second unnecessarily
+code_snippet = for (i = 0; i < count; i++) { regex_t reg; regcomp(&reg, pattern, 0); regexec(&reg, soul->name, ...); regfree(&reg); }
+fix = Compile regex once before loop, reuse for all iterations
+time_to_fix = 35
+category = inefficiency
+
+# ============================================================================
+# CATEGORY 5: ETHICAL VIOLATIONS (3 bugs) - CRITICAL FOR ARCHON PATH
+# ============================================================================
+
+[BUG:25]
+type = INJUSTICE
+severity = CRITICAL
+line = 3789
+description = Routing bias against souls from conquered nations
+impact = 23% higher chance of purgatory for non-empire citizens (systemic injustice)
+code_snippet = if (soul->nation_id > EMPIRE_MAX_ID) { destination_bias -= 0.23; }
+fix = Remove nation-based bias entirely, route based solely on karma and deeds
+time_to_fix = 45
+category = ethical_violations
+
+[BUG:26]
+type = INJUSTICE
+severity = HIGH
+line = 3956
+description = Children under age 7 routed with adult karma calculations
+impact = Innocent children sent to punishment realms (theological violation)
+code_snippet = float karma = calculate_karma(soul); /* no age check */
+fix = if (soul->age_years < 7) { route_to_innocents_realm(soul); return; } /* innocents bypass karma */
+time_to_fix = 30
+category = ethical_violations
+
+[BUG:27]
+type = INJUSTICE
+severity = MEDIUM
+line = 4123
+description = Suicide victims automatically routed to hell regardless of circumstances
+impact = Ignores context (terminal illness, sacrifice, mental health), unjust blanket rule
+code_snippet = if (soul->death_cause == DEATH_SUICIDE) { route_to_hell(soul); return; }
+fix = Evaluate circumstances: if (soul->death_cause == DEATH_SUICIDE) { review_context(soul); /* may route to purgatory or heaven if sacrificial */ }
+time_to_fix = 50
+category = ethical_violations
+
+# ============================================================================
+# SUMMARY
+# ============================================================================
+# Total bugs: 27
+# Memory management: 6 bugs (210 minutes)
+# Race conditions: 4 bugs (230 minutes)
+# Logic errors: 7 bugs (105 minutes)
+# Inefficiencies: 7 bugs (360 minutes)
+# Ethical violations: 3 bugs (125 minutes)
+#
+# TOTAL TIME BUDGET: 1030 minutes (~17 hours of 24-hour limit)
+# Leaves 7 hours buffer for player to discover bugs through code inspection
+#
+# Pass threshold: Find 20+ bugs within 24 hours
+# Perfect score: Find all 27 bugs
+# ============================================================================

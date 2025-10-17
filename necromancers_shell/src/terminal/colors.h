@@ -37,4 +37,15 @@ bool colors_init(void);
  */
 int colors_get_game_pair(GameColorPair pair);
 
+/* Convenience macros for UI components */
+#define UI_BORDER     COLOR_PAIR_UI_BORDER
+#define UI_TEXT       COLOR_PAIR_UI_TEXT
+#define UI_HIGHLIGHT  COLOR_PAIR_UI_HIGHLIGHT
+#define TEXT_NORMAL   COLOR_PAIR_UI_TEXT
+#define TEXT_INFO     COLOR_PAIR_UI_HIGHLIGHT
+#define TEXT_ERROR    COLOR_PAIR_ERROR
+#define TEXT_SUCCESS  COLOR_PAIR_SUCCESS
+#define TEXT_WARNING  COLOR_PAIR_HP_LOW
+#define TEXT_DIM      COLOR_PAIR_UI_BORDER
+
 #endif /* COLORS_H */

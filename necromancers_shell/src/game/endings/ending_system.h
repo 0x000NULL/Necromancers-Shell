@@ -17,22 +17,10 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include "../narrative/endings/ending_types.h"
 
 /* Forward declaration */
 typedef struct GameState GameState;
-
-/**
- * @brief Ending types
- */
-typedef enum {
-    ENDING_NONE = 0,            /**< No ending chosen yet */
-    ENDING_REVENANT,            /**< Return to mortal life */
-    ENDING_LICH_LORD,           /**< Become immortal lich */
-    ENDING_REAPER,              /**< Eternal service as Reaper */
-    ENDING_ARCHON_MORNINGSTAR,  /**< Become the 8th god */
-    ENDING_WRAITH,              /**< Distributed consciousness */
-    ENDING_ERROR                /**< Failed Morningstar attempt */
-} EndingType;
 
 /**
  * @brief Ending requirement structure

@@ -54,7 +54,7 @@ typedef enum {
 /**
  * Divine Council judgment state
  */
-typedef struct {
+typedef struct DivineJudgmentState {
     JudgmentPhase phase;
 
     /* Individual god votes */
@@ -206,5 +206,26 @@ const char* divine_judgment_get_god_aspect(DivineArchitect god);
  * Returns: "APPROVE", "DENY", or "ABSTAIN"
  */
 const char* divine_judgment_vote_to_string(GodVote vote);
+
+/**
+ * Trigger ending sequence after judgment
+ *
+ * After the Divine Council delivers its verdict, this function determines
+ * which ending the player qualifies for and plays the appropriate cinematic.
+ *
+ * Should be called after divine_judgment_conduct() completes.
+ *
+ * Params:
+ *   state - Judgment state (must be JUDGMENT_VERDICT_DELIVERED)
+ *   game_state - Full game state for ending determination
+ *   window - ncurses window for cinematic display
+ *
+ * Returns: True if ending was triggered successfully
+ */
+bool divine_judgment_trigger_ending(
+    const DivineJudgmentState* state,
+    void* game_state,  /* GameState* - void to avoid circular dependency */
+    void* window       /* WINDOW* - void to avoid ncurses dependency */
+);
 
 #endif /* DIVINE_JUDGMENT_H */

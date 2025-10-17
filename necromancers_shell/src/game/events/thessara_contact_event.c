@@ -8,6 +8,9 @@
 #include "../game_state.h"
 #include "../narrative/thessara/thessara.h"
 #include "../world/null_space.h"
+#include "../ui/story_ui.h"
+#include "../../terminal/platform_curses.h"
+#include "../../terminal/colors.h"
 #include "../../utils/logger.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -35,35 +38,64 @@ bool thessara_contact_event_callback(GameState* state, uint32_t event_id) {
 
     LOG_INFO("=== THESSARA CONTACT EVENT (Day %u) ===", state->resources.day_count);
 
-    printf("\n");
-    printf("═══════════════════════════════════════════════════════════\n");
-    printf("              MESSAGE FROM THE NETWORK\n");
-    printf("═══════════════════════════════════════════════════════════\n");
-    printf("\n");
-    printf("You sense a presence in the Death Network... different from\n");
-    printf("the usual routing signatures. Someone is watching you.\n");
-    printf("\n");
-    printf("A message appears in your consciousness:\n");
-    printf("\n");
-    printf("  \"I saw what you did at Ashbrook.\"\n");
-    printf("  \"I saw what you're becoming.\"\n");
-    printf("  \"And I need to talk to you before it's too late.\"\n");
-    printf("\n");
-    printf("  \"Connect to null space. Come alone.\"\n");
-    printf("  \"Don't bring minions. Don't tell anyone.\"\n");
-    printf("\n");
-    printf("  \"I can help you understand what you really are.\"\n");
-    printf("\n");
-    printf("  \"- Thessara\"\n");
-    printf("\n");
-    printf("═══════════════════════════════════════════════════════════\n");
-    printf("\n");
-    printf("Thessara... the first necromancer. She died 3,000 years ago.\n");
-    printf("This is impossible.\n");
-    printf("\n");
-    printf("A new location has been discovered: null_space\n");
-    printf("Use 'connect null_space' to find her.\n");
-    printf("\n");
+    /* Create full-screen window for the event */
+    WINDOW* event_win = newwin(30, 100, 0, 0);
+    if (!event_win) {
+        /* Running in non-interactive mode (tests) - skip UI, just process the event */
+        LOG_WARN("No terminal available, running Thessara contact in non-interactive mode");
+
+        /* Process the event without UI */
+        if (state->null_space) {
+            null_space_discover(state->null_space, state->resources.day_count);
+            g_thessara_contact.null_space_discovered = true;
+            LOG_INFO("Null space discovered on Day %u", state->resources.day_count);
+        }
+
+        if (state->event_scheduler) {
+            event_scheduler_set_flag(state->event_scheduler, "thessara_contacted");
+            LOG_INFO("Set flag: thessara_contacted");
+        }
+
+        if (state->thessara) {
+            thessara_discover(state->thessara, state->resources.day_count);
+            LOG_INFO("Thessara discovered in game state on Day %u", state->resources.day_count);
+        }
+
+        g_thessara_contact.state = THESSARA_CONTACTED;
+        return true;
+    }
+
+    /* Display the initial message */
+    const char* scene_title = "MESSAGE FROM THE NETWORK - DAY 50";
+    const char* paragraphs[] = {
+        "You sense a presence in the Death Network... different from the usual routing signatures. Someone is watching you.",
+
+        "A message appears in your consciousness:",
+
+        "\"I saw what you did at Ashbrook. I saw what you're becoming. And I need to talk to you before it's too late.\"",
+
+        "\"Connect to null space. Come alone. Don't bring minions. Don't tell anyone.\"",
+
+        "\"I can help you understand what you really are.\"",
+
+        "\"- Thessara\"",
+
+        "Thessara... the first necromancer. She died 3,000 years ago. This is impossible."
+    };
+
+    display_narrative_scene(event_win, scene_title, paragraphs, 7, SCENE_COLOR_WARNING);
+
+    /* Add spacing */
+    int info_line = 24;
+
+    /* Display discovery notification */
+    wattron(event_win, COLOR_PAIR(TEXT_SUCCESS));
+    mvwprintw(event_win, info_line, 2, "Location discovered: null_space");
+    mvwprintw(event_win, info_line + 1, 2, "Use 'connect null_space' to find her");
+    wattroff(event_win, COLOR_PAIR(TEXT_SUCCESS));
+
+    wait_for_keypress(event_win, 27);
+    delwin(event_win);
 
     /* Discover null space location */
     if (state->null_space) {

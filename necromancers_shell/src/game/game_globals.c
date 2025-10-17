@@ -10,3 +10,11 @@
 
 /* Global game state pointer - initialized in main() or test setup */
 GameState* g_game_state = NULL;
+
+GameState* game_state_get_instance(void) {
+    return g_game_state;
+}
+
+void game_state_set_instance(GameState* state) {
+    g_game_state = state;
+}
