@@ -83,14 +83,15 @@ typedef struct {
 /**
  * @brief Archon trial manager
  */
-typedef struct {
+struct ArchonTrialManager {
     ArchonTrial trials[MAX_ARCHON_TRIALS]; /**< All 7 trials */
     size_t trial_count;                     /**< Number of trials loaded */
     uint32_t current_trial_id;              /**< ID of active trial (0 = none) */
     bool path_active;                       /**< Whether Archon path is active */
     bool path_completed;                    /**< Whether all trials are passed */
     bool path_failed;                       /**< Whether path is permanently failed */
-} ArchonTrialManager;
+};
+typedef struct ArchonTrialManager ArchonTrialManager;
 
 /**
  * @brief Create and initialize trial manager

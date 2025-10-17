@@ -545,10 +545,7 @@ void game_state_destroy(GameState* state) {
     LOG_INFO("Game state destroyed");
 }
 
-GameState* game_state_get_instance(void) {
-    extern GameState* g_game_state;
-    return g_game_state;
-}
+/* game_state_get_instance and game_state_set_instance are now in game_globals.c */
 
 uint32_t game_state_next_soul_id(GameState* state) {
     if (!state) {

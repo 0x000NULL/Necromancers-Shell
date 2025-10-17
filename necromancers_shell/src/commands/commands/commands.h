@@ -36,9 +36,25 @@ CommandResult cmd_status(ParsedCommand* cmd);
  * Quit Command
  * Usage: quit
  *
- * Exits the game gracefully.
+ * Exits the game gracefully (auto-saves).
  */
 CommandResult cmd_quit(ParsedCommand* cmd);
+
+/**
+ * Save Command
+ * Usage: save [filepath]
+ *
+ * Manually save game state to file.
+ */
+CommandResult cmd_save(ParsedCommand* cmd);
+
+/**
+ * Load Command
+ * Usage: load [filepath]
+ *
+ * Load game state from file (replaces current game).
+ */
+CommandResult cmd_load(ParsedCommand* cmd);
 
 /**
  * Clear Command

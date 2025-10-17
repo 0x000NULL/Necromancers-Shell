@@ -22,21 +22,10 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include "../narrative/endings/ending_types.h"
 
 /* Forward declarations */
 typedef struct GameState GameState;
-
-/**
- * @brief Ending path types
- */
-typedef enum {
-    ENDING_REVENANT,        /**< Redemption through resurrection */
-    ENDING_LICH_LORD,       /**< Immortal tyrant of undeath */
-    ENDING_REAPER,          /**< Death's administrator */
-    ENDING_ARCHON,          /**< System reformer */
-    ENDING_WRAITH,          /**< Distributed consciousness */
-    ENDING_MORNINGSTAR      /**< Ascension to godhood */
-} EndingPath;
 
 /**
  * @brief Cinematic display state
@@ -51,7 +40,7 @@ typedef enum {
  * @brief Ending cinematic data
  */
 typedef struct {
-    EndingPath path;           /**< Which ending was achieved */
+    EndingType path;           /**< Which ending was achieved */
     CinematicState state;      /**< Current cinematic state */
     uint32_t completion_day;   /**< Day ending was triggered */
     bool skip_requested;       /**< Player wants to skip */
@@ -96,7 +85,7 @@ void ending_cinematic_destroy(EndingCinematic* cinematic);
  */
 bool ending_cinematic_trigger(EndingCinematic* cinematic,
                               const GameState* state,
-                              EndingPath path);
+                              EndingType path);
 
 /**
  * @brief Display Revenant ending (Redemption)
@@ -170,7 +159,7 @@ void ending_cinematic_morningstar(const EndingCinematic* cinematic, const GameSt
  * @param path Ending path
  * @return String name (e.g., "Revenant Route")
  */
-const char* ending_cinematic_path_name(EndingPath path);
+const char* ending_cinematic_path_name(EndingType path);
 
 /**
  * @brief Get ending path description
@@ -178,7 +167,7 @@ const char* ending_cinematic_path_name(EndingPath path);
  * @param path Ending path
  * @return Short description string
  */
-const char* ending_cinematic_path_description(EndingPath path);
+const char* ending_cinematic_path_description(EndingType path);
 
 /**
  * @brief Check if cinematic is playing

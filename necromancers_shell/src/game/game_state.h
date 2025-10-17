@@ -26,6 +26,7 @@
 #include "narrative/thessara/thessara.h"
 #include "world/null_space.h"
 #include "narrative/gods/divine_council.h"
+#include "narrative/endings/ending_types.h"
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -79,6 +80,9 @@ typedef struct GameState {
     uint64_t player_experience;     /**< Player XP */
     uint32_t next_soul_id;          /**< Next available soul ID */
     uint32_t next_minion_id;        /**< Next available minion ID */
+    uint32_t civilian_kills;        /**< Total civilians killed (affects endings) */
+    bool game_completed;            /**< True when game reaches an ending */
+    EndingType ending_achieved;     /**< Which ending was achieved (ENDING_NONE if incomplete) */
     bool initialized;               /**< Whether game state is ready */
 } GameState;
 
@@ -104,6 +108,16 @@ void game_state_destroy(GameState* state);
  * @return Pointer to global game state, or NULL if not initialized
  */
 GameState* game_state_get_instance(void);
+
+/**
+ * @brief Set global game state instance
+ *
+ * Used by save/load system to replace the global state.
+ * WARNING: Caller is responsible for destroying the old state!
+ *
+ * @param state New game state to set (can be NULL)
+ */
+void game_state_set_instance(GameState* state);
 
 /**
  * @brief Get next available soul ID and increment counter

@@ -1,0 +1,328 @@
+# Divine Purges - Historical Database
+# Chronicles of the four divine interventions against necromantic threat
+#
+# Shows progression: Total annihilation → Survival strategies → Reformation
+# Fourth Purge is current, player can influence outcome with Archon path
+
+# ============================================================================
+# FIRST PURGE: THE MORNINGSTAR INCIDENT
+# Year: -2847 (2,847 years before current timeline)
+# Trigger: Azrael's attempted ascension to godhood
+# ============================================================================
+
+[PURGE:first]
+id = 1
+number = 1
+year = -2100
+name = The Morningstar Purge
+alternative_names = The Kael Purge, The Apotheosis Catastrophe
+duration_days = 180
+status = historical
+
+# Population Statistics
+population_before = 47
+population_after = 3
+casualties_killed = 44
+casualties_fled = 0
+casualties_reformed = 0
+survival_rate = 6.38%
+
+# Divine Forces Deployed
+enforcers_deployed = seraphim:50, inevitable:30, hellknight:0
+enforcer_casualties = 3
+divine_manifestations = 2
+
+# Trigger Event
+trigger_event = Azrael (later known as Kael) attempted the Morningstar Transformation
+trigger_description = First successful godhood attempt by a mortal necromancer. Azrael completed all seven trials and transcended to divine status, becoming the Eighth Architect. The existing Seven viewed this as an existential threat to divine order.
+trigger_corruption = 50.00%
+trigger_civilian_deaths = 0
+
+# Divine Response
+divine_vote = unanimous
+divine_decision = Total annihilation of all necromancers to prevent future ascension attempts
+divine_justification = Mortal ascension destabilizes cosmic balance. One breach creates precedent for infinite breaches.
+response_speed_days = 7
+
+# Outcomes
+survival_method = Geographic isolation in Frozen Wastes, beyond enforcer patrol range
+civilian_casualties = 2340
+collateral_damage = Entire city of Valdris destroyed (12,000 dead)
+territory_lost = 23 necromancer strongholds razed
+artifacts_destroyed = 147 necromantic tomes burned
+knowledge_lost = Apotheosis Engine blueprints, Morningstar trial documentation
+
+# Historical Significance
+lesson_learned = Godhood attempts trigger unanimous divine wrath
+precedent_established = Code Prohibition #1: No necromancer may seek deification
+cultural_impact = Necromancer population scattered, communities destroyed
+theological_impact = Proved that mortal→divine transcendence is possible but forbidden
+long_term_effect = 2,100 years of suppression, Azrael/Kael erased from history
+
+# Survivors
+survivor_count = 3
+survivor_names = Vorgath (age 127), Seraphine (age 89), 10 others unnamed
+survivor_fate = Founded hidden enclaves, taught survival through obscurity
+survivor_strategy = Never draw divine attention, stay below 100 total necromancers
+
+# Divine Aftermath
+divine_satisfaction = complete
+archon_position_created = false
+reformation_program = none
+restrictions_imposed = Total ban on ascension research
+
+notes = The First Purge established the pattern: divine response to necromantic threat is overwhelming and immediate. Survival rate of 1.33% became the baseline expectation for divine intervention. Azrael's name was erased from history, replaced with the title "Kael" (The Damned One). His success proved the Morningstar path is REAL, but forbidden.
+
+# ============================================================================
+# SECOND PURGE: THE PLAGUE OF UNDEATH
+# Year: -1203 (1,203 years before current timeline)
+# Trigger: Necromancer cabal spread zombie plague to force worship
+# ============================================================================
+
+[PURGE:second]
+id = 2
+number = 2
+year = -1400
+name = The Plague of Undeath
+alternative_names = The Zombie Apocalypse, The Worship Gambit
+duration_days = 90
+status = historical
+
+# Population Statistics
+population_before = 89
+population_after = 0
+casualties_killed = 89
+casualties_fled = 0
+casualties_reformed = 0
+survival_rate = 0%
+
+# Divine Forces Deployed
+enforcers_deployed = seraphim:30, inevitable:15, hellknight:20
+enforcer_casualties = 8
+divine_manifestations = 1
+
+# Trigger Event
+trigger_event = Regional Council spread necrotic plague to 12 kingdoms
+trigger_description = Coordinated attack by all 89 necromancers to turn 89,000 civilians into undead slaves. Plan was to force kingdoms to acknowledge necromancers as "gods of death" and grant worship rights. Backfired catastrophically.
+trigger_corruption = 76%
+trigger_civilian_deaths = 89000
+
+# Divine Response
+divine_vote = 6 approve, 1 abstain
+divine_decision = Extermination of all plague-spreading necromancers
+divine_justification = Mass civilian casualties crossed the intervention threshold. Anara abstained due to grief.
+response_speed_days = 14
+
+# Outcomes
+survival_method = Early surrender (23 necromancers), fleeing to outer planes (64 necromancers)
+civilian_casualties = 89000
+collateral_damage = 12 kingdoms quarantined for 3 years
+territory_lost = 47 necromancer territories destroyed
+artifacts_destroyed = 234 plague artifacts burned
+knowledge_lost = Necrotic plague formula (intentionally purged)
+
+# Historical Significance
+lesson_learned = Mass civilian casualties trigger divine intervention regardless of intent
+precedent_established = Civilian death threshold: ~10,000+ deaths in short timeframe
+cultural_impact = Necromancers learned to avoid large-scale visible attacks
+theological_impact = Anara's abstention showed gods are not monolithic
+long_term_effect = Shift from overt power displays to covert operations
+
+# Survivors
+survivor_count = 0
+survivor_method = Early surrender (23) + Planar flight (64, but 40 died in outer planes)
+survivor_fate = Surrendered necromancers were imprisoned for 50 years, then released
+survivor_strategy = Avoid mass casualties, work in shadows
+
+# Divine Aftermath
+divine_satisfaction = moderate
+archon_position_created = false
+reformation_program = none
+restrictions_imposed = Ban on plague magic, civilian kill count monitoring
+
+notes = Second Purge showed higher survival rate (8.98% vs 1.33%) because some necromancers surrendered before being killed. This established that EARLY SURRENDER can work. Also proved that fleeing to outer planes is possible but high-mortality (40 of 64 fled died in hostile realms). Divine vote was not unanimous - Anara abstained, showing cracks in divine unity.
+
+# ============================================================================
+# THIRD PURGE: THE CORRUPTION PURGE
+# Year: -104 (104 years before current timeline)
+# Trigger: Regional Council collective corruption exceeded 85%
+# ============================================================================
+
+[PURGE:third]
+id = 3
+number = 3
+year = -600
+name = The Corruption Purge
+alternative_names = The Redemption Trial, The First Reformation
+duration_days = 45
+status = historical
+
+# Population Statistics
+population_before = 156
+population_after = 27
+casualties_killed = 129
+casualties_fled = 32
+casualties_reformed = 23
+survival_rate = 17%
+
+# Divine Forces Deployed
+enforcers_deployed = seraphim:15, inevitable:10, hellknight:5
+enforcer_casualties = 2
+divine_manifestations = 0
+
+# Trigger Event
+trigger_event = Regional Council reached 85% average corruption
+trigger_description = Not a single catastrophic event, but gradual slide toward collective damnation. Council members enabled each other's descent. No mass casualties, but philosophical threat to cosmic order.
+trigger_corruption = 85%
+trigger_civilian_deaths = 1200
+
+# Divine Response
+divine_vote = 5 approve, 2 oppose
+divine_decision = Targeted purge of high-corruption necromancers, offer reformation to those below 70%
+divine_justification = Corruption itself is contagious. Must prune the infected before total rot. Anara and Eryndor opposed, arguing for pure reformation.
+response_speed_days = 30
+
+# Outcomes
+survival_method = Reformation program (23), surrender (21), flight (32), hiding (13)
+civilian_casualties = 1200
+collateral_damage = 3 necromancer academies closed
+territory_lost = 28 territories abandoned
+artifacts_destroyed = 89 corruption-inducing artifacts
+knowledge_lost = None (knowledge preserved intentionally)
+
+# Historical Significance
+lesson_learned = Corruption thresholds matter; reformation is possible below 70%
+precedent_established = First purge with reformed survivors - proves change is possible
+cultural_impact = 23 reformed necromancers formed the Ethics Council
+theological_impact = Proved Anara and Eryndor's argument: mercy can work
+long_term_effect = Survival rate jumped to 26%, showing cooperation with gods is viable
+
+# Survivors
+survivor_count = 27
+survivor_breakdown = reformed:10, surrendered:8, fled:6, hidden:3
+survivor_fate = Reformed 23 founded Ethics Council and taught responsible necromancy
+survivor_strategy = Accept divine oversight, maintain corruption below 70%, cooperate
+
+# Divine Aftermath
+divine_satisfaction = moderate
+archon_position_created = false
+reformation_program = yes_experimental
+restrictions_imposed = Corruption monitoring, mandatory reporting, ethics training
+
+notes = Third Purge was REVOLUTIONARY. For the first time, gods offered reformation instead of pure extermination. 23 necromancers chose to work WITH the divine, reducing corruption through ethical practice. They formed the Ethics Council which still exists today. Survival rate of 26% (vs 8.98% and 1.33% previously) proved that cooperation is the optimal strategy. Anara and Eryndor's advocacy for mercy paid off - they were RIGHT. This purge created the philosophical foundation for the Archon path.
+
+# ============================================================================
+# FOURTH PURGE: CURRENT TIMELINE (Player can influence outcome)
+# Year: 0 (current game timeline)
+# Trigger: Ashbrook massacre + Regional Council corruption surge
+# ============================================================================
+
+[PURGE:fourth]
+id = 4
+number = 4
+year = 0
+name = The Fourth Purge
+alternative_names = The Ashbrook Purge, The Archon's Trial, The Great Reformation
+duration_days = pending
+status = in_progress
+
+# Population Statistics (estimated)
+population_before = 147
+population_after = unknown
+casualties_killed = unknown
+casualties_fled = unknown
+casualties_reformed = unknown
+survival_rate = unknown
+
+# Divine Forces Deployed (planned)
+enforcers_planned = seraphim:10, inevitable:12, hellknight:8
+enforcer_casualties = unknown
+divine_manifestations = unknown
+
+# Trigger Event
+trigger_event = Ashbrook massacre on Day 47 (if player harvested)
+trigger_description = Player's actions at Ashbrook (147 civilians harvested or spared) combined with Regional Council's corruption level (average 73%) triggered divine attention. If player harvested Ashbrook, it accelerated purge timeline from 5 years to 1.5 years.
+trigger_corruption = variable
+trigger_civilian_deaths = variable
+
+# Divine Response
+divine_vote = pending
+divine_decision = pending_archon_trials
+divine_justification = Player has accessed divine administrative interface. Must evaluate if this is threat or opportunity for reformation.
+response_speed_days = variable
+
+# Projected Outcomes (Base Scenario - No Archon)
+projected_casualties_base = 200
+projected_survival_base = 0
+projected_civilian_casualties = 5000
+projected_divine_satisfaction = low
+outcome_base = Total extermination of necromancer population
+
+# Projected Outcomes (Archon Scenario)
+projected_casualties_archon = 50
+projected_survival_archon = 97
+projected_reformed_archon = 147
+projected_civilian_casualties_archon = 500
+projected_divine_satisfaction_archon = high
+outcome_archon = Mass reformation under Archon leadership, survival rate ~66%
+
+# Archon Path Requirements
+archon_corruption_range = 30-60%
+archon_trials_required = 7
+archon_divine_approval = 4_of_7_gods
+archon_deadline = Day 162 (respond to summons)
+archon_transformation_day = variable
+
+# Historical Significance (Projected)
+lesson_learned_potential = Necromancers can be integrated into divine order through Archon system
+precedent_potential = First necromancer granted administrative divine privileges
+cultural_impact_potential = Reformation becomes standard, not exception
+theological_impact_potential = Proves mortal-divine cooperation can work at scale
+long_term_effect_potential = 147→97 survival rate (66%), highest in history
+
+# Player Role
+player_influence = critical
+player_choice_ashbrook = harvest_or_spare
+player_choice_trials = complete_all_seven
+player_choice_maya = save_child_or_keep_thessara
+player_alignment = determines_purge_outcome
+
+# Divine Aftermath (Projected)
+divine_satisfaction_archon = high
+archon_position_created = yes
+reformation_program = comprehensive
+restrictions_imposed = Code of Conduct, corruption caps, regular reporting
+
+notes = The Fourth Purge is UNIQUE - it's the first where a mortal (the player) has the power to fundamentally change the outcome. If the player completes the Archon trials, they can reform ALL 147 remaining necromancers and achieve a 66% survival rate - the highest in history. This would prove the Third Purge's reformation experiment can scale. Alternatively, if the player fails or refuses the Archon path, this purge could be the most deadly yet (total extinction of necromancers). The player is literally the deciding factor in whether necromancy survives or dies forever.
+
+# ============================================================================
+# PURGE PROGRESSION ANALYSIS
+# ============================================================================
+
+# Survival Rate Progression
+purge_1_survival = 6.38%   # Total annihilation strategy
+purge_2_survival = 0%   # Surrender + Flight strategy
+purge_3_survival = 17%  # Reformation strategy
+purge_4_survival_base = 0% # Without Archon
+purge_4_survival_archon = 66% # With Archon (projected)
+
+# Divine Strategy Evolution
+purge_1_strategy = exterminate_all
+purge_2_strategy = exterminate_most
+purge_3_strategy = reform_or_exterminate
+purge_4_strategy = archon_led_reformation_or_extinction
+
+# Lessons Learned
+lesson_1 = Never pursue godhood (certain death)
+lesson_2 = Avoid mass civilian casualties (triggers intervention)
+lesson_3 = Corruption below 70% allows reformation
+lesson_4 = Cooperation with gods is optimal survival strategy
+
+# Key Insight
+# Each purge has shown HIGHER survival rates as necromancers learn to work
+# WITH divine order rather than against it. The Fourth Purge could be the
+# culmination of this trend - total integration via Archon system, or the
+# final failure leading to permanent extinction.
+#
+# The player decides which ending history records.
+# ============================================================================

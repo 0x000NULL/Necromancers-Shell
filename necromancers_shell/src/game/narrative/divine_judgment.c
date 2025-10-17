@@ -3,9 +3,13 @@
  */
 
 #include "divine_judgment.h"
+#include "../game_state.h"
+#include "endings/ending_system.h"
+#include "endings/ending_cinematics.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <ncurses.h>
 
 /* God data structure */
 typedef struct {
@@ -485,4 +489,47 @@ const char* divine_judgment_vote_to_string(GodVote vote) {
         case VOTE_ABSTAIN: return "ABSTAIN";
         default: return "UNKNOWN";
     }
+}
+
+bool divine_judgment_trigger_ending(
+    const DivineJudgmentState* state,
+    void* game_state_ptr,
+    void* window_ptr
+) {
+    if (!state || !game_state_ptr || !window_ptr) {
+        return false;
+    }
+
+    /* Cast void pointers to correct types */
+    GameState* game_state = (GameState*)game_state_ptr;
+    WINDOW* window = (WINDOW*)window_ptr;
+
+    /* Verify judgment is complete */
+    if (state->phase != JUDGMENT_VERDICT_DELIVERED) {
+        return false;
+    }
+
+    /* Verify game is ready for ending */
+    if (!is_game_complete(game_state)) {
+        return false;
+    }
+
+    /* Determine which ending the player achieved */
+    EndingType ending = determine_ending(game_state);
+    if (ending == ENDING_NONE) {
+        return false;
+    }
+
+    /* Calculate achievement data */
+    EndingAchievement achievement;
+    calculate_ending_achievement(game_state, &achievement);
+
+    /* Play the ending cinematic */
+    play_ending_cinematic(window, ending, &achievement);
+
+    /* Mark game as completed in state */
+    game_state->game_completed = true;
+    game_state->ending_achieved = ending;
+
+    return true;
 }

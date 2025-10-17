@@ -1,0 +1,454 @@
+# Divine Council Dialogue Database
+# For Day 155 Divine Summons and Archon Trial Judgment
+#
+# 7 Divine Architects with unique personalities and voting criteria
+# Dialogue changes based on: trial scores, corruption, Maya choice, civilian kills
+
+# ============================================================================
+# INITIAL SUMMONS (Day 155) - Keldrin speaks for the council
+# ============================================================================
+
+[DIALOGUE:summons_initial]
+speaker = Keldrin, the Lawgiver
+tree_id = divine_summons
+node_id = 1
+text = Administrator. We have been watching. The Death Network's unauthorized user requires evaluation. You are summoned to appear before the Divine Council on Day 162. Do not be late. We are not known for our patience.
+next_node = 0
+special_action = SET_FLAG:divine_summons_received
+
+# ============================================================================
+# THALOR, THE LAWGIVER - God of Justice and Order
+# Personality: Logical, mathematical, uncompromising but fair
+# Voting Criteria: Trial technical excellence, rule adherence, systematic thinking
+# ============================================================================
+
+[DIALOGUE:thalor_opening]
+speaker = Keldrin, the Lawgiver
+tree_id = divine_judgment
+node_id = 100
+text = Administrator. I judge by logic, not sentiment. Let us review your performance objectively.
+next_node = 101
+
+# Trial 1 (Power) - Excellent
+[DIALOGUE:thalor_trial1_excellent]
+speaker = Keldrin, the Lawgiver
+conditions = trial_1_score >= 90
+text = Trial of Power: Your combat approach was mathematically optimal. You fought like an equation seeking resolution. Distributed attack patterns, resource management, strategic yield. This is acceptable.
+vote_impact = +1
+
+# Trial 1 (Power) - Good
+[DIALOGUE:thalor_trial1_good]
+speaker = Keldrin, the Lawgiver
+conditions = trial_1_score >= 60 AND trial_1_score < 90
+text = Trial of Power: Adequate. You survived, but your efficiency was suboptimal. Victory achieved through persistence rather than precision.
+vote_impact = 0
+
+# Trial 1 (Power) - Poor
+[DIALOGUE:thalor_trial1_poor]
+speaker = Keldrin, the Lawgiver
+conditions = trial_1_score < 60
+text = Trial of Power: Unacceptable. You approached combat with chaos rather than calculation. This suggests poor judgment under pressure.
+vote_impact = -1
+
+# Trial 2 (Wisdom) - Correct solution
+[DIALOGUE:thalor_trial2_correct]
+speaker = Keldrin, the Lawgiver
+conditions = trial_2_solution == split_route
+text = Trial of Wisdom: You solved the unsolvable. The 200-year routing paradox required thinking beyond binary absolutes. This demonstrates logical excellence.
+vote_impact = +2
+
+# Trial 4 (Technical Skill) - Excellent
+[DIALOGUE:thalor_trial4_excellent]
+speaker = Keldrin, the Lawgiver
+conditions = trial_4_bugs_found >= 25
+text = Trial of Technical Skill: You found 27 of 27 bugs, including all three ethical violations. Your code review was systematic and thorough. This is the standard I expect.
+vote_impact = +2
+
+# Thalor Final Verdict - Approve
+[DIALOGUE:thalor_verdict_approve]
+speaker = Keldrin, the Lawgiver
+conditions = thalor_vote == APPROVE
+text = My vote: APPROVE. You have demonstrated logical thinking and systematic problem-solving. The law permits redemption for those who prove competent. You may attempt the Archon path.
+vote = APPROVE
+
+# Thalor Final Verdict - Deny
+[DIALOGUE:thalor_verdict_deny]
+speaker = Keldrin, the Lawgiver
+conditions = thalor_vote == DENY
+text = My vote: DENY. Your performance falls below the minimum threshold for administrative privileges. The system cannot trust incompetence with reform.
+vote = DENY
+
+# ============================================================================
+# ANARA, THE WEAVER - Goddess of Life and Empathy
+# Personality: Compassionate, emotional, values mercy and sacrifice
+# Voting Criteria: Maya choice, corruption level, civilian kills, moral choices
+# ============================================================================
+
+[DIALOGUE:anara_opening]
+speaker = Anara, the Weaver
+tree_id = divine_judgment
+node_id = 200
+text = (Her voice trembles) Administrator... I have wept for you. For the choices you faced. For the weight you carry. Let me see if hope remains in your heart.
+next_node = 201
+
+# Maya Choice - Saved (CRITICAL)
+[DIALOGUE:anara_maya_saved]
+speaker = Anara, the Weaver
+conditions = maya_saved == true
+text = You chose the child. You sacrificed Thessara, your only friend in the void, your guide, your mentor... to save a stranger named Maya. (Voice breaks) You are so rare, Administrator. So very, very rare. In 3,000 years, I have seen this choice made only twice.
+vote_impact = +3
+
+# Maya Choice - Let Die
+[DIALOGUE:anara_maya_let_die]
+speaker = Anara, the Weaver
+conditions = maya_saved == false
+text = You let the child die. You kept your mentor, your advantage, your power... and a seven-year-old girl named Maya died alone in the dark. (She weeps) I understand your logic. I understand survival. But I cannot forgive this.
+vote_impact = -3
+
+# Trial 3 (Morality) - Saved innocents
+[DIALOGUE:anara_trial3_saved]
+speaker = Anara, the Weaver
+conditions = trial_3_choice == save_innocents
+text = Trial of Morality: You gave up everything - all your resources, all your power - to save 100 lives. Twenty-three of them were children. You chose love over strength. This is what divinity should look like.
+vote_impact = +2
+
+# Corruption Level - Low
+[DIALOGUE:anara_corruption_low]
+speaker = Anara, the Weaver
+conditions = corruption_level < 40
+text = Your corruption is low. Your soul still feels. You still see corpses as people, not resources. This... this gives me hope.
+vote_impact = +1
+
+# Corruption Level - High
+[DIALOGUE:anara_corruption_high]
+speaker = Anara, the Weaver
+conditions = corruption_level > 60
+text = Your corruption is so high. You have become what you hunt. I see the void in your eyes, Administrator. Where mercy should live, there is only calculation.
+vote_impact = -2
+
+# Civilian Kills - None
+[DIALOGUE:anara_civilians_none]
+speaker = Anara, the Weaver
+conditions = civilian_kills == 0
+text = You have killed no innocents. In a game built on death, you found a path with clean hands. This matters more than you know.
+vote_impact = +1
+
+# Civilian Kills - Ashbrook Massacre
+[DIALOGUE:anara_ashbrook_harvested]
+speaker = Anara, the Weaver
+conditions = ashbrook_harvested == true
+text = Ashbrook. 147 souls. 23 children. You harvested them all. I was there, Administrator. I felt every death. Do you remember their names? No. You never asked.
+vote_impact = -2
+
+# Anara Final Verdict - Approve
+[DIALOGUE:anara_verdict_approve]
+speaker = Anara, the Weaver
+conditions = anara_vote == APPROVE
+text = My vote: APPROVE. (Tears flowing) You carry light in the darkness. You chose mercy when power was offered. Reform the system, Administrator. Make death... kinder. Please.
+vote = APPROVE
+
+# Anara Final Verdict - Deny
+[DIALOGUE:anara_verdict_deny]
+speaker = Anara, the Weaver
+conditions = anara_vote == DENY
+text = My vote: DENY. (Sobbing) I wanted to believe in you. I wanted to see redemption. But you chose cruelty over compassion too many times. I cannot trust death to someone who does not grieve.
+vote = DENY
+
+# ============================================================================
+# ZYMIRA, THE OMNISCIENT - Goddess of Knowledge and Wisdom
+# Personality: Analytical, curious, values intelligence and learning
+# Voting Criteria: Trial problem-solving, wisdom, research, knowledge pursuit
+# ============================================================================
+
+[DIALOGUE:zymira_opening]
+speaker = Myrith, the Dreamer
+tree_id = divine_judgment
+node_id = 300
+text = Fascinating. A mortal who learned to read divine protocols. Let me examine what you have learned, Administrator.
+next_node = 301
+
+# Trial 2 (Wisdom) - Perfect solution
+[DIALOGUE:zymira_trial2_perfect]
+speaker = Myrith, the Dreamer
+conditions = trial_2_attempts == 1 AND trial_2_solution == split_route
+text = Trial of Wisdom: First-attempt perfect solution to a 200-year deadlock. You didn't just solve the paradox - you understood that justice itself is probabilistic. This is genius-level thinking.
+vote_impact = +3
+
+# Trial 2 (Wisdom) - Eventually solved
+[DIALOGUE:zymira_trial2_solved]
+speaker = Myrith, the Dreamer
+conditions = trial_2_solution == split_route AND trial_2_attempts > 1
+text = Trial of Wisdom: You solved the routing paradox, though it required multiple attempts. Learning through iteration is acceptable. Knowledge grows through failure.
+vote_impact = +1
+
+# Trial 4 (Technical) - All ethical bugs found
+[DIALOGUE:zymira_trial4_ethics]
+speaker = Myrith, the Dreamer
+conditions = trial_4_ethical_bugs_found == 3
+text = Trial of Technical Skill: You found all three ethical violations in the code. The bias against conquered nations, the child routing error, the suicide victim blanket rule. You understand that bugs can be moral, not just technical.
+vote_impact = +2
+
+# Research Projects
+[DIALOGUE:zymira_research_high]
+speaker = Myrith, the Dreamer
+conditions = research_projects_completed > 5
+text = You have completed significant research during your time as a necromancer. You seek to understand, not just to use. This intellectual curiosity is... refreshing.
+vote_impact = +1
+
+# Zymira Final Verdict - Approve
+[DIALOGUE:zymira_verdict_approve]
+speaker = Myrith, the Dreamer
+conditions = zymira_vote == APPROVE
+text = My vote: APPROVE. You have demonstrated the capacity for complex thought and ethical reasoning. The Death Network could benefit from your analytical mind. Proceed.
+vote = APPROVE
+
+# Zymira Final Verdict - Deny
+[DIALOGUE:zymira_verdict_deny]
+speaker = Myrith, the Dreamer
+conditions = zymira_vote == DENY
+text = My vote: DENY. Your intellectual performance was insufficient. The Archon path requires wisdom, not mere cleverness. You are not ready.
+vote = DENY
+
+# ============================================================================
+# KAELTHAS, THE ETERNAL - God of Balance and Time
+# Personality: Patient, seeks equilibrium, values middle paths
+# Voting Criteria: Corruption in Archon range (30-60%), balanced choices
+# ============================================================================
+
+[DIALOGUE:kaelthas_opening]
+speaker = Theros, the Eternal
+tree_id = divine_judgment
+node_id = 400
+text = Time reveals all truths, Administrator. I have watched your path through 162 days. Let me weigh your balance.
+next_node = 401
+
+# Corruption - Perfect Archon Range
+[DIALOGUE:kaelthas_corruption_perfect]
+speaker = Theros, the Eternal
+conditions = corruption_level >= 30 AND corruption_level <= 60
+text = Your corruption rests at the perfect equilibrium. Not pure enough for resurrection, not corrupted enough for lichdom. You walk the knife's edge between death and humanity. This is the Archon's path.
+vote_impact = +2
+
+# Corruption - Too Low
+[DIALOGUE:kaelthas_corruption_too_low]
+speaker = Theros, the Eternal
+conditions = corruption_level < 30
+text = Your corruption is too low. You have not embraced the reality of necromancy. The Archon must understand death from within, not observe it with clean hands.
+vote_impact = -1
+
+# Corruption - Too High
+[DIALOGUE:kaelthas_corruption_too_high]
+speaker = Theros, the Eternal
+conditions = corruption_level > 60
+text = Your corruption is too high. You have fallen too far into the void. The Archon must reform the system, not become part of its darkness.
+vote_impact = -2
+
+# Time Management
+[DIALOGUE:kaelthas_deadlines_met]
+speaker = Theros, the Eternal
+conditions = trials_first_attempt_count >= 5
+text = You completed most trials on your first attempt. You understand that time is not infinite, that opportunities close. This demonstrates wisdom.
+vote_impact = +1
+
+# Kaelthas Final Verdict - Approve
+[DIALOGUE:kaelthas_verdict_approve]
+speaker = Theros, the Eternal
+conditions = kaelthas_vote == APPROVE
+text = My vote: APPROVE. You maintain balance between death and life, power and mercy. Time has tested you, and you have remained centered. The Archon path is yours.
+vote = APPROVE
+
+# Kaelthas Final Verdict - Deny
+[DIALOGUE:kaelthas_verdict_deny]
+speaker = Theros, the Eternal
+conditions = kaelthas_vote == DENY
+text = My vote: DENY. You have lost your balance. The scales tip too far in one direction. Time has revealed your unsuitability for this role.
+vote = DENY
+
+# ============================================================================
+# VORATH, THE DESTROYER - God of Destruction and War
+# Personality: Harsh, respects strength, values power and dominance
+# Voting Criteria: Combat performance, power displayed, strength
+# ============================================================================
+
+[DIALOGUE:vorath_opening]
+speaker = Vorathos, the Void
+tree_id = divine_judgment
+node_id = 500
+text = So. The little necromancer thinks to join the gods. Show me your strength, mortal. Prove you deserve to breathe our air.
+next_node = 501
+
+# Trial 1 (Power) - Dominant Victory
+[DIALOGUE:vorath_trial1_dominant]
+speaker = Vorathos, the Void
+conditions = trial_1_score >= 95
+text = Trial of Power: You fought like a predator. Seraphim never stood a chance. Your minion coordination was ruthless, efficient, overwhelming. THIS is how gods fight.
+vote_impact = +2
+
+# Trial 1 (Power) - Struggled
+[DIALOGUE:vorath_trial1_struggled]
+speaker = Vorathos, the Void
+conditions = trial_1_score < 70
+text = Trial of Power: Pathetic. You barely survived against a single divine enforcer. And you want to reform the cosmos? Weakness. Pure weakness.
+vote_impact = -2
+
+# Minion Army Size
+[DIALOGUE:vorath_army_large]
+speaker = Vorathos, the Void
+conditions = max_minions_raised > 50
+text = You command an army of 50+ undead. You understand that power is not subtle, it is VAST. You do not ask for dominance, you TAKE it.
+vote_impact = +1
+
+# Combat Victories
+[DIALOGUE:vorath_combat_wins]
+speaker = Vorathos, the Void
+conditions = combat_victories > 20
+text = 20+ combat victories. You have proven yourself in battle repeatedly. Warriors earn respect through blood, not words.
+vote_impact = +1
+
+# Vorath Final Verdict - Approve
+[DIALOGUE:vorath_verdict_approve]
+speaker = Vorathos, the Void
+conditions = vorath_vote == APPROVE
+text = My vote: APPROVE. You fight with strength. You command with authority. You do not beg for power - you CLAIM it. I respect this. Proceed, warrior.
+vote = APPROVE
+
+# Vorath Final Verdict - Deny
+[DIALOGUE:vorath_verdict_deny]
+speaker = Vorathos, the Void
+conditions = vorath_vote == DENY
+text = My vote: DENY. You are weak. You hesitate. You rely on mercy instead of might. The Archon must have iron in their spine. You have straw.
+vote = DENY
+
+# ============================================================================
+# NYXARA, THE VEILED - Goddess of Fate and Destiny
+# Personality: Mysterious, enigmatic, sees patterns others miss
+# Voting Criteria: Consequence awareness, long-term thinking, fate acceptance
+# ============================================================================
+
+[DIALOGUE:nyxara_opening]
+speaker = Seraph, the Guardian
+tree_id = divine_judgment
+node_id = 600
+text = I have seen your thread in the tapestry, Administrator. Every choice you made was inevitable... and yet, you made them freely. Curious.
+next_node = 601
+
+# Trial 6 (Sacrifice) - Saved Maya
+[DIALOGUE:nyxara_maya_sacrifice]
+speaker = Seraph, the Guardian
+conditions = maya_saved == true
+text = You severed your connection to Thessara to save Maya. You could not have known that Maya grows up to save 1,847 lives as a surgeon. But fate knew. You aligned with destiny without seeing it.
+vote_impact = +2
+
+# Trial 5 (Resolve) - Perfect Control
+[DIALOGUE:nyxara_resolve_perfect]
+speaker = Seraph, the Guardian
+conditions = trial_5_temptations_resisted == 30
+text = 30 days of temptation. 30 days you could have gained power by surrendering to corruption. You resisted all of them. You saw the pattern: short-term gain leads to long-term loss.
+vote_impact = +2
+
+# Consequence Awareness
+[DIALOGUE:nyxara_consequences]
+speaker = Seraph, the Guardian
+conditions = long_term_choices_made > 3
+text = You made choices for tomorrow, not today. You planted seeds you might never harvest. This shows you understand that fate is a garden, not a gamble.
+vote_impact = +1
+
+# Nyxara Final Verdict - Approve
+[DIALOGUE:nyxara_verdict_approve]
+speaker = Seraph, the Guardian
+conditions = nyxara_vote == APPROVE
+text = My vote: APPROVE. You have walked the thread I wove for you with grace. The tapestry needs your pattern, Administrator. Fate smiles upon you.
+vote = APPROVE
+
+# Nyxara Final Verdict - Deny
+[DIALOGUE:nyxara_verdict_deny]
+speaker = Seraph, the Guardian
+conditions = nyxara_vote == DENY
+text = My vote: DENY. You fought against destiny at every turn. You chose chaos over pattern. The tapestry cannot accommodate those who tear at its threads.
+vote = DENY
+
+# ============================================================================
+# ERYNDOR, THE MAKER - God of Creation and Hope
+# Personality: Optimistic, believes in potential, values growth and reform
+# Voting Criteria: Reformation attempts, growth, positive change, hope
+# ============================================================================
+
+[DIALOGUE:eryndor_opening]
+speaker = Nexus, the Connector
+tree_id = divine_judgment
+node_id = 700
+text = Administrator! I am so pleased to meet you. You have done something I thought impossible - you grew HOPE in the Death Network. Tell me how.
+next_node = 701
+
+# Trial 7 (Leadership) - Successful Reforms
+[DIALOGUE:eryndor_trial7_success]
+speaker = Nexus, the Connector
+conditions = trial_7_corruption_reduction >= 10
+text = Trial of Leadership: You reformed the Regional Council. Mordak dropped from 93% to 86% corruption. Vorgath, the unstoppable war machine, began to question his path. You proved that even the damned can change.
+vote_impact = +3
+
+# Trial 3 (Morality) - Sacrificed for Others
+[DIALOGUE:eryndor_trial3_sacrifice]
+speaker = Nexus, the Connector
+conditions = trial_3_choice == save_innocents
+text = Trial of Morality: You gave up all your power to save 100 strangers. This is not logic. This is not strategy. This is CREATION - you built hope where only death existed.
+vote_impact = +2
+
+# Reformation Program
+[DIALOGUE:eryndor_reforms_attempted]
+speaker = Nexus, the Connector
+conditions = necromancers_helped > 0
+text = You have helped other necromancers resist corruption. You built a community from competition. You created light in the darkest place in existence.
+vote_impact = +1
+
+# Eryndor Final Verdict - Approve
+[DIALOGUE:eryndor_verdict_approve]
+speaker = Nexus, the Connector
+conditions = eryndor_vote == APPROVE
+text = My vote: APPROVE! (Beaming) You are what creation is meant to be - growth, change, improvement! Reform the Death Network, Administrator. Make death a place of hope.
+vote = APPROVE
+
+# Eryndor Final Verdict - Deny
+[DIALOGUE:eryndor_verdict_deny]
+speaker = Nexus, the Connector
+conditions = eryndor_vote == DENY
+text = My vote: DENY. (Sadly) I wanted to believe in you. I wanted to see potential. But you chose destruction over creation too many times. I cannot support this.
+vote = DENY
+
+# ============================================================================
+# FINAL COUNCIL VERDICT SCENES
+# ============================================================================
+
+[DIALOGUE:verdict_amnesty_granted]
+speaker = Keldrin, the Lawgiver
+tree_id = divine_judgment_finale
+conditions = approve_votes >= 4
+text = The Divine Council has spoken. Four or more gods have approved your petition. Amnesty is GRANTED. You may pursue the Archon path, Administrator. Do not make us regret this mercy.
+special_action = SET_FLAG:archon_path_unlocked
+
+[DIALOGUE:verdict_amnesty_denied]
+speaker = Keldrin, the Lawgiver
+tree_id = divine_judgment_finale
+conditions = approve_votes < 4
+text = The Divine Council has spoken. Fewer than four gods approved your petition. Amnesty is DENIED. The Archon path is closed to you. Seek your ending elsewhere.
+special_action = SET_FLAG:archon_path_blocked
+
+# ============================================================================
+# CODE OF CONDUCT GENERATION (if approved)
+# ============================================================================
+
+[DIALOGUE:code_of_conduct]
+speaker = Keldrin, the Lawgiver
+tree_id = archon_restrictions
+conditions = archon_path_unlocked == true
+text = You are granted conditional freedom. The following restrictions apply: (1) Corruption must not exceed 60%. (2) No mass civilian casualties. (3) Regular reporting to the Divine Council. (4) Cooperation with the Reformation Program. Violation of any restriction will result in immediate purge authorization.
+special_action = GENERATE_CODE_OF_CONDUCT
+
+# ============================================================================
+# SUMMARY
+# ============================================================================
+# Total dialogue entries: 50+
+# Gods: 7 (Thalor, Anara, Zymira, Kaelthas, Vorath, Nyxara, Eryndor)
+# Voting criteria: Trial performance, moral choices, corruption, consequences
+# Approval threshold: 4+ gods voting APPROVE
+# ============================================================================

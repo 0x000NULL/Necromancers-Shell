@@ -10,6 +10,9 @@
 #include "../souls/soul_manager.h"
 #include "../resources/corruption.h"
 #include "../resources/resources.h"
+#include "../ui/story_ui.h"
+#include "../../terminal/platform_curses.h"
+#include "../../terminal/colors.h"
 #include "../../utils/logger.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,15 +42,125 @@ bool ashbrook_event_callback(GameState* state, uint32_t event_id) {
     (void)event_id; /* Unused */
 
     LOG_INFO("=== ASHBROOK EVENT TRIGGERED (Day %u) ===", state->resources.day_count);
-    LOG_INFO("The village of Ashbrook has been discovered.");
-    LOG_INFO("Population: %u living souls", ASHBROOK_POPULATION);
-    LOG_INFO("Potential soul energy gain: ~%u", ASHBROOK_BASE_ENERGY);
-    LOG_INFO("WARNING: Mass harvest will increase corruption by %u%%", ASHBROOK_CORRUPTION_GAIN);
 
     g_ashbrook.warned = true;
 
-    /* Event has been triggered, but choice hasn't been made yet */
-    /* Player must explicitly call ashbrook_harvest_village() or ashbrook_spare_village() */
+    /* Create full-screen window for the event */
+    WINDOW* event_win = newwin(30, 100, 0, 0);
+    if (!event_win) {
+        /* Running in non-interactive mode (tests) - just mark as warned, don't resolve */
+        LOG_WARN("No terminal available, running Ashbrook event in non-interactive mode");
+        LOG_INFO("Event triggered but not auto-resolved - tests can call harvest/spare manually");
+
+        /* Event is triggered, tests can now call ashbrook_harvest_village() or ashbrook_spare_village() */
+        /* Don't set resolution flag yet - let tests decide the outcome */
+
+        return true;
+    }
+
+    /* Display the scene */
+    const char* scene_title = "ASHBROOK VILLAGE - DAY 47";
+    const char* paragraphs[] = {
+        "You stand at the edge of Ashbrook, a small farming village nestled in a valley. The sun is setting, casting long shadows across thatched roofs and cobblestone streets.",
+
+        "Your undead senses detect 147 souls here. Living souls. Rich with life energy, ripe for harvesting. You calculate: approximately 2,800 energy total. Enough to raise a small army.",
+
+        "But then you see them. A child, perhaps seven years old, playing in the village square. An elderly woman tending her garden. A blacksmith closing his shop for the day. They have no idea death is watching them.",
+
+        "This is the moment Thessara warned you about. The moment that defines you."
+    };
+
+    display_narrative_scene(event_win, scene_title, paragraphs, 4, SCENE_COLOR_WARNING);
+
+    /* Add spacing */
+    int choice_start = 16;
+
+    /* Display mechanical information */
+    wattron(event_win, COLOR_PAIR(TEXT_INFO));
+    mvwprintw(event_win, choice_start, 2, "Population: 147 souls (23 children under age 12)");
+    mvwprintw(event_win, choice_start + 1, 2, "Estimated energy: ~2,800 soul energy");
+    wattroff(event_win, COLOR_PAIR(TEXT_INFO));
+    choice_start += 3;
+
+    /* Present the choice */
+    Choice choices[] = {
+        {
+            .label = "Harvest souls",
+            .key = 'h',
+            .description = "+147 souls, +2,800 energy, +13% corruption"
+        },
+        {
+            .label = "Spare the innocent",
+            .key = 's',
+            .description = "Show mercy, -2% corruption, gain civilian trust"
+        }
+    };
+
+    int selected;
+    bool choice_made = display_choice_prompt(
+        event_win,
+        "YOUR DECISION",
+        NULL,
+        choices,
+        2,
+        &selected
+    );
+
+    /* Execute choice */
+    if (choice_made) {
+        wclear(event_win);
+
+        if (selected == 0) {
+            /* HARVEST */
+            ashbrook_harvest_village(state);
+
+            /* Display outcome */
+            char stats_text[256];
+            snprintf(stats_text, sizeof(stats_text),
+                    "Souls harvested: 147 | Energy gained: ~2,800 | Corruption: %u%% (+13%%)",
+                    state->corruption.corruption);
+
+            const char* harvest_outcome[] = {
+                "The harvest begins at midnight. Silent. Efficient. Clinical.",
+                "One hundred and forty-seven souls torn from their bodies in minutes. The village is silent now. Forever.",
+                "You have gained significant power. The corpses will serve you well.",
+                "But as you walk through the empty village, you see the child's toy left in the square. A wooden horse, painted blue.",
+                "You feel... something. The corruption spreads deeper.",
+                stats_text
+            };
+
+            display_narrative_scene(event_win, "THE HARVEST", harvest_outcome, 6, SCENE_COLOR_WARNING);
+
+        } else {
+            /* SPARE */
+            ashbrook_spare_village(state);
+
+            /* Display outcome */
+            char stats_text[256];
+            snprintf(stats_text, sizeof(stats_text),
+                    "Village spared: 147 lives saved | Corruption: %u%% (-2%%)",
+                    state->corruption.corruption);
+
+            const char* spare_outcome[] = {
+                "You turn away from the village. The power calls to you, tempts you, but you resist.",
+                "One hundred and forty-seven souls will wake tomorrow, unaware how close death came.",
+                "You have chosen mercy over strength. Humanity over power.",
+                "The corruption within you... lessens. Just a little. But it's something.",
+                stats_text
+            };
+
+            display_narrative_scene(event_win, "MERCY", spare_outcome, 5, SCENE_COLOR_SUCCESS);
+        }
+
+        wait_for_keypress(event_win, 20);
+    }
+
+    delwin(event_win);
+
+    /* Set resolution flag */
+    if (state->event_scheduler) {
+        event_scheduler_set_flag(state->event_scheduler, "ashbrook_resolved");
+    }
 
     return true;
 }

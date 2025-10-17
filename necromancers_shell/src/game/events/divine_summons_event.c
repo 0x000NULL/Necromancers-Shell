@@ -6,6 +6,9 @@
 #include "divine_summons_event.h"
 #include "event_scheduler.h"
 #include "../game_state.h"
+#include "../ui/story_ui.h"
+#include "../../terminal/platform_curses.h"
+#include "../../terminal/colors.h"
 #include "../../utils/logger.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -37,43 +40,71 @@ bool divine_summons_event_callback(GameState* state, uint32_t event_id) {
 
     LOG_INFO("=== DIVINE SUMMONS EVENT (Day %u) ===", state->resources.day_count);
 
-    printf("\n");
-    printf("═══════════════════════════════════════════════════════════\n");
-    printf("           SUMMONS FROM THE DIVINE COUNCIL\n");
-    printf("═══════════════════════════════════════════════════════════\n");
-    printf("\n");
-    printf("The Death Network shudders. Every soul in the queue pauses.\n");
-    printf("Something ancient has taken notice of you.\n");
-    printf("\n");
-    printf("A presence manifests—not a message, but a command etched\n");
-    printf("directly into your consciousness. Seven voices speaking as one:\n");
-    printf("\n");
-    printf("  \"ADMINISTRATOR. YOUR ACTIONS HAVE BEEN OBSERVED.\"\n");
-    printf("\n");
-    printf("  \"YOU HAVE VIOLATED THE NATURAL ORDER. RAISED THE DEAD.\n");
-    printf("   DISRUPTED THE FLOW. CLAIMED POWER NOT MEANT FOR MORTALS.\"\n");
-    printf("\n");
-    printf("  \"YET... YOU HAVE ALSO SHOWN RESTRAINT. QUESTIONING.\n");
-    printf("   A DESIRE TO UNDERSTAND RATHER THAN MERELY CONSUME.\"\n");
-    printf("\n");
-    printf("  \"THE SEVEN ARCHITECTS SUMMON YOU TO STAND JUDGMENT.\"\n");
-    printf("\n");
-    printf("  \"DAY 162. NULL SPACE COORDINATES: DIVINE THRESHOLD.\n");
-    printf("   COME ALONE. PREPARED TO DEFEND YOUR EXISTENCE.\n");
-    printf("   OR FACE THE FOURTH PURGE UNPREPARED.\"\n");
-    printf("\n");
-    printf("  \"THIS IS NOT A REQUEST.\"\n");
-    printf("\n");
-    printf("  \"- Keldrin, Voice of Divine Judgment\"\n");
-    printf("\n");
-    printf("═══════════════════════════════════════════════════════════\n");
-    printf("\n");
-    printf("Seven days to respond. Seven trials to prove yourself.\n");
-    printf("The Archon path—if you dare to walk it.\n");
-    printf("\n");
-    printf("Use 'invoke divine_council' to acknowledge the summons.\n");
-    printf("Or ignore it, and face the consequences.\n");
-    printf("\n");
+    /* Create full-screen window for the event */
+    WINDOW* event_win = newwin(35, 100, 0, 0);
+    if (!event_win) {
+        /* Running in non-interactive mode (tests) - use printf fallback */
+        LOG_WARN("No terminal available, running Divine Summons in non-interactive mode");
+
+        printf("\n=== DIVINE SUMMONS (Day %u) ===\n", state->resources.day_count);
+        printf("The Divine Council has summoned you to stand judgment.\n");
+        printf("Deadline: Day %u. Use 'invoke divine_council' to acknowledge.\n\n",
+               state->resources.day_count + SUMMONS_DEADLINE_DAYS);
+
+        g_divine_summons.response_deadline = state->resources.day_count + SUMMONS_DEADLINE_DAYS;
+        g_divine_summons.state = SUMMONS_RECEIVED;
+
+        if (state->event_scheduler) {
+            event_scheduler_set_flag(state->event_scheduler, "divine_summons_received");
+        }
+
+        return true;
+    }
+
+    /* Display the summons scene */
+    const char* scene_title = "SUMMONS FROM THE DIVINE COUNCIL";
+    const char* paragraphs[] = {
+        "The Death Network SHUDDERS. Every soul in the queue pauses. The routing protocols freeze mid-execution.",
+
+        "Something ancient has taken notice of you.",
+
+        "A presence manifests—not a message, but a COMMAND etched directly into your consciousness. Seven voices speaking as one, each distinct yet unified:",
+
+        "\"ADMINISTRATOR. YOUR ACTIONS HAVE BEEN OBSERVED.\"",
+
+        "\"YOU HAVE VIOLATED THE NATURAL ORDER. RAISED THE DEAD. DISRUPTED THE FLOW. CLAIMED POWER NOT MEANT FOR MORTALS.\"",
+
+        "\"YET... YOU HAVE ALSO SHOWN RESTRAINT. QUESTIONING. A DESIRE TO UNDERSTAND RATHER THAN MERELY CONSUME.\"",
+
+        "\"THE SEVEN ARCHITECTS SUMMON YOU TO STAND JUDGMENT.\"",
+
+        "\"DAY 162. NULL SPACE COORDINATES: DIVINE THRESHOLD. COME ALONE. PREPARED TO DEFEND YOUR EXISTENCE.\"",
+
+        "\"OR FACE THE FOURTH PURGE UNPREPARED.\"",
+
+        "\"THIS IS NOT A REQUEST.\"",
+
+        "\"— Keldrin, Voice of Divine Judgment\""
+    };
+
+    display_narrative_scene(event_win, scene_title, paragraphs, 12, SCENE_COLOR_WARNING);
+
+    /* Display deadline and instructions */
+    int info_line = 28;
+    wattron(event_win, COLOR_PAIR(TEXT_ERROR) | A_BOLD);
+    mvwprintw(event_win, info_line, 2, "DEADLINE: Day %u (Seven days to respond)",
+              state->resources.day_count + SUMMONS_DEADLINE_DAYS);
+    wattroff(event_win, COLOR_PAIR(TEXT_ERROR) | A_BOLD);
+
+    wattron(event_win, COLOR_PAIR(TEXT_INFO));
+    mvwprintw(event_win, info_line + 2, 2, "The Archon path—if you dare to walk it.");
+    mvwprintw(event_win, info_line + 3, 2, "Use 'invoke divine_council' to acknowledge the summons.");
+    mvwprintw(event_win, info_line + 4, 2, "Or ignore it, and face the consequences.");
+    wattroff(event_win, COLOR_PAIR(TEXT_INFO));
+
+    wait_for_keypress(event_win, info_line + 6);
+
+    delwin(event_win);
 
     /* Set summons deadline */
     g_divine_summons.response_deadline = state->resources.day_count + SUMMONS_DEADLINE_DAYS;
@@ -145,10 +176,23 @@ bool divine_summons_acknowledge(GameState* state) {
 
     /* Check if deadline passed */
     if (state->resources.day_count > g_divine_summons.response_deadline) {
-        printf("\n");
-        printf("You have ignored the Divine Council's summons.\n");
-        printf("The deadline has passed. The Archon path is now closed.\n");
-        printf("\n");
+        /* Create window for deadline failure message */
+        WINDOW* fail_win = newwin(15, 80, 5, 10);
+        if (fail_win) {
+            const char* failure_title = "DEADLINE PASSED";
+            const char* failure_text[] = {
+                "You have ignored the Divine Council's summons.",
+                "The deadline has passed. The Archon path is now closed.",
+                "The Fourth Purge will proceed as planned."
+            };
+            display_narrative_scene(fail_win, failure_title, failure_text, 3, SCENE_COLOR_WARNING);
+            wait_for_keypress(fail_win, 10);
+            delwin(fail_win);
+        } else {
+            printf("\nYou have ignored the Divine Council's summons.\n");
+            printf("The deadline has passed. The Archon path is now closed.\n\n");
+        }
+
         g_divine_summons.state = SUMMONS_IGNORED;
 
         if (state->event_scheduler) {
@@ -158,33 +202,64 @@ bool divine_summons_acknowledge(GameState* state) {
         return false;
     }
 
-    printf("\n");
-    printf("═══════════════════════════════════════════════════════════\n");
-    printf("         ACKNOWLEDGING THE DIVINE SUMMONS\n");
-    printf("═══════════════════════════════════════════════════════════\n");
-    printf("\n");
-    printf("You reach out through the Death Network, directing your\n");
-    printf("consciousness toward the divine signatures.\n");
-    printf("\n");
-    printf("YOUR VOICE: \"I acknowledge the summons. I will stand before\n");
-    printf("            the Seven Architects and face judgment.\"\n");
-    printf("\n");
-    printf("A response echoes back—Keldrin's voice, cold and precise:\n");
-    printf("\n");
-    printf("KELDRIN: \"So be it. The Seven Trials will test your worthiness.\n");
-    printf("         Pass them all, and you may earn our amnesty.\n");
-    printf("         Fail, and the Fourth Purge will claim you with the rest.\n");
-    printf("\n");
-    printf("         The first trial begins now. Prove your POWER.\n");
-    printf("         You will face Seraphim, our enforcer, in single combat.\n");
-    printf("         Show us you have the strength to reshape reality—\n");
-    printf("         and the mercy to wield it wisely.\"\n");
-    printf("\n");
-    printf("═══════════════════════════════════════════════════════════\n");
-    printf("\n");
-    printf("TRIAL 1 UNLOCKED: Test of Power\n");
-    printf("Use 'ritual archon_trial 1' to begin the first trial.\n");
-    printf("\n");
+    /* Create full-screen window for acknowledgment */
+    WINDOW* ack_win = newwin(30, 100, 0, 0);
+    if (!ack_win) {
+        /* Fallback to printf */
+        printf("\n=== ACKNOWLEDGING THE DIVINE SUMMONS ===\n");
+        printf("You acknowledge the summons and accept the Seven Trials.\n");
+        printf("TRIAL 1 UNLOCKED: Test of Power\n\n");
+
+        g_divine_summons.state = SUMMONS_ACKNOWLEDGED;
+        g_divine_summons.trials_unlocked = true;
+
+        if (state->archon_trials) {
+            archon_trial_activate_path(state->archon_trials,
+                                       state->corruption.corruption,
+                                       state->consciousness.stability);
+        }
+
+        if (state->event_scheduler) {
+            event_scheduler_set_flag(state->event_scheduler, "divine_summons_acknowledged");
+            event_scheduler_set_flag(state->event_scheduler, "trial_1_unlocked");
+        }
+
+        return true;
+    }
+
+    /* Display acknowledgment scene */
+    const char* ack_title = "ACKNOWLEDGING THE DIVINE SUMMONS";
+    const char* ack_paragraphs[] = {
+        "You reach out through the Death Network, directing your consciousness toward the divine signatures that summoned you.",
+
+        "YOUR VOICE: \"I acknowledge the summons. I will stand before the Seven Architects and face judgment.\"",
+
+        "A response echoes back—Keldrin's voice, cold and precise:",
+
+        "KELDRIN: \"So be it. The Seven Trials will test your worthiness. Pass them all, and you may earn our amnesty.\"",
+
+        "\"Fail, and the Fourth Purge will claim you with the rest.\"",
+
+        "\"The first trial begins now. Prove your POWER.\"",
+
+        "\"You will face Seraphim, our enforcer, in single combat. Show us you have the strength to reshape reality—and the mercy to wield it wisely.\""
+    };
+
+    display_narrative_scene(ack_win, ack_title, ack_paragraphs, 7, SCENE_COLOR_SUCCESS);
+
+    /* Display trial unlock info */
+    int info_line = 22;
+    wattron(ack_win, COLOR_PAIR(TEXT_SUCCESS) | A_BOLD);
+    mvwprintw(ack_win, info_line, 2, "TRIAL 1 UNLOCKED: Test of Power");
+    wattroff(ack_win, COLOR_PAIR(TEXT_SUCCESS) | A_BOLD);
+
+    wattron(ack_win, COLOR_PAIR(TEXT_INFO));
+    mvwprintw(ack_win, info_line + 2, 2, "Use 'ritual archon_trial 1' to begin the first trial.");
+    wattroff(ack_win, COLOR_PAIR(TEXT_INFO));
+
+    wait_for_keypress(ack_win, info_line + 4);
+
+    delwin(ack_win);
 
     g_divine_summons.state = SUMMONS_ACKNOWLEDGED;
     g_divine_summons.trials_unlocked = true;

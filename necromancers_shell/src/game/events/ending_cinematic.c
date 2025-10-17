@@ -53,7 +53,7 @@ void ending_cinematic_destroy(EndingCinematic* cinematic) {
 
 bool ending_cinematic_trigger(EndingCinematic* cinematic,
                               const GameState* state,
-                              EndingPath path) {
+                              EndingType path) {
     if (!cinematic || !state) {
         LOG_ERROR("ending_cinematic_trigger: NULL parameters");
         return false;
@@ -74,6 +74,10 @@ bool ending_cinematic_trigger(EndingCinematic* cinematic,
 
     /* Display appropriate ending */
     switch (path) {
+        case ENDING_NONE:
+            LOG_ERROR("Cannot trigger cinematic: No ending achieved");
+            cinematic->state = CINEMATIC_NOT_STARTED;
+            return false;
         case ENDING_REVENANT:
             ending_cinematic_revenant(cinematic, state);
             break;
@@ -641,14 +645,14 @@ void ending_cinematic_morningstar(const EndingCinematic* cinematic, const GameSt
     printf("\n");
 }
 
-const char* ending_cinematic_path_name(EndingPath path) {
+const char* ending_cinematic_path_name(EndingType path) {
     if (path < 0 || path >= 6) {
         return "Unknown";
     }
     return ending_names[path];
 }
 
-const char* ending_cinematic_path_description(EndingPath path) {
+const char* ending_cinematic_path_description(EndingType path) {
     if (path < 0 || path >= 6) {
         return "Unknown ending path";
     }

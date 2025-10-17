@@ -58,13 +58,55 @@ int register_builtin_commands(CommandRegistry* registry) {
         }
     }
 
+    /* Save command */
+    {
+        CommandInfo info = {
+            .name = "save",
+            .description = "Save game state",
+            .usage = "save [filepath]",
+            .help_text = "Saves the current game state to a file.\n"
+                        "If no filepath is provided, saves to default location (~/.necromancers_shell_save.dat).\n"
+                        "Also creates a .json metadata file for quick inspection.",
+            .function = cmd_save,
+            .flags = NULL,
+            .flag_count = 0,
+            .min_args = 0,
+            .max_args = 1,
+            .hidden = false
+        };
+        if (command_registry_register(registry, &info)) {
+            registered++;
+        }
+    }
+
+    /* Load command */
+    {
+        CommandInfo info = {
+            .name = "load",
+            .description = "Load game state",
+            .usage = "load [filepath]",
+            .help_text = "Loads a saved game state from a file.\n"
+                        "WARNING: This replaces your current game state!\n"
+                        "If no filepath is provided, loads from default location (~/.necromancers_shell_save.dat).",
+            .function = cmd_load,
+            .flags = NULL,
+            .flag_count = 0,
+            .min_args = 0,
+            .max_args = 1,
+            .hidden = false
+        };
+        if (command_registry_register(registry, &info)) {
+            registered++;
+        }
+    }
+
     /* Quit command */
     {
         CommandInfo info = {
             .name = "quit",
             .description = "Exit the game",
             .usage = "quit",
-            .help_text = "Exits the game gracefully, saving any necessary state.",
+            .help_text = "Exits the game gracefully, auto-saving your progress.",
             .function = cmd_quit,
             .flags = NULL,
             .flag_count = 0,

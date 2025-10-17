@@ -73,7 +73,7 @@ static void init_endings(EndingSystem* system) {
 
     /* Ending 4: Archon/Morningstar - Become a god */
     system->endings[3] = (Ending){
-        .type = ENDING_ARCHON_MORNINGSTAR,
+        .type = ENDING_MORNINGSTAR,
         .requirements = {
             .min_corruption = 40,
             .max_corruption = 60,
@@ -107,9 +107,9 @@ static void init_endings(EndingSystem* system) {
     snprintf(system->endings[4].description, sizeof(system->endings[4].description), "%s", "Freedom in Fragments - Disperse into distributed consciousness");
     snprintf(system->endings[4].achievement, sizeof(system->endings[4].achievement), "%s", "The Distributed Consciousness");
 
-    /* Ending 6: Error - Failed Morningstar */
+    /* Ending 6: Error - Failed Morningstar (use NONE as placeholder) */
     system->endings[5] = (Ending){
-        .type = ENDING_ERROR,
+        .type = ENDING_NONE,
         .requirements = {
             .min_corruption = 40,
             .max_corruption = 60,
