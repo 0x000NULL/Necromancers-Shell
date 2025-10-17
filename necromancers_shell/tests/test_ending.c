@@ -166,7 +166,7 @@ void test_morningstar_ending_requires_attempt(void) {
     GameState state = create_mock_state(50, 15.0f, 11000);
     ending_system_check_availability(system, &state);
 
-    const Ending* ending = ending_system_get_ending(system, ENDING_ARCHON_MORNINGSTAR);
+    const Ending* ending = ending_system_get_ending(system, ENDING_MORNINGSTAR);
     assert(ending != NULL);
     assert(ending->unlocked == false); /* Not unlocked without attempt */
 
@@ -198,7 +198,7 @@ void test_error_ending_requires_attempt(void) {
 
     ending_system_check_availability(system, &state);
 
-    const Ending* ending = ending_system_get_ending(system, ENDING_ERROR);
+    const Ending* ending = ending_system_get_ending(system, ENDING_NONE);
     assert(ending != NULL);
     assert(ending->unlocked == true);
 
@@ -410,7 +410,7 @@ void test_ending_names_and_descriptions(void) {
     assert(strcmp(reaper->achievement, "The Eternal Administrator") == 0);
 
     /* Check Archon/Morningstar ending */
-    const Ending* morningstar = ending_system_get_ending(system, ENDING_ARCHON_MORNINGSTAR);
+    const Ending* morningstar = ending_system_get_ending(system, ENDING_MORNINGSTAR);
     assert(morningstar != NULL);
     assert(strcmp(morningstar->name, "Archon/Morningstar Route") == 0);
     assert(strcmp(morningstar->achievement, "The Eighth Architect") == 0);
